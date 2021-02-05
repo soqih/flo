@@ -14,29 +14,16 @@
     align-items: center;
     flex-direction: column;
 }
-.ci{
+.welcomeImageContainer{
     width: 60%;
-    
+
 }
-.wImage{
+.welcomeImage{
     width: 100%;
     height: auto;
-    /* animation-name: example;
-    animation-duration: 4s; */
-    /* object-fit: cover; */
-   /* max-width: 100%;
-   max-height: 100%; */ 
 }
-/* @keyframes example {
-    from {
-        src:"../assets/images/boy-txt.svg";
-    }
-    to {
-        src:"../assets/images/logo.svg";
-    }
-  } */
+
 .rightPart{
-    /* background-color: green; */
     flex-grow: 2;
     width: 40%;
     display: flex;
@@ -57,7 +44,6 @@
     border:solid 2px #D58895;
 }
 #btn1:hover{
-    /* background-color: #D58895; */
     border:solid 2px gray;
     color: gray;
     cursor: pointer;
@@ -76,7 +62,7 @@
 .btn{
     width: 70%;
     height: 3rem;
-    margin: 0.5rem 0rem;
+    margin: 0.5rem 0.5rem;
     font-weight: 600;
     font-size: 1rem;
     border-radius: 0.3rem;
