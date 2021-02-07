@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MatDialog } from '@angular/material/dialog';
+import { RegistrationDialogComponent } from './registration-dialog/registration-dialog.component';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistrationComponent implements OnInit {
   imageNumber: number = 1;
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
     const inte = setInterval(() => {
@@ -19,6 +20,16 @@ export class RegistrationComponent implements OnInit {
         this.imageNumber = 1;
 
     }, 4000)
+  }
+  openDialog(e) {
+    e.preventDefault();
+    let dialogRef = this.dialog.open(RegistrationDialogComponent,
+      {
+        width: '400px',
+      });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+    })
   }
 
 }

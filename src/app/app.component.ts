@@ -1,4 +1,8 @@
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { Component } from '@angular/core';
+
+import { MatDialog } from '@angular/material/dialog';
+import { RegistrationDialogComponent } from './components/registration/registration-dialog/registration-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +11,8 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  // AppComponent.setInterval(event, 5000);
-  constructor() { }
 
-  ngOnInit() {
+  constructor(public dialog: MatDialog) { }
 
-  }
-
+  ngOnInit() { }
 }
