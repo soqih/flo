@@ -1,0 +1,12 @@
+.flexContainer {
+    position: fixed;
+    /* left: 0; */
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.flexItem {
+    margin: 1rem;
+}

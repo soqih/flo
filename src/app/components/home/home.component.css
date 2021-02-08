@@ -1,0 +1,30 @@
+.nav {
+    background-color: #efa297;
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+}
+
+.navContainer {
+    display: flex;
+    /* background-color: red; */
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navContainer p {
+    margin: 1rem;
+}
+
+.profile {
+    width: 1%;
+    width: 50px;
+}
+
+.input {}
+
+mat-form-field {
+    margin-top: 1rem;
+}

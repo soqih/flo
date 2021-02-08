@@ -1,0 +1,26 @@
+<!-- <div *ngIf="mobile; else desktop" class="nav"> -->
+<div class="nav">
+    <div class="navContainer">
+        <p *ngIf="signed">welcome</p>
+        <p *ngIf="!signed">sign in</p>
+
+        <mat-form-field>
+            <mat-label>Search</mat-label>
+            <input matInput type="email" name="" id="email" class=" input">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+
+        <img class="profile" src="../../../assets/images/profile.svg" alt="">
+    </div>
+
+</div>
+
+<app-navbar></app-navbar>
+<!-- <ng-template #desktop>
+    <div class="nav">
+        e
+        <p *ngIf="signed">welcome</p>
+        <p *ngIf="!signed">sign in</p>
+    </div>
+    </ng-template> *ngIf="!signed">sign in</p> -->
