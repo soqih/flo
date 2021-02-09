@@ -11,10 +11,11 @@ import { FormControl, Validators } from '@angular/forms';
 export class RegistrationDialogComponent implements OnInit {
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { type: string }) { }
   email = new FormControl('', [Validators.email]);
-
+  isSignup: boolean = this.data.type == 'signup';
   ngOnInit(): void {
+
   }
   getErrorMessage() {
     return this.email.hasError('email') ? 'Not a valid email' : '';

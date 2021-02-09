@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="isSignup;else signin" >
     <h1 mat-dialog-title>Sign up</h1>
     <mat-dialog-content>
 
@@ -39,3 +39,23 @@
 
     </mat-dialog-actions>
 </div>
+
+<ng-template #signin>
+    <h1 mat-dialog-title>Sign in</h1>
+    <mat-dialog-content>
+        <mat-form-field hintLabel="ex@example.com">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" name="" id="email" class=" input" [formControl]="email">
+            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field hintLabel="should be more than 6 characters">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" name="" id="password" class="input">
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+        <button id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign in</button>
+        <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
+    </mat-dialog-actions>
+    
+</ng-template>

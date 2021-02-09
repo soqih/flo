@@ -1,12 +1,17 @@
 .nav {
     background-color: #efa297;
     position: sticky;
-    position: -webkit-sticky;
+    /* position: -webkit-sticky; */
     overflow: hidden;
     top: 0;
     width: 100%;
-    margin-bottom: 1rem;
+ 
 }
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
 .navContainer {
     width: 100%;
     display: grid;
@@ -16,6 +21,7 @@
     justify-content: center;
     align-content: center;
     justify-items: center;
+   
 }
 .welcome{
     display: flex;
@@ -24,6 +30,9 @@
     align-items: center;
    
 }
+/* .withoutfixed{
+    margin-top: 140px;
+} */
 
 /* sign in (temp style) */
 .navContainer p {
@@ -52,9 +61,37 @@
   width: 90%;
   padding: 1rem;
   border-radius: 0.3rem;
- margin-bottom: 0.5rem;
+ margin-bottom: 1rem;
   
 }
 .inputImage{
     margin: 0 0.5rem;
+}
+
+.toolbar{
+    /* background-color: gray; */
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    min-width: 100px;
+    align-items: center;
+    padding: 1rem;
+    /* justify-content: space-evenly; */
+    /* height: 100%; */
+    
+}
+.flexItem{
+    display: flex;
+    /* border: 2px solid black; */
+    border-bottom: 2px solid black ;
+    margin:1rem;
+    padding: 1rem;
+    width: 100%;
+
+    justify-content: center;
+}
+.content{
+    display: flex;
+    height: 100%;
+    /* background-color: green; */
 }

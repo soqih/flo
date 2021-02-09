@@ -11,7 +11,7 @@ export class RegistrationComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    const inte = setInterval(() => {
+    setInterval(() => {
       if (this.imageNumber == 1)
         this.imageNumber = 2;
       else if (this.imageNumber == 2)
@@ -21,10 +21,14 @@ export class RegistrationComponent implements OnInit {
 
     }, 4000)
   }
-  openDialog(e) {
+  openDialog(e,type) {
+    if(type=='signup')
     e.preventDefault();
+    
+    
     let dialogRef = this.dialog.open(RegistrationDialogComponent,
       {
+        data:{type},
         width: '400px',
       });
     dialogRef.afterClosed().subscribe(result => {

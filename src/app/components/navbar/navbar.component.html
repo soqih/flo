@@ -1,5 +1,7 @@
-<div class="flexContainer">
-    <div class="flexItem">navbar works!</div>
-    <div class="flexItem">navbar works!</div>
-    <div class="flexItem">navbar works!</div>
+<div class="flexContainer" [style.flex-direction]="isRow? 'row':'column'">
+    <div class="flexItem">home</div>
+    <div class="flexItem">trend</div>
+    <div class="flexItem">notification</div>
+    <div class="flexItem">settings</div>
+    <button class="flexItem" (click)="DT()">change diraction</button>
 </div>
