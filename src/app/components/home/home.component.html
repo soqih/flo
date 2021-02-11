@@ -1,35 +1,47 @@
 <!-- <div *ngIf="mobile; else desktop" class="nav"> -->
-    <!-- <div class="homeContainer"> -->
-    <div class="nav">
-        <div class="navContainer">
-            <div class="welcome">
-                <p *ngIf="signed">welcome</p>
-                <p *ngIf="!signed">sign in</p>
-                <img class="profile" src="../../../assets/images/profile.svg" alt="">
-            </div>
-            <div class="input-container">
-                <img class="inputImage" src="../../../assets/images/search.svg" alt="">
-                <input type=" search" name="" class=" input" placeholder="Search">
-                <a href="#"><img class="inputImage" src="../../../assets/images/filter.svg" alt=""></a>
-            </div>
+<!-- <div class="homeContainer"> -->
+<div class="nav">
+    <div class="navContainer">
+        <div class="welcome">
+            <a *ngIf="signed">welcome</a>
+            <a *ngIf="!signed">Sign in</a>
+            <img (click)="clicked()" class="profile" src="../../../assets/images/profile.svg" alt="">
+        </div>
+        <div class="input-container">
+            <img class="inputImage" src="../../../assets/images/search.svg" alt="">
+            <input type=" search" name="" class=" input" placeholder="Search">
+            <a href="#"><img class="inputImage" src="../../../assets/images/filter.svg" alt=""></a>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="toolbar">
+        <div class="flexItem">
+            <img src="../../../assets/images/home.svg" alt="">
+            <span class="navButtonText">Home</span>
+        </div>
+        <div class="flexItem">
+            <img src="../../../assets/images/trend.svg" alt="">
+            <span class="navButtonText">Trending</span>
+        </div>
+        <div class="flexItem">
+            <img src="../../../assets/images/notification.svg" alt="">
+            <span class="navButtonText">Notification</span>
+        </div>
+        <div class="flexItem">
+            <img src="../../../assets/images/settings.svg" alt="">
+            <span class="navButtonText">Settings</span>
         </div>
     </div>
 
-    <div class="content">
-        <div class="toolbar">
-            <div class="flexItem">home</div>
-            <div class="flexItem">trend</div>
-            <div class="flexItem">notification</div>
-            <div class="flexItem">settings</div>
-        </div>
+    <!-- <div class="p">
+        <p>sas</p>
+    </div> -->
+</div>
 
-        <div class="p">
-            <p>sas</p>
-        </div>
-    </div>
-    
 
-    
+
 
 
 
@@ -57,5 +69,5 @@
             <input matInput type="email" name="" id="email" class=" input">
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field> -->
-    
-    <!-- </div> -->
+
+<!-- </div> -->
