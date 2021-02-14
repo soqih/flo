@@ -7,23 +7,26 @@ button{
     margin: 0.3rem 0.5rem;
     width: 100%;
 }
-#signUp{
+#signUp, #signIn{
     color: #D58895;
     border: 2px solid #D58895;
     background: transparent;
     }
+    
 #cancel{
     background:#D58895;
     color: white;
     margin-bottom: 1rem;
 }
-#signUp:hover{
+#signUp:hover , #signIn:hover{
     border:solid 2px gray;
     color: gray;
     cursor: pointer;
+    transition: 0.5s;
 }
 #cancel:hover{
     background-color: gray;
     color: white;
-    cursor: pointer
+    cursor: pointer;
+    transition: 0.5s;
 }

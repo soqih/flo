@@ -1,4 +1,4 @@
-<div *ngIf="isSignup;else signin" >
+<div *ngIf="isSignup;else signin">
     <h1 mat-dialog-title>Sign up</h1>
     <mat-dialog-content>
 
@@ -34,7 +34,8 @@
     </mat-dialog-content>
 
     <mat-dialog-actions align="center">
-        <button id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign up</button>
+        <button routerLink="/home" id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign
+            up</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
 
     </mat-dialog-actions>
@@ -54,8 +55,9 @@
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
-        <button id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign in</button>
+        <button routerLink="/home" id="signIn" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign
+            in</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
     </mat-dialog-actions>
-    
+
 </ng-template>

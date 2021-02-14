@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +7,9 @@ import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 
-  // signed: boolean = false;
+
+
+  // @Input() signed: boolean;
   // navbarOpen = false;
   // navbar;
   // sticky;
