@@ -7,14 +7,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { RegistrationDialogComponent } from './components/registration/registration-dialog/registration-dialog.component';
 import { HomeComponent } from './components/home/home.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+
+import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
+import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
     RegistrationDialogComponent,
     HomeComponent,
-    NavbarComponent
+    TopNavbarComponent,
+    ToolBarComponent
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [
@@ -22,7 +25,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    
+
   ],
   providers: [],
   bootstrap: [AppComponent]

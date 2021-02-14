@@ -7,18 +7,18 @@ import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 
-  signed: boolean = false;
-  navbarOpen = false;
-  navbar;
-  sticky;
+  // signed: boolean = false;
+  // navbarOpen = false;
+  // navbar;
+  // sticky;
 
   // toggleNavbar() {
   //   this.navbarOpen = !this.navbarOpen;
   // }
   constructor() { }
   ngAfterViewInit(): void {
-    this.navbar = document.querySelector(".nav");
-    this.sticky = this.navbar.offsetTop;
+    // this.navbar = document.querySelector(".nav");
+    // this.sticky = this.navbar.offsetTop;
   }
 
   ngOnInit(): void {
@@ -26,17 +26,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
   clicked() {
     console.log('clic')
   }
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll($event) {
+  //   @HostListener('window:scroll', ['$event'])
+  //   onWindowScroll($event) {
 
 
-    if (window.pageYOffset >= this.sticky) {
-      this.navbar.classList.add("sticky")
-    } else {
-      this.navbar.classList.remove("sticky");
-    }
+  //     if (window.pageYOffset >= this.sticky) {
+  //       this.navbar.classList.add("sticky")
+  //     } else {
+  //       this.navbar.classList.remove("sticky");
+  //     }
 
-  }
+  //   }
 
 
 }
