@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +19,6 @@ import {A11yModule} from '@angular/cdk/a11y';
 // import {MatBadgeModule} from '@angular/material/badge';
 // import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 // import {MatButtonToggleModule} from '@angular/material/button-toggle';
-// import {MatCardModule} from '@angular/material/card';
 // import {MatCheckboxModule} from '@angular/material/checkbox';
 // import {MatChipsModule} from '@angular/material/chips';
 // import {MatStepperModule} from '@angular/material/stepper';
@@ -25,7 +26,6 @@ import {A11yModule} from '@angular/cdk/a11y';
 // import {MatDividerModule} from '@angular/material/divider';
 // import {MatExpansionModule} from '@angular/material/expansion';
 // import {MatGridListModule} from '@angular/material/grid-list';
-// import {MatIconModule} from '@angular/material/icon';
 // import {MatListModule} from '@angular/material/list';
 // import {MatMenuModule} from '@angular/material/menu';
 // import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
@@ -54,6 +54,8 @@ const MaterialComponents = [
   ReactiveFormsModule,
   FormsModule,
   A11yModule,
+  MatCardModule,
+  MatIconModule,
   // ClipboardModule,
   // CdkStepperModule,
   // CdkTableModule,
@@ -64,7 +66,6 @@ const MaterialComponents = [
   // MatBottomSheetModule,
   // MatButtonModule,
   // MatButtonToggleModule,
-  // MatCardModule,
   // MatCheckboxModule,
   // MatChipsModule,
   // MatStepperModule,
@@ -73,7 +74,6 @@ const MaterialComponents = [
   // MatDividerModule,
   // MatExpansionModule,
   // MatGridListModule,
-  // MatIconModule,
   // MatInputModule,
   // MatListModule,
   // MatMenuModule,
