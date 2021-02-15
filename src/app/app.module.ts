@@ -11,6 +11,8 @@ import { HomeComponent } from './components/home/home.component';
 import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
 import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { StreamCardComponent } from './components/stream-card/stream-card.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +21,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     HomeComponent,
     TopNavbarComponent,
     ToolBarComponent,
-    ProfileComponent
+    ProfileComponent,
+    StreamCardComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [
