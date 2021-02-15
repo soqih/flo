@@ -1,0 +1,53 @@
+.example-card {
+    color: white;
+    background-color: #d58895;
+    width: 21em;
+    height: 21em;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.title {
+    font-size: 1.6em;
+}
+
+.subtitle {
+    color: white;
+    font-size: 1em;
+}
+
+.mat-avatar {
+    color: #ad6975;
+    font-size: 8em;
+    height: auto;
+    width: auto;
+    border-radius: 50%;
+    padding: 0.05em 0.05em;
+    background-color: #efa297;
+}
+
+.content {
+    font-size: 1.5em;
+    margin: 0.25em 0;
+    /* margin-top: 0.25em; */
+}
+
+.views {
+    font-size: 1em;
+    margin: 0 auto;
+}
+
+mat-icon {
+    vertical-align: middle;
+}
+
+.actions {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    /* align-items: flex-start; */
+}
