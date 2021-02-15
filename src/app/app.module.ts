@@ -12,6 +12,7 @@ import { TopNavbarComponent } from './components/top-navbar/top-navbar.component
 import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { StreamCardComponent } from './components/stream-card/stream-card.component';
+import { InitLiveComponent } from './components/init-live/init-live.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { StreamCardComponent } from './components/stream-card/stream-card.compon
     ToolBarComponent,
     ProfileComponent,
     StreamCardComponent,
+    InitLiveComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [
