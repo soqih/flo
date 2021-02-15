@@ -1,57 +1,57 @@
 <div class="Background-div">
 
-  <div class="liveDiv">
+    <div class="liveDiv">
 
-      <mat-card class="settingCard">
+        <mat-card class="settingCard">
 
-              <!-- Card Title -->
-              <mat-card-title class="cardTitle">Start a Livestream</mat-card-title>
+            <!-- Card Title -->
+            <mat-card-title class="cardTitle">Start a Livestream</mat-card-title>
 
-          <!-- Livestream title -->
-          <form class="titleForm">
-              <mat-form-field class="fullWidth" color="accent">
-                <mat-label>Title</mat-label>
-                <input type="text" matInput [formControl]="titleField">
-                <mat-error *ngIf="titleField.hasError('required')">
-                  Title is <strong>required</strong>
-                </mat-error>
-              </mat-form-field>
-          </form>
-
-          <!-- Privacy Toggle Button -->
-          <div class="privacyStatus">
-              Livestream Privacy:
-              <br>
-              <mat-slide-toggle [(ngModel)]="isPrivate">Private</mat-slide-toggle>
-          </div>
-
-              <!-- Users list -->
-              <div class="usersList" >
-                  Allowed follwers:
-                  <br>
-              <mat-form-field appearance="fill" color="accent" class="fullWidth">
-                  <mat-label>Users</mat-label>
-                  <mat-select [disabled]="!isPrivate" [formControl]="user" multiple >
-                      <mat-option (click)="allInvitedFunction()">All</mat-option>
-                    <mat-option *ngFor="let user of usersList" [value]="user" [disabled]="allInvited">{{user}}</mat-option>
-                  </mat-select>
+            <!-- Livestream title -->
+            <form class="titleForm">
+                <mat-form-field class="fullWidth" color="accent">
+                    <mat-label>Title</mat-label>
+                    <input type="text" matInput [formControl]="titleField">
+                    <mat-error *ngIf="titleField.hasError('required')">
+                        Title is <strong>required</strong>
+                    </mat-error>
                 </mat-form-field>
-              </div>
+            </form>
 
-              <!-- Save Livestream Toggle Button -->
-              <div class="saveStream">
-                  Do you want the Livestream to be saved in your profile after finshed?
-                  <br>
-                  <mat-slide-toggle>Yes</mat-slide-toggle>
-              </div>
+            <!-- Privacy Toggle Button -->
+            <div class="privacyStatus">
+                Livestream Privacy:
+                <br>
+                <mat-slide-toggle [(ngModel)]="isPrivate">Private</mat-slide-toggle>
+            </div>
 
-              <!-- Start&Canncel buttons -->
-              <div>
-              <button class="btn" id="btn1">Start</button>
-              <button class="btn" id="btn2">Cancel</button>
-              </div>
+            <!-- Users list -->
+            <div class="usersList">
+                Allowed follwers:
+                <br>
+                <mat-form-field appearance="fill" color="accent" class="fullWidth">
+                    <mat-label>Users</mat-label>
+                    <mat-select [disabled]="!isPrivate" [formControl]="userform" multiple>
+                        <mat-option (click)="allInvitedFunction()" value="All">All</mat-option>
+                        <mat-option *ngFor="let user of usersList" [value]="user.value" (click)="setUser(user)">{{user.viewValue}} {{user.selected}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-          </mat-card>
+            <!-- Save Livestream Toggle Button -->
+            <div class="saveStream">
+                Do you want the Livestream to be saved in your profile after finshed?
+                <br>
+                <mat-slide-toggle>Yes</mat-slide-toggle>
+            </div>
 
-  </div>
+            <!-- Start&Canncel buttons -->
+            <div>
+                <button class="btn" id="btn1">Start</button>
+                <button class="btn" id="btn2">Cancel</button>
+            </div>
+
+        </mat-card>
+
+    </div>
 </div>

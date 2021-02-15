@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {A11yModule} from '@angular/cdk/a11y';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 // import {ClipboardModule} from '@angular/cdk/clipboard';
 // import {DragDropModule} from '@angular/cdk/drag-drop';
 // import {PortalModule} from '@angular/cdk/portal';
@@ -21,7 +22,6 @@ import {MatSelectModule} from '@angular/material/select';
 // import {MatBadgeModule} from '@angular/material/badge';
 // import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 // import {MatButtonToggleModule} from '@angular/material/button-toggle';
-// import {MatCheckboxModule} from '@angular/material/checkbox';
 // import {MatChipsModule} from '@angular/material/chips';
 // import {MatStepperModule} from '@angular/material/stepper';
 // import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -58,6 +58,7 @@ const MaterialComponents = [
   MatIconModule,
   MatSlideToggleModule,
   MatSelectModule,
+  MatCheckboxModule,
   // ClipboardModule,
   // CdkStepperModule,
   // CdkTableModule,
@@ -68,7 +69,6 @@ const MaterialComponents = [
   // MatBottomSheetModule,
   // MatButtonModule,
   // MatButtonToggleModule,
-  // MatCheckboxModule,
   // MatChipsModule,
   // MatStepperModule,
   // MatDatepickerModule,
