@@ -1,3 +1,6 @@
+img{
+    outline: none;
+}
 .nav {
     background-color: #efa297;
     /* position: sticky; */
@@ -66,6 +69,11 @@
     margin-left: 0.1rem;
     width: 8%;
     max-width: 25px;
+}
+.filter:hover{
+    opacity: 0.6;
+    transition: 0.5s;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

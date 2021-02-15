@@ -10,6 +10,7 @@ import { HomeComponent } from './components/home/home.component';
 
 import { TopNavbarComponent } from './components/top-navbar/top-navbar.component';
 import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
+import { ProfileComponent } from './components/profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,8 @@ import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
     RegistrationDialogComponent,
     HomeComponent,
     TopNavbarComponent,
-    ToolBarComponent
+    ToolBarComponent,
+    ProfileComponent
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [
