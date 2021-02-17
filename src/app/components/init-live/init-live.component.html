@@ -8,9 +8,9 @@
             <mat-card-title class="cardTitle">Start a Livestream</mat-card-title>
 
             <form [formGroup]="myForm">
-                Value: {{ myForm.value | json }}
-                <hr>
-                <mat-form-field>
+                <!-- Value: {{ myForm.value | json }}
+                <hr> -->
+                <mat-form-field class="fullWidth" color="accent">
                     <input matInput placeholder="Title" formControlName="title">
                 </mat-form-field>
 
@@ -27,7 +27,7 @@
                         <mat-label>Users</mat-label>
                         <mat-select [disabled]="!myForm.get('private').value" multiple>
                             <mat-option value="All">All</mat-option>
-                            <mat-option (onSelectionChange)="onCheckChange($event)" *ngFor="let user of usersList; let i=index;" [value]="user.value">{{user.viewValue}}</mat-option>
+                            <mat-option (onSelectionChange)="onCheckChange($event)" *ngFor="let user of usersList" [value]="user.value">{{user.viewValue}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -40,7 +40,7 @@
 
                 <!-- Start&Canncel buttons -->
                 <div>
-                    <button class="btn" id="btn1">Start</button>
+                    <button routerLinkActive="router-link-active" class="btn" id="btn1">Start</button>
                     <button class="btn" id="btn2">Cancel</button>
                 </div>
             </form>

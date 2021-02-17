@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { RegistrationDialogComponent } from './components/registration/registration-dialog/registration-dialog.component';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,5 +13,7 @@ export class AppComponent {
 
   constructor(public dialog: MatDialog) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    
+  }
 }

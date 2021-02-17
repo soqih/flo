@@ -13,6 +13,9 @@ import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { StreamCardComponent } from './components/stream-card/stream-card.component';
 import { InitLiveComponent } from './components/init-live/init-live.component';
+/*openVidu*/
+import { OpenviduSessionModule } from 'openvidu-angular';
+import { LivestreamComponent } from './components/livestream/livestream.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { InitLiveComponent } from './components/init-live/init-live.component';
     ProfileComponent,
     StreamCardComponent,
     InitLiveComponent,
+    LivestreamComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [
@@ -32,7 +36,7 @@ import { InitLiveComponent } from './components/init-live/init-live.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-
+    OpenviduSessionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
