@@ -13,9 +13,15 @@ import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { StreamCardComponent } from './components/stream-card/stream-card.component';
 import { InitLiveComponent } from './components/init-live/init-live.component';
-/*openVidu*/
+/*  openVidu  */
 import { OpenviduSessionModule } from 'openvidu-angular';
 import { LivestreamComponent } from './components/livestream/livestream.component';
+/*  firebase  */
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+import { DBTestComponent } from './dbtest/dbtest.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +35,7 @@ import { LivestreamComponent } from './components/livestream/livestream.componen
     StreamCardComponent,
     InitLiveComponent,
     LivestreamComponent,
+    DBTestComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [
@@ -36,7 +43,10 @@ import { LivestreamComponent } from './components/livestream/livestream.componen
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    OpenviduSessionModule
+    OpenviduSessionModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAnalyticsModule,
+    AngularFirestoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

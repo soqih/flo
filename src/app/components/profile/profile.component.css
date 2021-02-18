@@ -1,11 +1,23 @@
-.topPart{
+.topPart {
     height: fit-content;
     /* height: 10rem; */
-    background: rgb(239,162,151);
-    background: linear-gradient(0deg, rgba(239,162,151,1) 0%, rgba(239,162,151,1) 17%, rgba(213,136,149,1) 100%);
+    background: rgb(239, 162, 151);
+    background: linear-gradient(0deg, rgba(239, 162, 151, 1) 0%, rgba(239, 162, 151, 1) 17%, rgba(213, 136, 149, 1) 100%);
     padding-bottom: 1rem;
 }
-.topOptions{
+
+.content {
+    display: flex;
+    /* height: 100%; */
+    flex-wrap: wrap;
+    /* justify-content: center; */
+}
+
+app-stream-card {
+    margin: 1rem;
+}
+
+.topOptions {
     display: flex;
     height: 3rem;
     /* background-color: red; */
@@ -14,65 +26,82 @@
     padding: 3rem 2rem 1rem;
     font-size: 1rem;
     margin-bottom: 1.5rem;
-    
 }
-span{
-    color:#fff;
+
+span {
+    color: #fff;
 }
-.topInfo{
+
+.topInfo {
     /* background-color: red; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.avatar{
+
+.avatar {
     height: 8rem;
     width: 8rem;
     background: #F0A397;
     border-radius: 50%;
     margin-bottom: 1rem;
 }
-.name{
+
+.name {
     font-size: 1.3rem;
     font-weight: 700;
     color: white;
     margin-bottom: 0.5rem;
 }
-.username{
+
+.username {
     font-size: 0.9rem;
     font-weight: 500;
     color: #E3E3E2;
     margin-bottom: 0.5rem;
 }
-.bio{
+
+.bio {
     color: white;
     text-align: center;
     padding: 0rem 0.6rem;
 }
-.arrow{
-    width:2rem;
+
+.arrow {
+    width: 2rem;
     cursor: pointer;
     outline: none;
 }
-.arrow:hover{
+
+.arrow:hover {
     opacity: 0.7;
     transition: 0.4s;
 }
-.edit{
+
+.edit {
     cursor: pointer;
 }
-.edit:hover{
+
+.edit:hover {
     opacity: 0.7;
     transition: 0.4s;
 }
-.follow{
+
+.follow {
     display: flex;
     margin-top: 0.5rem;
     color: #fff;
 }
-.follow div{
-    margin: 0rem  1rem;
+
+.follow div {
+    margin: 0rem 1rem;
     color: #E3E3E2;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .content {
+        justify-content: center;
+    }
 }

@@ -9,20 +9,30 @@
     <div class="topInfo">
         <div class="avatar"></div>
         <div class="name">
-            Abdullah ibrahim
+            {{name}}
         </div>
         <div class="username">
-            @abdullah
+            {{username}}
         </div>
         <div class="bio">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!
+            {{bio}}
         </div>
         <div class="follow">
-            <div class="following">x Following</div>
-            <div class="followers">y Followers</div>
+            <div class="following">{{numFollowing}} Following</div>
+            <div class="followers">{{numFollowers}} Followers</div>
         </div>
     </div>
 </div>
-<app-stream-card>
-    <app-stream-card>
-        <app-tool-bar></app-tool-bar>
+<div class="content">
+    <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="livestream.name"
+        [username]="livestream.username" [views]="livestream.views" [likes]="livestream.likes"
+        [dislikes]="livestream.dislikes">
+    </app-stream-card>
+    <!-- <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
+    </app-stream-card>
+    <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
+    </app-stream-card> -->
+</div>
+
+
+<app-tool-bar></app-tool-bar>
