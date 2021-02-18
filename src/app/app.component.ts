@@ -14,6 +14,6 @@ export class AppComponent {
   constructor(public dialog: MatDialog) { }
 
   ngOnInit() { 
-    
+
   }
 }
