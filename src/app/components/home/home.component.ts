@@ -1,6 +1,16 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+interface Livestream {
+  name: string;
+  username: string;
+  title: string;
+  // avatar: string;
+  views: number;
+  likes: number;
+  dislikes: number;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,6 +30,26 @@ export class HomeComponent implements OnInit {
   // }
   constructor(private route: Router) { }
 
+  livestreamsList: Livestream[] = [
+    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
+  ]
 
   ngOnInit(): void {
     // this.route.routeReuseStrategy.shouldReuseRoute = () => false

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth/auth.service';
 import { DB } from './../DB';
 
 @Component({
@@ -8,11 +9,9 @@ import { DB } from './../DB';
 })
 export class DBTestComponent implements OnInit {
 
-  constructor(private db: DB) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
-  }
-  login() {
-    this.db.login();
+
   }
 }

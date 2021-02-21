@@ -25,8 +25,8 @@ export class ProfileComponent implements OnInit {
   image: string = "<img ... />" //??
 
   livestreamsList: Livestream[] = [
-    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
+    { name: "A", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2, dislikes: 1 },
+    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -53440, likes: -2000, dislikes: 10000 },
     { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
   ]
 

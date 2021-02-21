@@ -19,23 +19,23 @@
 <mat-card class="example-card">
 
     <mat-card-header>
-        <mat-card-title class="title">Name of the user
+        <mat-card-title class="title">{{name}}
         </mat-card-title>
-        <mat-card-subtitle class="subtitle">@username</mat-card-subtitle>
+        <mat-card-subtitle class="subtitle">@{{username}}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-icon class="mat-avatar">person</mat-icon>
 
     <mat-card-content class="content">
         <p>
-            Stream Title
+            {{title}}
         </p>
     </mat-card-content>
 
     <mat-card-content class="view">
         <mat-icon>remove_red_eye</mat-icon>
         <span class="views">
-            3000
+            {{views}}
         </span>
     </mat-card-content>
 
@@ -43,7 +43,7 @@
         <div class="like" (click)="like()">
             <mat-icon>{{likeState}}</mat-icon>
             <span class="likes">
-                50
+                {{likes}}
             </span>
         </div>
         <!-- <p> -->
@@ -52,7 +52,7 @@
         <div class="dislike" (click)="dislike()">
             <mat-icon>{{dislikeState}}</mat-icon>
             <span class="dislikes">
-                3
+                {{dislikes}}
             </span>
         </div>
 
