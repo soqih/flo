@@ -22,7 +22,9 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { DBTestComponent } from './dbtest/dbtest.component';
-
+import { AuthService } from "./services/auth/auth.service";
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +38,8 @@ import { DBTestComponent } from './dbtest/dbtest.component';
     InitLiveComponent,
     LivestreamComponent,
     DBTestComponent,
+    ForgotPasswordComponent,
+    VerfiyEmailComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [
@@ -48,7 +52,7 @@ import { DBTestComponent } from './dbtest/dbtest.component';
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

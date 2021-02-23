@@ -11,7 +11,9 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class RegistrationDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { type: string }, public authService: AuthService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { type: string },
+    public authService: AuthService) { }
+
   email = new FormControl('', [Validators.email]);
   isSignup: boolean = this.data.type == 'signup';
   ngOnInit(): void {
