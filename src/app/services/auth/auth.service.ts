@@ -34,6 +34,7 @@ export class AuthService {
 
   }
 
+
   // Sign in with email/password
   SignIn(email, password) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
@@ -133,5 +134,9 @@ export class AuthService {
       this.router.navigate(['sign-in']);
     })
   }
-
+  getUser() {
+    if (this.userData.email == null)
+      return "Welcome";
+    return this.userData.email;
+  }
 }

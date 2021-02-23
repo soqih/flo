@@ -22,5 +22,11 @@ export class RegistrationDialogComponent implements OnInit {
   getErrorMessage() {
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
+  signIn(username, password) {
+    this.authService.SignIn(username, password);
+  }
+  signUp(email, password) {
+    this.authService.SignUp(email, password)
+  }
 
 }

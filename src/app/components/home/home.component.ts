@@ -1,5 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 interface Livestream {
   name: string;
@@ -28,7 +29,7 @@ export class HomeComponent implements OnInit {
   // toggleNavbar() {
   //   this.navbarOpen = !this.navbarOpen;
   // }
-  constructor(private route: Router) { }
+  constructor(private route: Router, public authService: AuthService) { }
 
   livestreamsList: Livestream[] = [
     { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },

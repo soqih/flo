@@ -1,9 +1,12 @@
 <!-- <div class="cont"> -->
 <app-top-navbar></app-top-navbar>
+
 <div class="content">
 
 
-    <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="livestream.name" [username]="livestream.username" [views]="livestream.views" [likes]="livestream.likes" [dislikes]="livestream.dislikes">
+    <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="livestream.name"
+        [username]="livestream.username" [views]="livestream.views" [likes]="livestream.likes"
+        [dislikes]="livestream.dislikes">
     </app-stream-card>
 
 
