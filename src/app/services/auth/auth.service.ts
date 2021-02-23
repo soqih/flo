@@ -16,9 +16,9 @@ export class AuthService {
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
-    public router: Router,  
-    public ngZone: NgZone // NgZone service to remove outside scope warning
-  ) {    
+    public router: Router,
+    public ngZone: NgZone, // NgZone service to remove outside scope warning
+  ) {
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
@@ -31,6 +31,7 @@ export class AuthService {
         JSON.parse(localStorage.getItem('user'));
       }
     })
+
   }
 
   // Sign in with email/password
@@ -38,7 +39,7 @@ export class AuthService {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['home']);
         });
         this.SetUserData(result.user);
       }).catch((error) => {
@@ -52,29 +53,33 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
-        this.SendVerificationMail();
+        // this.SendVerificationMail();
         this.SetUserData(result.user);
-      }).catch((error) => {
+        this.router.navigate(['home'])
+      }
+
+
+      ).catch((error) => {
         window.alert(error.message)
       })
   }
 
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
-    return this.afAuth.currentUser.then(u=>u.sendEmailVerification())
-    .then(() => {
-      this.router.navigate(['verify-email-address']);
-    })
+    return this.afAuth.currentUser.then(u => u.sendEmailVerification())
+      .then(() => {
+        this.router.navigate(['verify-email-address']);
+      })
   }
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
     return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
-    .then(() => {
-      window.alert('Password reset email sent, check your inbox.');
-    }).catch((error) => {
-      window.alert(error)
-    })
+      .then(() => {
+        window.alert('Password reset email sent, check your inbox.');
+      }).catch((error) => {
+        window.alert(error)
+      })
   }
 
   // Returns true when user is looged in and email is verified
@@ -91,14 +96,14 @@ export class AuthService {
   // Auth logic to run auth providers
   AuthLogin(provider) {
     return this.afAuth.signInWithPopup(provider)
-    .then((result) => {
-       this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+      .then((result) => {
+        this.ngZone.run(() => {
+          this.router.navigate(['home']);
         })
-      this.SetUserData(result.user);
-    }).catch((error) => {
-      window.alert(error)
-    })
+        this.SetUserData(result.user);
+      }).catch((error) => {
+        window.alert(error)
+      })
   }
 
   /* Setting up user data when sign in with username/password, 
@@ -109,9 +114,12 @@ export class AuthService {
     const userData: User = {
       uid: user.uid,
       email: user.email,
+      username: user.username,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified,
+      birthdate: user.birthdate,
+      bio: user.bio,
     }
     return userRef.set(userData, {
       merge: true

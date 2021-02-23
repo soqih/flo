@@ -16,13 +16,13 @@
 
         <mat-form-field hintLabel="ex@example.com">
             <mat-label>Email</mat-label>
-            <input matInput type="email" name="" id="email" class=" input" [formControl]="email">
+            <input #userEmail matInput type="email" name="" id="email" class=" input" [formControl]="email">
             <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
 
         <mat-form-field hintLabel="should be more than 6 characters">
             <mat-label>Password</mat-label>
-            <input matInput type="password" name="" id="password" class="input">
+            <input #userPwd matInput type="password" name="" id="password" class="input">
         </mat-form-field>
 
         <mat-form-field>
@@ -34,7 +34,8 @@
     </mat-dialog-content>
 
     <mat-dialog-actions align="center">
-        <button routerLink="/home" id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign
+        <button (click)="authService.SignUp(userEmail.value, userPwd.value)" id="signUp" mat-stroked-button
+            mat-dialog-close mat-dialog-close="false">Sign
             up</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
 
@@ -46,16 +47,16 @@
     <mat-dialog-content>
         <mat-form-field hintLabel="ex@example.com">
             <mat-label>Email</mat-label>
-            <input matInput type="email" name="" id="email" class=" input" [formControl]="email">
+            <input matInput type="email" name="" id="email" class=" input" [formControl]="email" #userName required>
             <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
         <mat-form-field hintLabel="should be more than 6 characters">
             <mat-label>Password</mat-label>
-            <input matInput type="password" name="" id="password" class="input">
+            <input matInput type="password" name="" id="password" class="input" #userPassword required>
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
-        <button routerLink="/home" id="signIn" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign
+        <button (click)="authService.SignIn(userName.value, userPassword.value)" id="signIn" mat-stroked-button>Sign
             in</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
     </mat-dialog-actions>

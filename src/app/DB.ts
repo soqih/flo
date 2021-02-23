@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import { Router } from  "@angular/router";
+import { Router } from "@angular/router";
 
 // export interface User {
 //     uid: string;
@@ -13,10 +13,10 @@ import { Router } from  "@angular/router";
 
 @Injectable({ providedIn: 'root' })
 export class DB {
-    constructor(public auth: AngularFireAuth,public router:Router) {}
-    register(){
-        firebase.auth().createUserWithEmailAndPassword('rr','123456');
-        this.auth.createUserWithEmailAndPassword('rr','123456');
+    constructor(public auth: AngularFireAuth, public router: Router) { }
+    register() {
+        // firebase.auth().createUserWithEmailAndPassword('rr@sa', '123456');
+        // this.auth.createUserWithEmailAndPassword('rr','123456');
         // this.auth.
     }
 
@@ -77,7 +77,7 @@ export class DB {
     // async sendEmailVerification() {
     //     // await this.auth.currentUser.sendEmailVerification()
     //    await this.auth.currentUser.sendEmailVerification()
-    
+
     //     this.router.navigate(['admin/verify-email']);
     // }
     // async sendPasswordResetEmail(passwordResetEmail: string) {
