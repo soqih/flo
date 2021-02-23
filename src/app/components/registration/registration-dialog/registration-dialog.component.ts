@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { User } from 'src/app/interfaces/User';
 
 
 @Component({
@@ -10,6 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./registration-dialog.component.css']
 })
 export class RegistrationDialogComponent implements OnInit {
+  user: User
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { type: string },
     public authService: AuthService) { }
@@ -25,8 +27,9 @@ export class RegistrationDialogComponent implements OnInit {
   signIn(username, password) {
     this.authService.SignIn(username, password);
   }
-  signUp(email, password) {
-    this.authService.SignUp(email, password)
+  signUp(email, username, name, password) {
+    this.authService.SignUp(email, username, name, password)
+
   }
 
 }

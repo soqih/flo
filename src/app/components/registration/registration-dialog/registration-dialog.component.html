@@ -4,13 +4,13 @@
 
         <mat-form-field hintLabel="must be unique">
             <mat-label>User name</mat-label>
-            <input matInput type="" name="" id="username" class="input">
+            <input #username matInput type="" name="" id="username" class="input">
         </mat-form-field>
 
 
         <mat-form-field hintLabel="your displayed name">
             <mat-label>Name</mat-label>
-            <input matInput type="text" name="" id="name" class=" input">
+            <input #name matInput type="text" name="" id="name" class=" input">
         </mat-form-field>
 
 
@@ -34,8 +34,8 @@
     </mat-dialog-content>
 
     <mat-dialog-actions align="center">
-        <button (click)="signUp(userEmail.value,userPwd.value)" id="signUp" mat-stroked-button mat-dialog-close
-            mat-dialog-close="false">Sign
+        <button (click)="signUp(userEmail.value,username.value,name.value,userPwd.value)" id="signUp" mat-stroked-button
+            mat-dialog-close mat-dialog-close="false">Sign
             up</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
 
@@ -56,7 +56,7 @@
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
-        <button (click)="signIn(userName.value,userPassword.value)" id="signIn" mat-stroked-button>Sign
+        <button (click)="signIn(userName.value,userPassword.value)" id="signIn" mat-stroked-button mat-dialog-close>Sign
             in</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
     </mat-dialog-actions>
