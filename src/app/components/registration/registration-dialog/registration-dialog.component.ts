@@ -28,7 +28,7 @@ export class RegistrationDialogComponent implements OnInit {
     this.authService.SignIn(username, password);
   }
   signUp(email, username, name, password) {
-    this.authService.SignUp(email, username, name, password)
+    this.authService.SignUp({email, username, name, password})
 
   }
 

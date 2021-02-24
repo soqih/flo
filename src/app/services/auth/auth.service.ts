@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
 
 export class AuthService {
   userData: User; // Save logged in user data
+  isLoggedIn:boolean = false;
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -19,16 +20,19 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
   ) {
+
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.userData = user;
+        this.isLoggedIn = true;
+        this.afs.doc<User>(`users/${user.uid}`).get().subscribe((d)=>{
+          this.userData = d.data();
+        });
+        
         localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
       }
     })
 
@@ -43,26 +47,24 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(['home']);
         });
-        // this.SetUserData(result.user);
       }).catch((error) => {
         window.alert(error.message)
       })
   }
-
   // Sign up with email/password
-  SignUp(email, username, name, password) {
-    return this.afAuth.createUserWithEmailAndPassword(email, password)
+  SignUp(signUpFormData: { email: string, username: string, name: string, password: string }) {
+    return this.afAuth.createUserWithEmailAndPassword(signUpFormData.email, signUpFormData.password)
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
         this.SendVerificationMail();
-        this.SetUserData(result.user, { email, username, name, password });
+        this.createUser(result.user, signUpFormData);
         // this.router.navigate(['home'])
       }
 
 
       ).catch((error) => {
-        window.alert(error.message)
+        window.alert('signUp Erorr\n' + error.message)
       })
   }
 
@@ -85,10 +87,11 @@ export class AuthService {
   }
 
   // Returns true when user is looged in and email is verified
-  get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : false;
-  }
+  // get isLoggedIn(): boolean {
+  //   const user = JSON.parse(localStorage.getItem('user'));
+  //   return user !== null
+  //  && user.emailVerified !== false;
+  // }
 
   // Sign in with Google
   GoogleAuth() {
@@ -111,34 +114,23 @@ export class AuthService {
   /* Setting up user data when sign in with username/password, 
   sign up with username/password and sign in with social auth  
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user, data?) {
+  createUser(user, signUpFormData) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      displayName: data.name,
+      displayName: signUpFormData.name,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      username: data.username,
+      username: signUpFormData.username,
     }
     return userRef.set(userData, {
       merge: true
     })
-    // const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    // const userData: User = {
-    //   uid: user.uid,
-    //   email: user.email,
-    //   username: user.username,
-    //   displayName: user.displayName,
-    //   photoURL: user.photoURL,
-    //   emailVerified: user.emailVerified,
-    //   birthdate: user.birthdate,
-    //   bio: user.bio,
-    // }
-    // return userRef.set(userData, {
-    //   merge: true
-    // })
   }
+
+  SetUserData(user, data?) { }
+
   get userD(): User {
     return this.userData
   }
@@ -147,13 +139,15 @@ export class AuthService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
+      this.isLoggedIn = false;
+      // this.ngZone.run(()=>{
       this.router.navigate(['']);
+    // })
     })
   }
   getUser() {
-    if (this.isLoggedIn) {
-      console.log(this.userD)
-      return this.userD.displayName;
+    if (this.isLoggedIn && this.userData) {
+      return this.userData.displayName;
     }
     // if (this.userData && this.userData.email)
     return "Welcome";
