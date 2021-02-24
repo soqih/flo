@@ -14,6 +14,7 @@ export class StreamCardComponent implements OnInit {
   @Input() views: number;
   @Input() likes: number;
   @Input() dislikes: number;
+  @ViewChild("likeIcon") likeIcon: ElementRef;
 
   liked: boolean = false;
   disliked: boolean = false;
@@ -21,10 +22,16 @@ export class StreamCardComponent implements OnInit {
   likeState: string = "thumb_up_off_alt"
   dislikeState: string = "thumb_down_off_alt"
 
-  @ViewChild("likeIcon") likeIcon: ElementRef;
+
+  @Input() inProfile: boolean = false;
+
+
+
   constructor() { }
-  ngOnInit(): void {
-  }
+
+  ngOnInit(): void { }
+
+
   like() {
     if (this.liked) {
       this.liked = false;

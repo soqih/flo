@@ -6,6 +6,7 @@ import { InitLiveComponent } from './components/init-live/init-live.component';
 import { LivestreamComponent } from './components/livestream/livestream.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.component';
 import { DBTestComponent } from './dbtest/dbtest.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -20,7 +21,7 @@ const routes: Routes = [
   { path: 'db', component: DBTestComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerfiyEmailComponent },
-
+  { path: 'settings', component: SettingsComponent },
   { path: '**', redirectTo: '' }
 
 ];

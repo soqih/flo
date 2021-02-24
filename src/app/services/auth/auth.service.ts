@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, OnInit } from '@angular/core';
 import { User } from "../../interfaces/User";
 import firebase from 'firebase/app';
 import auth from 'firebase/app';
@@ -33,6 +33,7 @@ export class AuthService {
     })
 
   }
+
 
 
   // Sign in with email/password
@@ -138,6 +139,9 @@ export class AuthService {
     //   merge: true
     // })
   }
+  get userD(): User {
+    return this.userData
+  }
 
   // Sign out 
   SignOut() {
@@ -147,8 +151,11 @@ export class AuthService {
     })
   }
   getUser() {
-    if (this.userData && this.userData.email)
-      return this.userData.email;
+    if (this.isLoggedIn) {
+      console.log(this.userD)
+      return this.userD.displayName;
+    }
+    // if (this.userData && this.userData.email)
     return "Welcome";
 
   }

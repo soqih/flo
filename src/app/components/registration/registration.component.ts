@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RegistrationDialogComponent } from './registration-dialog/registration-dialog.component';
 import { DB } from './../../DB';
+import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -9,7 +10,7 @@ import { DB } from './../../DB';
 })
 export class RegistrationComponent implements OnInit {
   imageNumber: number = 1;
-  constructor(public dialog: MatDialog, private db: DB) { }
+  constructor(public dialog: MatDialog, private db: DB, public authService: AuthService) { }
 
   ngOnInit(): void {
     setInterval(() => {

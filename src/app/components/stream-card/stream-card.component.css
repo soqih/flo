@@ -154,3 +154,16 @@ mat-icon {
 .subtitle {
     font-size: 1.1rem;
 }
+mat-card-header{
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    /* justify-content: space-between; */
+}
+.titles{
+    /* background-color: gray; */
+    margin-right: auto;
+}
+.settings:hover{
+    color:grey
+}

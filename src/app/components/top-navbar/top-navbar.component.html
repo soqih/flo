@@ -1,7 +1,7 @@
 <div class="nav">
     <div class="navContainer">
         <div class="welcome">
-            <a (click)="this.authService.SignOut()">{{this.authService.getUser()}}</a>
+            <a>{{ getUser() }}</a>
             <!-- <a *ngIf="!signed">Sign in</a> -->
             <img routerLink="/profile" class="profile" src="../../../assets/images/profile.svg" alt="">
         </div>

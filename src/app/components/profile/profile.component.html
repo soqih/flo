@@ -25,7 +25,7 @@
 <div class="content">
     <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="livestream.name"
         [username]="livestream.username" [views]="livestream.views" [likes]="livestream.likes"
-        [dislikes]="livestream.dislikes">
+        [dislikes]="livestream.dislikes" [inProfile]="true">
     </app-stream-card>
     <!-- <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
     </app-stream-card>

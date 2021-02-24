@@ -19,9 +19,15 @@
 <mat-card class="example-card">
 
     <mat-card-header>
-        <mat-card-title class="title">{{name}}
-        </mat-card-title>
-        <mat-card-subtitle class="subtitle">@{{username}}</mat-card-subtitle>
+        <div class="titles">
+            <mat-card-title class="title">{{name}}
+            </mat-card-title>
+            <mat-card-subtitle class="subtitle">@{{username}}</mat-card-subtitle>
+        </div>
+        <!-- <a *ngIf="!signed">Sign in</a> -->
+
+        <mat-icon *ngIf="inProfile" class="settings">settings</mat-icon>
+
     </mat-card-header>
 
     <mat-icon class="mat-avatar">person</mat-icon>
