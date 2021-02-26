@@ -27,15 +27,15 @@
 
         <mat-form-field>
             <mat-label>Confirm password</mat-label>
-            <input matInput type="password" name="" id="passwordConfirm" class="input">
+            <input #userPwdConfirem matInput type="password" name="" id="passwordConfirm" class="input">
         </mat-form-field>
 
 
     </mat-dialog-content>
 
     <mat-dialog-actions align="center">
-        <button (click)="signUp(userEmail.value,username.value,name.value,userPwd.value)" id="signUp" mat-stroked-button
-            mat-dialog-close mat-dialog-close="false">Sign
+        <button (click)="signUp(userEmail.value,username.value,name.value,userPwd.value,userPwdConfirem.value)"
+            id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign
             up</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
 

@@ -13,6 +13,6 @@ export class TopNavbarComponent implements OnInit {
   ngOnInit(): void {
   }
   getUser() {
-    return this.authService.getUser()
+    this.authService.getUser()
   }
 }
