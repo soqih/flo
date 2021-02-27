@@ -2,24 +2,19 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { Router } from "@angular/router";
+import { User } from 'src/app/interfaces/User';
+import { AngularFirestore } from '@angular/fire/firestore';
 
-// export interface User {
-//     uid: string;
-//     email: string;
-//     displayName: string;
-//     photoURL: string;
-//     emailVerified: boolean;
-//  }
 
 @Injectable({ providedIn: 'root' })
 export class DB {
-    constructor(public auth: AngularFireAuth, public router: Router) { }
-    register() {
-        // firebase.auth().createUserWithEmailAndPassword('rr@sa', '123456');
-        // this.auth.createUserWithEmailAndPassword('rr','123456');
-        // this.auth.
-    }
+    constructor(public afs: AngularFirestore, public router: Router) {
 
+     }
+
+    getMyData():User{
+        return JSON.parse(localStorage.getItem('user'))
+    }
 }
 
 

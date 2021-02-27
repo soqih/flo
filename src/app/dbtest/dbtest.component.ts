@@ -1,6 +1,7 @@
+
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
-import { DB } from './../DB';
+// import { DB } from './../DB';
 
 @Component({
   selector: 'app-dbtest',
