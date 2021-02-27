@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/interfaces/User';
+import { DB } from 'src/app/services/database/DB';
 
 interface Livestream {
   name: string;
@@ -16,12 +18,12 @@ interface Livestream {
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
+  me:User ;
   name: string = "Abdullah ibrahim";
   username: string = "@abdullah";
   bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
-  numFollowing: number = 5;
-  numFollowers: number = 6;
+  numFollowing: number = 0;
+  numFollowers: number = 0;
   image: string = "<img ... />" //??
 
   livestreamsList: Livestream[] = [
@@ -30,9 +32,14 @@ export class ProfileComponent implements OnInit {
     { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
   ]
 
-  constructor() { }
+  constructor(private db:DB) { }
 
   ngOnInit(): void {
+    this.me = this.db.getMyData();
+    if(this.me){
+      this.name = this.me.displayName;
+      this.username ='@'+ this.me.username;
+    }
   }
 
 

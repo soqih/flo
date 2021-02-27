@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RegistrationDialogComponent } from './registration-dialog/registration-dialog.component';
-import { DB } from './../../DB';
+import { DB } from '../../services/database/DB';
 import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
   selector: 'app-registration',

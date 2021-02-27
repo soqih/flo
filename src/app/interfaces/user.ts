@@ -11,10 +11,12 @@ export interface User {
 }
 
 interface livestream {
-    title: string,
-    views: number,
-    likes: number,
-    dislikes: number,
+
+    title: string;
+    views: number;
+    likes: number;
+    dislikes: number;
+
     date?: Date;
     active: boolean;
 }

@@ -13,6 +13,9 @@ import { Router } from "@angular/router";
 export class AuthService {
   userData: User; // Save logged in user data
 
+  isLoggedIn: boolean = false;
+
+
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -21,11 +24,32 @@ export class AuthService {
   ) {
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
+
+    // this.afAuth.authState.subscribe(user => {
+    //   if (user) {
+    //     this.userData = user;
+    //     localStorage.setItem('user', JSON.stringify(this.userData));
+    //     JSON.parse(localStorage.getItem('user'));
+    //   } else {
+    //     localStorage.setItem('user', null);
+    //     JSON.parse(localStorage.getItem('user'));
+    //   }
+    // })
+
     this.afAuth.authState.subscribe(user => {
+
       if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
+
+        this.isLoggedIn = true;
+
+        this.afs.doc<User>(`users/${user.uid}`).get().subscribe((d) => {
+          this.userData = d.data();
+          if (user.emailVerified) {
+            this.updateUser({ emailVerified: user.emailVerified });
+          }
+          localStorage.setItem('user', JSON.stringify(this.userData));
+        });
+
       } else {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
@@ -139,6 +163,13 @@ export class AuthService {
     //   merge: true
     // })
   }
+
+  updateUser(updatedData) {
+    this.afs.doc<User>(`users/${this.userData.uid}`).update(updatedData);
+  }
+
+  SetUserData(user, data?) { }
+
   get userD(): User {
     return this.userData
   }
@@ -148,6 +179,9 @@ export class AuthService {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['']);
+
+      // })
+
     })
   }
   getUser() {

@@ -61,8 +61,9 @@ import {OpenviduSessionComponent, StreamEvent, Session, UserModel, OpenViduLayou
   styleUrls: ['./livestream.component.css'],
 })
 export class LivestreamComponent implements OnInit {
-  OPENVIDU_SERVER_URL = 'https://ovserver.ddns.net';
-  OPENVIDU_SERVER_SECRET = 'my-secret';
+  
+  OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
+  OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
   // Join form
   mySessionId = 'SessionA';
