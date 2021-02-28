@@ -5,20 +5,24 @@ import auth from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
+import { DB } from '../database/DB';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-  userData: User; // Save logged in user data
-  isLoggedIn: boolean = false;
+  authUser: firebase.User; // Save logged in user data
+  userSubscription: Subscription;
+  isLoggedIn: boolean;
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
+    public db: DB,
   ) {
 
     /* Saving user data in localstorage when 
@@ -39,16 +43,19 @@ export class AuthService {
 
       if (user) {
         this.isLoggedIn = true;
-
-        this.afs.doc<User>(`users/${user.uid}`).get().subscribe((d) => {
-          this.userData = d.data();
-          if (user.emailVerified) {
-            this.updateUser({ emailVerified: user.emailVerified });
-          }
-          localStorage.setItem('user', JSON.stringify(this.userData));
-        });
+        this.authUser = user;
+        this.userSubscription = this.afs.doc<User>(`users/${user.uid}`).valueChanges().subscribe((user) => { this.db.me = user });
+        localStorage.setItem('authUser', JSON.stringify(this.authUser));
       } else {
-        localStorage.setItem('user', null);
+        if (this.userSubscription) {
+          this.userSubscription.unsubscribe();
+        }
+        this.isLoggedIn = false;
+        this.authUser = null;
+
+        this.db.me = null;
+        localStorage.setItem('authUser', null);
+
       }
     })
 
@@ -80,16 +87,16 @@ export class AuthService {
 
 
       ).catch((error) => {
-        window.alert('signUp Erorr\n' + error.message)
+        window.alert(error.message)
       })
   }
 
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
-    return this.afAuth.currentUser.then(u => u.sendEmailVerification())
-      .then(() => {
-        this.router.navigate(['verify-email-address']);
-      })
+    // return this.afAuth.currentUser.then(u => u.sendEmailVerification())
+    //   .then(() => {
+    //     this.router.navigate(['verify-email-address']);
+    //   })
   }
 
   // Reset Forggot password
@@ -144,14 +151,12 @@ export class AuthService {
       merge: true
     })
   }
-  updateUser(updatedData) {
-    this.afs.doc<User>(`users/${this.userData.uid}`).update(updatedData);
-  }
+
 
   SetUserData(user, data?) { }
 
   get userD(): User {
-    return this.userData
+    return this.authUser
   }
 
   // Sign out 
@@ -165,8 +170,8 @@ export class AuthService {
     })
   }
   getUser() {
-    if (this.isLoggedIn && this.userData) {
-      return this.userData.displayName;
+    if (this.isLoggedIn && this.authUser) {
+      return this.authUser.displayName;
     }
     // if (this.userData && this.userData.email)
     return "Welcome";

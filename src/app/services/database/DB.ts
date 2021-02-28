@@ -8,12 +8,27 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class DB {
-    constructor(public afs: AngularFirestore, public router: Router) {
+    constructor(public afs: AngularFirestore
+        , public router: Router,
+        public afAuth: AngularFireAuth,) {
+    }
+    me: User;
 
-     }
+    getMyData(): User {
+        return this.me;
+    }
+    updateMyData(updatedData: object) {
+        this.updateUser(this.me.uid, updatedData);
+    }
 
-    getMyData():User{
-        return JSON.parse(localStorage.getItem('user'))
+
+
+
+
+
+
+    updateUser(uid: string, updatedData: object) {
+        this.afs.doc<User>(`users/${uid}`).update(updatedData);
     }
 }
 
