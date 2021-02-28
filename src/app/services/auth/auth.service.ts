@@ -13,9 +13,12 @@ import { Subscription } from 'rxjs';
 })
 
 export class AuthService {
+
   authUser: firebase.User; // Save logged in user data
   userSubscription: Subscription;
   isLoggedIn: boolean;
+
+
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -24,7 +27,6 @@ export class AuthService {
     public ngZone: NgZone, // NgZone service to remove outside scope warning
     public db: DB,
   ) {
-
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
 
@@ -42,7 +44,9 @@ export class AuthService {
     this.afAuth.authState.subscribe(user => {
 
       if (user) {
+
         this.isLoggedIn = true;
+
         this.authUser = user;
         this.userSubscription = this.afs.doc<User>(`users/${user.uid}`).valueChanges().subscribe((user) => { this.db.me = user });
         localStorage.setItem('authUser', JSON.stringify(this.authUser));
@@ -70,18 +74,20 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(['home']);
         });
+        // this.SetUserData(result.user);
       }).catch((error) => {
         window.alert(error.message)
       })
   }
+
   // Sign up with email/password
-  SignUp(signUpFormData: { email: string, username: string, name: string, password: string }) {
-    return this.afAuth.createUserWithEmailAndPassword(signUpFormData.email, signUpFormData.password)
+  SignUp(email, username, name, password) {
+    return this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
         this.SendVerificationMail();
-        this.createUser(result.user, signUpFormData);
+        this.SetUserData(result.user, { email, username, name, password });
         // this.router.navigate(['home'])
       }
 
@@ -110,11 +116,10 @@ export class AuthService {
   }
 
   // Returns true when user is looged in and email is verified
-  // get isLoggedIn(): boolean {
-  //   const user = JSON.parse(localStorage.getItem('user'));
-  //   return user !== null
-  //  && user.emailVerified !== false;
-  // }
+  get isLoggedIn(): boolean {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return (user !== null && user.emailVerified !== false) ? true : false;
+  }
 
   // Sign in with Google
   GoogleAuth() {
@@ -137,20 +142,35 @@ export class AuthService {
   /* Setting up user data when sign in with username/password, 
   sign up with username/password and sign in with social auth  
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  createUser(user, signUpFormData) {
+  SetUserData(user, data?) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      displayName: signUpFormData.name,
+      displayName: data.name,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      username: signUpFormData.username,
+      username: data.username,
     }
     return userRef.set(userData, {
       merge: true
     })
+    // const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    // const userData: User = {
+    //   uid: user.uid,
+    //   email: user.email,
+    //   username: user.username,
+    //   displayName: user.displayName,
+    //   photoURL: user.photoURL,
+    //   emailVerified: user.emailVerified,
+    //   birthdate: user.birthdate,
+    //   bio: user.bio,
+    // }
+    // return userRef.set(userData, {
+    //   merge: true
+    // })
   }
+
 
 
   SetUserData(user, data?) { }
@@ -163,15 +183,17 @@ export class AuthService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.isLoggedIn = false;
-      // this.ngZone.run(()=>{
       this.router.navigate(['']);
+
       // })
+
     })
   }
   getUser() {
+
     if (this.isLoggedIn && this.authUser) {
       return this.authUser.displayName;
+
     }
     // if (this.userData && this.userData.email)
     return "Welcome";

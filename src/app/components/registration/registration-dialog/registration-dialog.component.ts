@@ -27,8 +27,11 @@ export class RegistrationDialogComponent implements OnInit {
   signIn(username, password) {
     this.authService.SignIn(username, password);
   }
-  signUp(email, username, name, password) {
-    this.authService.SignUp({email, username, name, password})
+  signUp(email, username, name, password, confirmPassword) {
+    if (password === confirmPassword)
+      this.authService.SignUp(email, username, name, password)
+    else
+      alert("passwords not match")
 
   }
 
