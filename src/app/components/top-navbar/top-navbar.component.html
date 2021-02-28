@@ -1,7 +1,7 @@
 <div class="nav">
     <div class="navContainer">
         <div class="welcome">
-            <a>{{ getUser() }}</a>
+            <a>{{ this.db.me?.displayName||'welcome' }}</a>
             <!-- <a *ngIf="!signed">Sign in</a> -->
             <img routerLink="/profile" class="profile" src="../../../assets/images/profile.svg" alt="">
         </div>

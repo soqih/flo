@@ -18,7 +18,6 @@ interface Livestream {
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  me:User ;
   name: string = "Abdullah ibrahim";
   username: string = "@abdullah";
   bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
@@ -35,10 +34,9 @@ export class ProfileComponent implements OnInit {
   constructor(private db:DB) { }
 
   ngOnInit(): void {
-    this.me = this.db.getMyData();
-    if(this.me){
-      this.name = this.me.displayName;
-      this.username ='@'+ this.me.username;
+    if(this.db.me){
+      this.name = this.db.me.displayName;
+      this.username ='@'+ this.db.me.username;
     }
   }
 
