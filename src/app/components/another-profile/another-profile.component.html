@@ -1,0 +1,38 @@
+<!-- <div *ngIf="(anotherUser | async)"> -->
+<div class="topPart">
+    <div class="topOptions">
+        <img routerLink="/home" class="arrow" src="../../../assets/images/arrow.svg" alt="">
+        <span>My Account</span>
+        <span class="edit">Edit</span>
+    </div>
+    <div class="topInfo">
+        <div class="avatar"></div>
+        <div class="name">
+            {{anotherUser?.displayName || "User not found"}}
+        </div>
+        <div class="username">
+            @{{anotherUser?.username || "User not found"}}
+        </div>
+        <div class="bio">
+            {{bio}}
+        </div>
+        <div class="follow">
+            <div class="following" (click)="openDialog($event,'following')">{{numFollowing}} Following</div>
+            <div class="followers" (click)="openDialog($event,'followers')">{{numFollowers}} Followers</div>
+        </div>
+        <div class="follow">
+            <button class="btn" id="btn2">Follow</button>
+            <button class="btn" id="btn2">Block</button>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="livestream.name" [username]="livestream.username" [views]="livestream.views" [likes]="livestream.likes" [dislikes]="livestream.dislikes" [inProfile]="true">
+    </app-stream-card>
+    <!-- <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
+            </app-stream-card>
+            <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
+            </app-stream-card> -->
+</div>
+<app-tool-bar></app-tool-bar>
+<!-- </div> -->

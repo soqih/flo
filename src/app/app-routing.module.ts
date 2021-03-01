@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { InitLiveComponent } from './components/init-live/init-live.component';
 import { LivestreamComponent } from './components/livestream/livestream.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AnotherProfileComponent } from './components/another-profile/another-profile.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.component';
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: '', component: RegistrationComponent },
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'u/:username', component: AnotherProfileComponent },
   { path: 'start', component: InitLiveComponent },
   { path: 'session', component: LivestreamComponent },
   { path: 'db', component: DBTestComponent },

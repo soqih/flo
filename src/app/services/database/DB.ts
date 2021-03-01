@@ -11,107 +11,60 @@ export class DB {
     constructor(public afs: AngularFirestore
         , public router: Router,
         public afAuth: AngularFireAuth,) {
+            this.searchByUsersname('')
+            this.afs.collection<User>('users')
+            .valueChanges()
+            // .get()
+            .subscribe((d)=>{
+                console.log("data changed")
+                this.usersCollection=new Map(d.map(i => [i.uid, i]));
+                console.log(this.usersCollection)
+            })
     }
     me: User;
+    usersCollection: Map<string, User>;
 
     getMyData(): User {
         return this.me;
     }
+//    async getUser(uid:string):Promise<User>{
+//     return new Promise<User>((resolve,reject)=>{
+//     this.afs.doc<User>(`users/${uid}`)
+//     .get()
+//     .subscribe((d)=>{
+//         resolve(d.data())
+//     })
+// })
+//     }
+getUser(uid:string) : Promise<User>{
+       return new Promise<User>((resolve,reject)=>{
+    
+        resolve(this.usersCollection
+            .get(uid),)
+    })
+
+
+//     if(this.usersCollection){
+//         console.log(this.usersCollection.get(uid));
+//     return this.usersCollection.get(uid);
+// } else {
+//     console.log("not found")
+// }
+}
     updateMyData(updatedData: object) {
         this.updateUser(this.me.uid, updatedData);
     }
 
-
-
-
-
-
-
     updateUser(uid: string, updatedData: object) {
         this.afs.doc<User>(`users/${uid}`).update(updatedData);
     }
+    searchByUsersname(username:string){
+        console.log(this.usersCollection)
+        this.afs.collection<User>('users').get().subscribe((d)=>{
+                d.docs.forEach((doc)=>{
+                    doc.data().username.includes(username) ? console.log(doc.data().username) : ''
+                })
+            }
+        )
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // user: firebase.User;
-
-    // constructor(public auth: AngularFireAuth,public router:Router) {
-    //     this.auth.authState.subscribe(user => {
-    //         if (user){
-    //           this.user = user;
-    //           localStorage.setItem('user', JSON.stringify(this.user));
-    //         } else {
-    //           localStorage.setItem('user', null);
-    //         }
-    //       })
-    // }
-    // async login(email: string, password: string) {
-    //     var result = await this.auth.signInWithEmailAndPassword(email, password)
-    //     this.router.navigate(['admin/list']);
-    // }
-    // async register(email: string, password: string) {
-    //     var result = await this.auth.createUserWithEmailAndPassword(email, password)
-    //     this.sendEmailVerification();
-    // }
-    // async sendEmailVerification() {
-    //     // await this.auth.currentUser.sendEmailVerification()
-    //    await this.auth.currentUser.sendEmailVerification()
-
-    //     this.router.navigate(['admin/verify-email']);
-    // }
-    // async sendPasswordResetEmail(passwordResetEmail: string) {
-    //     return await this.auth.sendPasswordResetEmail(passwordResetEmail);
-    //  }
-    //  async logout(){
-    //     await this.auth.signOut();
-    //     localStorage.removeItem('user');
-    //     this.router.navigate(['admin/login']);
-    // }
-    // get isLoggedIn(): boolean {
-    //     const  user  =  JSON.parse(localStorage.getItem('user'));
-    //     return  user  !==  null;
-    // }
-    // async  loginWithGoogle(){
-    //     await  this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-    //     this.router.navigate(['admin/list']);
-    // }
-    // login() {
-    //     this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-    //     // this.router.navigate(['home']);
-
-    // }
-    // logout() {
-    //     this.auth.signOut();
-    // }
-

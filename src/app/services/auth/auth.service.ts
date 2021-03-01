@@ -52,7 +52,6 @@ export class AuthService {
         }
         this.isLoggedIn = false;
         this.authUser = null;
-
         this.db.me = null;
         localStorage.setItem('authUser', null);
 
