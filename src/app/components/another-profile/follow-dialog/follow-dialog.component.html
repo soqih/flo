@@ -1,0 +1,11 @@
+<mat-dialog-content>
+
+    <div class="usersList">
+        <mat-label align="center">Followers</mat-label>
+        <hr>
+        <mat-label *ngFor="let follower of followersList" [value]="follower">{{follower.displayName}}
+            <br>
+        </mat-label>
+    </div>
+
+    <mat-dialog-content>
