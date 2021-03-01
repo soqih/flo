@@ -1,0 +1,32 @@
+mat-form-field{
+    width: 100%;
+    margin: 0.3rem 0rem;
+    font-size: 1rem;
+  }
+  button{
+      margin: 0.3rem 0.5rem;
+      width: 100%;
+  }
+  #submit{
+      color: #D58895;
+      border: 2px solid #D58895;
+      background: transparent;
+      }
+      
+  #cancel{
+      background:#D58895;
+      color: white;
+      margin-bottom: 1rem;
+  }
+  #submit:hover{
+      border:solid 2px gray;
+      color: gray;
+      cursor: pointer;
+      transition: 0.5s;
+  }
+  #cancel:hover{
+      background-color: gray;
+      color: white;
+      cursor: pointer;
+      transition: 0.5s;
+  }

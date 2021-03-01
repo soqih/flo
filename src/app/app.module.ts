@@ -28,6 +28,8 @@ import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.com
 import { SettingsComponent } from './components/settings/settings.component';
 import { AnotherProfileComponent } from './components/another-profile/another-profile.component';
 import { FollowDialogComponent } from './components/another-profile/follow-dialog/follow-dialog.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { EditDialogComponent } from './components/profile/edit-dialog/edit-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +48,8 @@ import { FollowDialogComponent } from './components/another-profile/follow-dialo
     SettingsComponent,
     AnotherProfileComponent,
     FollowDialogComponent,
+    NotificationComponent,
+    EditDialogComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [

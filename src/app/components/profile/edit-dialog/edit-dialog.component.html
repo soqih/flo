@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Edit your info</h1>
+<mat-dialog-content>
+
+
+
+
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input #name (input)="changed('changed name')" matInput type="text" name="" id="name" class="input"
+            value="{{this.data.name}}">
+    </mat-form-field>
+
+    <mat-form-field>
+
+        <mat-label>Bio</mat-label>
+        <textarea #hhh (input)="changed('changed bio')" #bio rows="7" cols="10" matInput name="" id="name"
+            class=" input" value="{{this.data.bio}}"></textarea>
+        <!-- <textarea (keydown)="changed()" #bio rows="7" cols="10" matInput name="" id="name" class=" input"
+            value="{{this.data.bio}}"></textarea> -->
+    </mat-form-field>
+
+
+
+
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+    <button [disabled]="!this.haveUpdated" (click)="editProfile(name.value,bio.value)" id="submit" mat-stroked-button
+        mat-dialog-close mat-dialog-close>Submit</button>
+    <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
+
+</mat-dialog-actions>
