@@ -26,6 +26,8 @@ import { AuthService } from "./services/auth/auth.service";
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { EditDialogComponent } from './components/profile/edit-dialog/edit-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +44,8 @@ import { SettingsComponent } from './components/settings/settings.component';
     ForgotPasswordComponent,
     VerfiyEmailComponent,
     SettingsComponent,
+    NotificationComponent,
+    EditDialogComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [

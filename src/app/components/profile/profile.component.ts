@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
+import { MatDialog } from '@angular/material/dialog';
+import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 
 interface Livestream {
   name: string;
@@ -20,7 +22,7 @@ interface Livestream {
 export class ProfileComponent implements OnInit {
   name: string = "Abdullah ibrahim";
   username: string = "@abdullah";
-  bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
+  bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
   numFollowing: number = 0;
   numFollowers: number = 0;
   image: string = "<img ... />" //??
@@ -31,13 +33,24 @@ export class ProfileComponent implements OnInit {
     { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
   ]
 
-  constructor(private db:DB) { }
+  constructor(private db: DB, public dialog: MatDialog,) { }
 
   ngOnInit(): void {
-    if(this.db.me){
+    if (this.db.me) {
       this.name = this.db.me.displayName;
-      this.username ='@'+ this.db.me.username;
+      this.username = '@' + this.db.me.username;
     }
+  }
+  openDialog() {
+    let dialogRef = this.dialog.open(EditDialogComponent,
+      {
+        data: { name: this.name, bio: this.bio /*image: this.image , birthDate:this.birthDate */ },
+        width: '400px',
+        height: '500px'
+      });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+    })
   }
 
 
