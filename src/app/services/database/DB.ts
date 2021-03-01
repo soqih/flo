@@ -8,27 +8,33 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class DB {
-    constructor(public afs: AngularFirestore
-        , public router: Router,
-        public afAuth: AngularFireAuth,) {
-    }
-    me: User;
+    constructor(public afs: AngularFirestore, public router: Router) {
+        
+     }
 
-    getMyData(): User {
-        return this.me;
-    }
-    updateMyData(updatedData: object) {
-        this.updateUser(this.me.uid, updatedData);
+    getMyData():User{
+        return JSON.parse(localStorage.getItem('user'))
     }
 
-
-
-
-
-
-
-    updateUser(uid: string, updatedData: object) {
-        this.afs.doc<User>(`users/${uid}`).update(updatedData);
+    getUser(username: string): User{
+        
+        // String uid = user.getUid();
+        // this.afs.collection<User>('users', ref => ref.where('username', '==', username).limit(1)).get().subscribe( (user) => {
+        //     return user;
+        // })
+            let user: any;
+            this.afs.collection('users').doc(username).ref.get().then(function (doc) {
+              if (doc.exists) {
+                  console.log("test")
+                user = doc.data();
+              } else {
+                console.log("There is no document!");
+              }
+            }).catch(function (error) {
+              console.log("There was an error getting your document:", error);
+            });
+            return user;
+    //    this.afs.collection<User>('users', ref => ref.where('username', '==', 'mohammedkuz')).valueChanges({user : user})
     }
 }
 
