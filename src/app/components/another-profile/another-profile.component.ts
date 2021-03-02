@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
-import {ActivatedRoute} from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { FollowDialogComponent } from './follow-dialog/follow-dialog.component';
 import { Observable } from 'rxjs';
@@ -24,8 +24,8 @@ interface Livestream {
 })
 export class AnotherProfileComponent implements OnInit {
   params: string;
-  anotherUser:User;
-  user:User ;
+  anotherUser: User;
+  user: User;
   name: string = "none";
   username: string = "@none";
   bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
@@ -39,22 +39,35 @@ export class AnotherProfileComponent implements OnInit {
     { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
   ]
 
-  constructor(public db:DB, private route: ActivatedRoute,public dialog: MatDialog, ) { 
+  constructor(public db: DB, private route: ActivatedRoute, public dialog: MatDialog,) {
     // this.route.params.subscribe( params => this.params = params['username'] )
-    this.params =this.route.snapshot.params['username'];
+    this.params = this.route.snapshot.params['username'];
   }
 
   // getUser(uid:string){
   //   return this.db.getUser(uid);
   // }
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.f();
+    // this.f2();
   }
 
-async f() {
-  this.anotherUser = await this.db.getUser(this.params);
-}
-  
+  async f() {
+    var t0 = performance.now()
+    this.anotherUser = await this.db.getUser(this.params);
+    var t1 = performance.now()
+    console.log("Call with Map took " + (t1 - t0) + " milliseconds.")
+    // console.log(this.anotherUser)
+  }
+
+  async f2() {
+    var t0 = performance.now()
+    this.anotherUser = await this.db.getUser2(this.params);
+    var t1 = performance.now()
+    console.log("Call with afs  took " + (t1 - t0) + " milliseconds.")
+    // console.log(this.anotherUser)
+  }
+
   openDialog(e, type) {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
