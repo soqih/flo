@@ -145,6 +145,10 @@ export class AuthService {
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
       username: signUpFormData.username,
+      followingUsers: Array<User>(),
+      followersUsers: Array<User>(),
+      blockingUsers: Array<User>(),
+      blockedFromUsers: Array<User>()
     }
     return userRef.set(userData, {
       merge: true
@@ -155,7 +159,7 @@ export class AuthService {
   SetUserData(user, data?) { }
 
   get userD(): User {
-    return this.authUser
+    return this.authUser;
   }
 
   // Sign out 

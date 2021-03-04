@@ -31,6 +31,7 @@ export class AnotherProfileComponent implements OnInit {
   bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
   numFollowing: number = 0;
   numFollowers: number = 0;
+  youAreFollower: boolean = false;
   image: string = "<img ... />" //??
 
   livestreamsList: Livestream[] = [
@@ -48,18 +49,21 @@ export class AnotherProfileComponent implements OnInit {
   //   return this.db.getUser(uid);
   // }
   ngOnInit(): void {
-    this.f();
+  this.getAnotherUser();
     // this.f2();
   }
-
-  async f() {
+  
+  async getAnotherUser() {
     var t0 = performance.now()
     this.anotherUser = await this.db.getUser(this.params);
     var t1 = performance.now()
     console.log("Call with Map took " + (t1 - t0) + " milliseconds.")
-    // console.log(this.anotherUser)
+    this.numFollowing = this.anotherUser.followingUsers.length;
+    this.numFollowers = this.anotherUser.followersUsers.length;
+    this.youAreFollower = this.anotherUser.followersUsers.includes(this.db.me);
+    
   }
-
+  
   async f2() {
     var t0 = performance.now()
     this.anotherUser = await this.db.getUser2(this.params);
@@ -68,10 +72,23 @@ export class AnotherProfileComponent implements OnInit {
     // console.log(this.anotherUser)
   }
 
-  openDialog(e, type) {
+followUnfollow() {
+  if(!this.youAreFollower){
+    console.log(this.db.me)
+    this.db.updateMyData({'followingUsers': this.db.getMyData().followingUsers.concat(this.anotherUser)})
+    this.db.updateUser(this.anotherUser.uid, {'followersUsers': this.anotherUser.followersUsers.concat(this.db.getMyData())})
+  }else {
+    console.log(this.db.me)
+    this.db.updateMyData({'followingUsers': this.db.me.followingUsers.concat(this.anotherUser)})
+    this.db.updateUser(this.anotherUser.uid, {'followersUsers': this.anotherUser.followersUsers.concat(this.db.me)})
+   
+  }
+}
+
+  openDialog(e, type, arr) {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
-        data: { type },
+        data: {'type': type, 'arr': arr},
         width: '400px',
       });
     dialogRef.afterClosed().subscribe(result => {
