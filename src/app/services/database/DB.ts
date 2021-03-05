@@ -4,37 +4,44 @@ import firebase from 'firebase/app';
 import { ResolveEnd, Router } from "@angular/router";
 import { User } from 'src/app/interfaces/User';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
+
 
 
 @Injectable({ providedIn: 'root' })
 export class DB {
-    constructor(public afs: AngularFirestore
-        , public router: Router,
-        public afAuth: AngularFireAuth,) {
-        // this.searchByUsersname('')
+
+
+
+    constructor(
+        public afs: AngularFirestore,
+        public router: Router,
+        public afAuth: AngularFireAuth,
+        public storage: AngularFireStorage,
+    ) {
         this.fetchCollection();
     }
     me: User;
     usersCollection: Map<string, User>;
 
-    fetchCollection(): Promise<void>{
+    fetchCollection(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            if (this.usersCollection != null){
+            if (this.usersCollection != null) {
                 // console.log("its not null")
                 resolve()
             } else {
                 // console.log("its null")
                 this.afs.collection<User>('users')
-                // .get()
-                .valueChanges()
-                .subscribe((d) => {
-                    // console.log("data changed")
-                    // this.usersCollection = new Map(d.docs.map(i => [i.data().uid, i.data()]));
-                    this.usersCollection = new Map(d.map(i => [i.uid, i]));
-                    // console.log(this.usersCollection)
-                    resolve()
-                })
+                    // .get()
+                    .valueChanges()
+                    .subscribe((d) => {
+                        // console.log("data changed")
+                        // this.usersCollection = new Map(d.docs.map(i => [i.data().uid, i.data()]));
+                        this.usersCollection = new Map(d.map(i => [i.uid, i]));
+                        // console.log(this.usersCollection)
+                        resolve()
+                    })
             }
         })
     }
@@ -42,7 +49,7 @@ export class DB {
     getMyData(): User {
         return this.me;
     }
-    
+
     async getUser(uid: string): Promise<User> {
         await this.fetchCollection();
         return new Promise<User>((resolve, reject) => {
@@ -51,17 +58,17 @@ export class DB {
             resolve(u)
         })
     }
-    
-    async getUser2(uid:string):Promise<User>{
-     return new Promise<User>((resolve,reject)=>{
-     this.afs.doc<User>(`users/${uid}`)
-     .get()
-     .subscribe((d)=>{
-         resolve(d.data())
-     })
- })
-     }
-    
+
+    async getUser2(uid: string): Promise<User> {
+        return new Promise<User>((resolve, reject) => {
+            this.afs.doc<User>(`users/${uid}`)
+                .get()
+                .subscribe((d) => {
+                    resolve(d.data())
+                })
+        })
+    }
+
     // getUser(uid:string) : Promise<User>{
     //        return new Promise<User>((resolve,reject)=>{
     //         if (this.usersCollection)

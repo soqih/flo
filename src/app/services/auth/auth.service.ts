@@ -38,13 +38,29 @@ export class AuthService {
     //     JSON.parse(localStorage.getItem('user'));
     //   }
     // })
-
+    /*
+    
+        this.afAuth.authState.subscribe(user => {
+              if (user) {
+                this.userData = user;
+                localStorage.setItem('user', JSON.stringify(this.userData));
+                JSON.parse(localStorage.getItem('user'));
+              } else {
+                localStorage.setItem('user', null);
+                JSON.parse(localStorage.getItem('user'));
+              }
+            })
+          }
+      
+    */
     this.afAuth.authState.subscribe(user => {
-
       if (user) {
         this.isLoggedIn = true;
         this.authUser = user;
-        this.userSubscription = this.afs.doc<User>(`users/${user.uid}`).valueChanges().subscribe((user) => { this.db.me = user });
+        this.userSubscription = this.afs.doc<User>(`users/${user.uid}`).valueChanges().subscribe((user) => {
+          console.log('user changed')
+          this.db.me = user;
+        });
         localStorage.setItem('authUser', JSON.stringify(this.authUser));
       } else {
         if (this.userSubscription) {

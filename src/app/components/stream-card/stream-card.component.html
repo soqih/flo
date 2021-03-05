@@ -17,21 +17,23 @@
 
 
 <mat-card class="example-card">
+    <!-- <img [src]="db.me.photoURL" mat-card-image> -->
 
     <mat-card-header>
         <div class="titles">
-            <mat-card-title class="title">{{name}}
-            </mat-card-title>
+            <mat-card-title class="title">{{name}}</mat-card-title>
             <mat-card-subtitle class="subtitle">@{{username}}</mat-card-subtitle>
+
         </div>
         <!-- <a *ngIf="!signed">Sign in</a> -->
 
         <mat-icon *ngIf="inProfile" class="settings">settings</mat-icon>
 
     </mat-card-header>
+    <img class="avatar" [src]="db.me.photoURL">
 
-    <mat-icon class="mat-avatar">person</mat-icon>
-
+    <!-- <img [src]="db.me.photoURL" alt=""> -->
+    <!-- <mat-icon class="mat-avatar">person</mat-icon> -->
     <mat-card-content class="content">
         <p>
             {{title}}
@@ -66,4 +68,5 @@
         <!-- </p> -->
 
     </mat-card-actions>
+
 </mat-card>

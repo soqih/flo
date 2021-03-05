@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { DB } from 'src/app/services/database/DB';
 
 @Component({
   selector: 'app-stream-card',
@@ -27,7 +28,7 @@ export class StreamCardComponent implements OnInit {
 
 
 
-  constructor() { }
+  constructor(public db: DB) { }
 
   ngOnInit(): void { }
 
