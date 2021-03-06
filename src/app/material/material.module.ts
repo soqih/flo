@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {A11yModule} from '@angular/cdk/a11y';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { A11yModule } from '@angular/cdk/a11y';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 // import {ClipboardModule} from '@angular/cdk/clipboard';
 // import {DragDropModule} from '@angular/cdk/drag-drop';
 // import {PortalModule} from '@angular/cdk/portal';
@@ -59,6 +61,7 @@ const MaterialComponents = [
   MatSlideToggleModule,
   MatSelectModule,
   MatCheckboxModule,
+  MatProgressSpinnerModule
   // ClipboardModule,
   // CdkStepperModule,
   // CdkTableModule,

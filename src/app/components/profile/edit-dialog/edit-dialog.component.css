@@ -30,3 +30,14 @@ mat-form-field{
       cursor: pointer;
       transition: 0.5s;
   }
+  .fileDiv{
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      /* color: red; */
+  }
+  .fileDiv input{
+      /* background-color: red; */
+      margin-top: 5px;
+      outline: none
+  }

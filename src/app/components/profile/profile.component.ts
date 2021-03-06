@@ -26,27 +26,30 @@ export class ProfileComponent implements OnInit {
   numFollowing: number = 0;
   numFollowers: number = 0;
   image: string = "<img ... />" //??
-
+  num = 1;
   livestreamsList: Livestream[] = [
     { name: "A", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2, dislikes: 1 },
     { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -53440, likes: -2000, dislikes: 10000 },
     { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
   ]
 
-  constructor(private db: DB, public dialog: MatDialog,) { }
+  constructor(public db: DB, public dialog: MatDialog,) { }
 
   ngOnInit(): void {
-    if (this.db.me) {
-      this.name = this.db.me.displayName;
-      this.username = '@' + this.db.me.username;
-    }
+    console.log(this.num)
+
+    // if (this.db.me) {
+    //   this.name = this.db.me.displayName;
+    //   this.username = '@' + this.db.me.username;
+    //   this.bio = this.db.me.bio;
+    // }
   }
   openDialog() {
     let dialogRef = this.dialog.open(EditDialogComponent,
       {
-        data: { name: this.name, bio: this.bio /*image: this.image , birthDate:this.birthDate */ },
         width: '400px',
-        height: '500px'
+        height: '500px',
+
       });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)

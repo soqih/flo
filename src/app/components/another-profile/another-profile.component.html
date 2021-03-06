@@ -17,11 +17,11 @@
             {{bio}}
         </div>
         <div class="follow">
-            <div class="following" (click)="openDialog($event,'following')">{{numFollowing}} Following</div>
-            <div class="followers" (click)="openDialog($event,'followers')">{{numFollowers}} Followers</div>
+            <div class="following" (click)="openDialog($event,'following', anotherUser?.followingUsers)">{{numFollowing}} Following</div>
+            <div class="followers" (click)="openDialog($event,'followers', anotherUser?.followersUsers)">{{numFollowers}} Followers</div>
         </div>
         <div class="follow">
-            <button class="btn" id="btn2">Follow</button>
+            <button class="btn" id="btn2" (click)="followUnfollow()">{{youAreFollower ? 'Unfollow' : 'Follow'}}</button>
             <button class="btn" id="btn2">Block</button>
         </div>
     </div>

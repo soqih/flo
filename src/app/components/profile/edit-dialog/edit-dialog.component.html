@@ -2,19 +2,23 @@
 <mat-dialog-content>
 
 
+    <div class="fileDiv">
+        <mat-label>Image</mat-label>
+        <input type="file" name="file" (input)="onFileChanged($event)" accept=".jpeg,.jpg,.png,.svg" />
 
+    </div>
 
     <mat-form-field>
         <mat-label>Name</mat-label>
         <input #name (input)="changed('changed name')" matInput type="text" name="" id="name" class="input"
-            value="{{this.data.name}}">
+            value="{{db.me.displayName}}">
     </mat-form-field>
 
     <mat-form-field>
 
         <mat-label>Bio</mat-label>
-        <textarea #hhh (input)="changed('changed bio')" #bio rows="7" cols="10" matInput name="" id="name"
-            class=" input" value="{{this.data.bio}}"></textarea>
+        <textarea #hhh (input)="changed('changed bio')" #bio rows="5" cols="10" matInput name="" id="name"
+            class=" input" value="{{db.me.bio}}"></textarea>
         <!-- <textarea (keydown)="changed()" #bio rows="7" cols="10" matInput name="" id="name" class=" input"
             value="{{this.data.bio}}"></textarea> -->
     </mat-form-field>

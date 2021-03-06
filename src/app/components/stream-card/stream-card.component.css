@@ -127,7 +127,15 @@
     padding: 0.05rem 0.05rem;
     background-color: #efa297;
 }
+.avatar {
+    height: 7.5rem;
+    width: 7.5rem;
+    background: #F0A397;
+    border-radius: 50%;
+    /* padding: 0.05rem 0.05rem; */
 
+    margin-bottom: 0.5rem;
+}
 .content {
     font-size: 1.5rem;
     margin: 0.25rem 0;
@@ -137,6 +145,7 @@
 .view {
     font-size: 1rem;
     margin: 0.3rem auto;
+    margin-bottom: 0;
 }
 
 mat-icon {
@@ -158,6 +167,8 @@ mat-card-header{
     /* background-color: red; */
     width: 100%;
     display: flex;
+    margin-bottom: 0;
+    padding-bottom: 0;
     /* justify-content: space-between; */
 }
 .titles{

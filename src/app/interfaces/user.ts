@@ -1,10 +1,14 @@
 export interface User {
     uid: string;
+    username?: string;
     email: string;
     displayName: string;
     photoURL: string;
     emailVerified: boolean;
-    username?: string;
+    followingUsers?:  Array<User>;
+    followersUsers?:  Array<User>;
+    blockingUsers?:  Array<User>;
+    blockedFromUsers?:  Array<User>;
     birthdate?: Date;
     bio?: string;
     livestreams?: livestream[]

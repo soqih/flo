@@ -1,2 +1,9 @@
-<router-outlet>
+<router-outlet *ngIf="db.me">
 </router-outlet>
+<div *ngIf="!db.me" class="spinner">
+    <mat-spinner color="accent">
+    </mat-spinner>
+</div>
+
+<!-- <img *ngIf="!this.db.me" src="/assets/images/logo.svg" alt=""> -->
+<!-- <img #init src="/assets/images/logo.svg" alt=""> -->
