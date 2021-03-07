@@ -5,20 +5,12 @@ export interface User {
     displayName: string;
     photoURL: string;
     emailVerified: boolean;
-    followingUsers?:  Array<User>;
-    followersUsers?:  Array<User>;
-    blockingUsers?:  Array<User>;
-    blockedFromUsers?:  Array<User>;
+    followingUsers?:  Array<string>; //users id
+    followersUsers?:  Array<string>;
+    blockingUsers?:  Array<string>;
+    blockedFromUsers?:  Array<string>;
     birthdate?: Date;
     bio?: string;
-    livestreams?: livestream[]
-}
-
-interface livestream {
-    title: string;
-    views: number;
-    likes: number;
-    dislikes: number;
-    date?: Date;
-    active: boolean;
+    livestreams: string[]; //livestream id
+    numLivestreames: number;
 }

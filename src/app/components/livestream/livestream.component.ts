@@ -79,7 +79,9 @@ export class LivestreamComponent implements OnInit {
   @ViewChild('ovSessionComponent')
   public ovSessionComponent: OpenviduSessionComponent;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { 
+    
+  }
   
 
   async joinSession() {

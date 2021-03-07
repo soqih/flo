@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DB } from 'src/app/services/database/DB';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';   //   import <<<<

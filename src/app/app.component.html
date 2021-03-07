@@ -1,6 +1,6 @@
-<router-outlet *ngIf="db.me">
+<router-outlet *ngIf="isLoaded">
 </router-outlet>
-<div *ngIf="!db.me" class="spinner">
+<div *ngIf="!isLoaded" class="spinner">
     <mat-spinner color="accent">
     </mat-spinner>
 </div>

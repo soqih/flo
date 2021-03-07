@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Start a Livestream</h1>
+<div>
+        
+                <form [formGroup]="myForm">
+                    <!-- Value: {{ myForm.value | json }}
+                    <hr> -->
+                    <mat-form-field class="fullWidth" color="accent">
+                        <input matInput placeholder="Title" formControlName="title">
+                        <!-- <mat-error *ngIf="title.hasError('required')">
+                            Title is <strong>required</strong>
+                        </mat-error> -->
+                    </mat-form-field>
+    
+                    <mat-label>Livestream Privacy:</mat-label>
+                       
+                        <mat-slide-toggle #privacy formControlName="private">Private</mat-slide-toggle>
+    
+                    <!-- Users list -->
+                       
+                        <mat-label>Allowed follwers:</mat-label>
+                       
+                        <mat-form-field appearance="fill" color="accent" class="fullWidth">
+                            <mat-label>Users</mat-label>
+                            <mat-select [disabled]="!myForm.get('private').value" multiple>
+                                <mat-option value="All">All</mat-option>
+                                <mat-option (onSelectionChange)="onCheckChange($event)" *ngFor="let user of usersList" [value]="user.value">{{user.viewValue}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    <!-- Save Livestream Toggle Button -->
+                        <mat-label>Do you want the Livestream to be saved in your profile after finshed?</mat-label>
+                        <mat-slide-toggle #saved formControlName="saveStream">Yes</mat-slide-toggle>
+                        
+                    </form>
+</div>    
+
+                    <!-- Start&Canncel buttons -->
+                    <mat-dialog-actions align="center">
+                        <button id="start" mat-stroked-button mat-dialog-close mat-dialog-close (click)="startLivestream()">Start</button>
+                        <button id="cancel" mat-stroked-button
+                        mat-dialog-close mat-dialog-close >Cancel</button>
+                    </mat-dialog-actions>

@@ -17,4 +17,8 @@ export class AppComponent {
 
   ngOnInit() {
   }
+  get isLoaded():boolean{
+    return this.db.me !=null;
+    // return true;
+  }
 }

@@ -1,0 +1,43 @@
+mat-form-field{
+    width: 100%;
+    margin: 0.3rem 0rem;
+    font-size: 1rem;
+  }
+  mat-label{
+      display:block;
+      margin: 0.3rem 0rem;
+      font-size: 1rem;
+  }
+  mat-slide-toggle{
+    display:block;
+    margin: 0.3rem 0rem;
+    font-size: 1rem;
+  }
+  button{
+      margin: 0.3rem 0.5rem;
+      width: 100%;
+      padding: 5px 0px;
+  }
+  #start{
+      color: #D58895;
+      border: 2px solid #D58895;
+      background: transparent;
+      }
+      
+  #cancel{
+      background:#D58895;
+      color: white;
+      margin-bottom: 1rem;
+  }
+  #start:hover{
+      border:solid 2px gray;
+      color: gray;
+      cursor: pointer;
+      transition: 0.5s;
+  }
+  #cancel:hover{
+      background-color: gray;
+      color: white;
+      cursor: pointer;
+      transition: 0.5s;
+  }
