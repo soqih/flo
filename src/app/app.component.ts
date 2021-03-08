@@ -1,8 +1,5 @@
-import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { Component } from '@angular/core';
-
 import { MatDialog } from '@angular/material/dialog';
-import { RegistrationDialogComponent } from './components/registration/registration-dialog/registration-dialog.component';
 import { AuthService } from './services/auth/auth.service';
 import { DB } from './services/database/DB';
 @Component({
@@ -13,12 +10,13 @@ import { DB } from './services/database/DB';
 
 export class AppComponent {
 
-  constructor(public dialog: MatDialog, public db: DB, auth: AuthService) { }
+  constructor(public dialog: MatDialog, public db: DB, public auth: AuthService) { }
 
   ngOnInit() {
   }
-  get isLoaded():boolean{
-    return this.db.me !=null;
+  get isLoaded(): boolean {
+    return this.auth.isLoggedIn != null && this.db.livestreamsCollection != null && this.db.usersCollection != null;
+
     // return true;
   }
 }

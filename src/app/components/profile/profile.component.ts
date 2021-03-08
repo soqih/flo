@@ -3,16 +3,17 @@ import { User } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
 import { MatDialog } from '@angular/material/dialog';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
+import { Livestream } from 'src/app/interfaces/livestream';
 
-interface Livestream {
-  name: string;
-  username: string;
-  title: string;
-  // avatar: string;
-  views: number;
-  likes: number;
-  dislikes: number;
-}
+// interface Livestream {
+//   name: string;
+//   username: string;
+//   title: string;
+//   // avatar: string;
+//   views: number;
+//   likes: number;
+//   dislikes: number;
+// }
 
 @Component({
   selector: 'app-profile',
@@ -27,11 +28,7 @@ export class ProfileComponent implements OnInit {
   numFollowers: number = 0;
   image: string = "<img ... />" //??
   num = 1;
-  livestreamsList: Livestream[] = [
-    { name: "A", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2, dislikes: 1 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -53440, likes: -2000, dislikes: 10000 },
-    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
-  ]
+  livestreamsList: Livestream[] = this.getMyLivestreams();
 
   constructor(public db: DB, public dialog: MatDialog,) { }
 
@@ -56,5 +53,13 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-
+  getMyLivestreams(): Livestream[] {
+    var livestreams = [];
+      this.db.me.livestreams?.forEach((lid) => {
+        livestreams.push(this.db.getLivestream(lid))
+      })
+    return livestreams;
+  }
 }
+
+

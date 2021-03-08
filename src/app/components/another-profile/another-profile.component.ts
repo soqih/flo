@@ -34,39 +34,37 @@ export class AnotherProfileComponent implements OnInit {
   youAreFollower: boolean = false;
   image: string = "<img ... />" //??
 
-  livestreamsList: Livestream[] = [
-    { name: "A", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2, dislikes: 1 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -53440, likes: -2000, dislikes: 10000 },
-    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
-  ]
+  livestreamsList: Livestream[]  ;
 
   constructor(public db: DB, private route: ActivatedRoute, public dialog: MatDialog,) {
     // this.route.params.subscribe( params => this.params = params['username'] )
     this.params = this.route.snapshot.params['username'];
+    this.anotherUser= this.db.getUser(this.params);
+    this.livestreamsList  = this.getMyLivestreams();
   }
 
   // getUser(uid:string){
   //   return this.db.getUser(uid);
   // }
   ngOnInit(): void {
-  this.getAnotherUser();
+  // this.getAnotherUser();
     // this.f2();
   }
   
-  async getAnotherUser() {
+   getAnotherUser() {
     var t0 = performance.now()
-    this.anotherUser = await this.db.getUser(this.params);
+    this.anotherUser =  this.db.getUser(this.params);
     var t1 = performance.now()
     console.log("Call with Map took " + (t1 - t0) + " milliseconds.")
-    this.numFollowing = this.anotherUser.followingUsers.length;
+    this.numFollowing = this.anotherUser.followersUsers.length;
     this.numFollowers = this.anotherUser.followersUsers.length;
-    this.youAreFollower = this.anotherUser.followersUsers.includes(this.db.me);
+    this.youAreFollower = this.anotherUser.followersUsers.includes(this.db.me.uid);
     
   }
   
-  async f2() {
+   f2() {
     var t0 = performance.now()
-    this.anotherUser = await this.db.getUser2(this.params);
+    this.anotherUser = this.db.getUser2(this.params);
     var t1 = performance.now()
     console.log("Call with afs  took " + (t1 - t0) + " milliseconds.")
     // console.log(this.anotherUser)
@@ -75,12 +73,18 @@ export class AnotherProfileComponent implements OnInit {
 followUnfollow() {
   if(!this.youAreFollower){
     console.log(this.db.me)
-    this.db.updateMyData({'followingUsers': this.db.getMyData().followingUsers.concat(this.anotherUser)})
-    this.db.updateUser(this.anotherUser.uid, {'followersUsers': this.anotherUser.followersUsers.concat(this.db.getMyData())})
+    // this.db.updateMyData({'followingUsers': this.db.getMyData().followingUsers.concat(this.anotherUser.uid)})
+    // this.db.updateUser(this.anotherUser.uid, {'followersUsers': this.anotherUser.followersUsers.concat(this.db.getMyData().uid)})
+    this.db.updateMyData({
+      followersUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid) 
+    })
   }else {
     console.log(this.db.me)
-    this.db.updateMyData({'followingUsers': this.db.me.followingUsers.concat(this.anotherUser)})
-    this.db.updateUser(this.anotherUser.uid, {'followersUsers': this.anotherUser.followersUsers.concat(this.db.me)})
+    // this.db.updateMyData({'followingUsers': this.db.me.followingUsers.concat(this.anotherUser.uid)})
+    // this.db.updateUser(this.anotherUser.uid, {'followersUsers': this.anotherUser.followersUsers.concat(this.db.me.uid)})
+    this.db.updateMyData({
+      followersUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid) 
+    })
    
   }
 }
@@ -96,5 +100,12 @@ followUnfollow() {
     })
   }
 
+  getMyLivestreams(): Livestream[] {
+    var livestreams = [];
+    this.anotherUser.livestreams?.forEach((lid) => {
+      livestreams.push(this.db.getLivestream(lid))
+    })
+    return livestreams;
+  }
 
 }

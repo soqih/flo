@@ -17,16 +17,20 @@
             {{db.me.bio}}
         </div>
         <div class="follow">
-            <div class="following">{{numFollowing}} Following</div>
-            <div class="followers">{{numFollowers}} Followers</div>
+            <div class="following">{{db.me.followingUsers?.length || 0}} Following</div>
+            <div class="followers">{{db.me.followersUsers?.length || 0}} Followers</div>
         </div>
     </div>
 </div>
 <div class="content">
-    <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="livestream.name"
-        [username]="livestream.username" [views]="livestream.views" [likes]="livestream.likes"
-        [dislikes]="livestream.dislikes" [inProfile]="true">
+    <!-- <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="db.me.displayName"
+        [username]="db.me.username" [views]="livestream.views" [likes]="livestream.likes"
+        [dislikes]="livestream.dislikes" [inProfile]="true" [photoURL]="livestream.photoURL">
+    </app-stream-card> -->
+
+    <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]= "livestream" >
     </app-stream-card>
+
     <!-- <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
     </app-stream-card>
     <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">

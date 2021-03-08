@@ -27,9 +27,16 @@ export class DB {
             .subscribe((d) => {
                 this.usersCollection = new Map(d.map(i => [i.uid, i]));
             })
+            this.afs.collection<Livestream>('livestreams')
+            .valueChanges()
+            .subscribe((d) => {
+                this.livestreamsCollection = new Map(d.map(i => [i.lid, i]));
+            })
+
     }
     me: User;
     usersCollection: Map<string, User>;
+    livestreamsCollection:Map<string, Livestream>
 
     // fetchCollection(): Promise<void> {
     //     return new Promise<void>((resolve, reject) => {
@@ -57,6 +64,9 @@ export class DB {
     }
     getUser(uid: string):User {
         return this.usersCollection.get(uid);
+    }
+    getLivestream(lid: string):Livestream {
+        return this.livestreamsCollection.get(lid);
     }
     getUser2(uid: string):User {
         return this.usersCollection.get(uid);
@@ -113,6 +123,13 @@ export class DB {
       })
         return users;
     }
+
+    // addToArray(element){
+    //     firebase.firestore.FieldValue.arrayUnion(element)
+    // }
+    // removeFromArray(element){
+    //     firebase.firestore.FieldValue.arrayRemove(element)
+    // }
     saveLivestream(livestream:Livestream){
         this.afs.collection('livestreams').add(livestream).then((l)=>{
             l.update({'lid':l.id})

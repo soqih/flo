@@ -1,17 +1,19 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Livestream } from 'src/app/interfaces/livestream';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { DB } from 'src/app/services/database/DB';
 
 
-interface Livestream {
-  name: string;
-  username: string;
-  title: string;
-  // avatar: string;
-  views: number;
-  likes: number;
-  dislikes: number;
-}
+// interface Livestream {
+//   name: string;
+//   username: string;
+//   title: string;
+//   // avatar: string;
+//   views: number;
+//   likes: number;
+//   dislikes: number;
+// }
 
 @Component({
   selector: 'app-home',
@@ -30,34 +32,18 @@ export class HomeComponent implements OnInit {
   // toggleNavbar() {
   //   this.navbarOpen = !this.navbarOpen;
   // }
-  constructor(private route: Router, public authService: AuthService,) { }
+  constructor(private route: Router, public authService: AuthService, public db: DB) { }
 
-  livestreamsList: Livestream[] = [
-    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "AAA", username: "A", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "BBB", username: "B", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 },
-    { name: "CCC", username: "C", title: "ABC", /* avatar: string , */ views: -500, likes: -2000, dislikes: 10000 }
-  ]
+  livestreamsList: Livestream[] = [];
 
   ngOnInit(): void {
+    this.db.livestreamsCollection.forEach((l) => {
+      this.livestreamsList.push(l)
+    })
     // this.route.routeReuseStrategy.shouldReuseRoute = () => false
   }
 
- 
+
 
 
 }

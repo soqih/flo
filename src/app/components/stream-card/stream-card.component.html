@@ -30,7 +30,10 @@
         <mat-icon *ngIf="inProfile" class="settings">settings</mat-icon>
 
     </mat-card-header>
-    <img class="avatar" [src]="db.me.photoURL">
+
+    <!-- Livestream photo (square need full size )   OR    Avtar photo (circle) ?  ((SIZE!!))-->
+    <img class="avatar" [src]="photoURL">
+    
 
     <!-- <img [src]="db.me.photoURL" alt=""> -->
     <!-- <mat-icon class="mat-avatar">person</mat-icon> -->

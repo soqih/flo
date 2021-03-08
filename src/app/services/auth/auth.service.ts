@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class AuthService {
   authUser: firebase.User; // Save logged in user data
   userSubscription: Subscription;
-  isLoggedIn: boolean;
+  isLoggedIn: boolean = null;
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -55,11 +55,10 @@ export class AuthService {
     */
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.isLoggedIn = true;
         this.authUser = user;
         this.userSubscription = this.afs.doc<User>(`users/${user.uid}`).valueChanges().subscribe((user) => {
-          console.log('user changed')
           this.db.me = user;
+          this.isLoggedIn = true;
         });
         localStorage.setItem('authUser', JSON.stringify(this.authUser));
       } else {
@@ -161,10 +160,11 @@ export class AuthService {
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
       username: signUpFormData.username,
-      followingUsers: Array<User>(),
-      followersUsers: Array<User>(),
-      blockingUsers: Array<User>(),
-      blockedFromUsers: Array<User>()
+      followingUsers: [],
+      followersUsers:  [],
+      blockingUsers:  [],
+      blockedFromUsers:  [],
+      livestreams:[]
     }
     return userRef.set(userData, {
       merge: true
@@ -174,9 +174,9 @@ export class AuthService {
 
   SetUserData(user, data?) { }
 
-  get userD(): User {
-    return this.authUser;
-  }
+  // get userD(): User {
+  //   return this.authUser;
+  // }
 
   // Sign out 
   SignOut() {

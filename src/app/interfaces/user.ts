@@ -5,12 +5,11 @@ export interface User {
     displayName: string;
     photoURL: string;
     emailVerified: boolean;
-    followingUsers?:  Array<string>; //users id
-    followersUsers?:  Array<string>;
-    blockingUsers?:  Array<string>;
-    blockedFromUsers?:  Array<string>;
+    followingUsers?:  string[]; //users id
+    followersUsers?:   string[];
+    blockingUsers?:   string[];
+    blockedFromUsers?:   string[];
     birthdate?: Date;
     bio?: string;
     livestreams: string[]; //livestream id
-    numLivestreames: number;
 }

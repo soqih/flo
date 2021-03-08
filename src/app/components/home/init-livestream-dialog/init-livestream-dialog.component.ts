@@ -70,6 +70,7 @@ export class InitLivestreamDialogComponent implements OnInit {
       isPrivate: this.formData.private,
       saveStream: this.formData.saveStream,
       host:this.db.me.uid,
+      photoURL:this.db.me.photoURL,
     }
     
     this.db.saveLivestream(livestream);

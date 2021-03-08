@@ -4,11 +4,12 @@
 <div class="content">
 
 
-    <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="livestream.name"
+    <!-- <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="livestream.name"
         [username]="livestream.username" [views]="livestream.views" [likes]="livestream.likes"
         [dislikes]="livestream.dislikes" [inProfile]="false">
+    </app-stream-card> -->
+    <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]= "livestream" >
     </app-stream-card>
-
 
 </div>
 <app-tool-bar></app-tool-bar>

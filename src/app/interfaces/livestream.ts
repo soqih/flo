@@ -10,4 +10,5 @@ export interface Livestream {
     allowedFollowers?: string[];
     saveStream: boolean;
     host: string;
+    photoURL: string;
 }
