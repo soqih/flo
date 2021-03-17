@@ -4,7 +4,11 @@
         <div class="usersList">
             <mat-label align="center">Followers</mat-label>
             <hr>
-            <mat-label *ngFor="let follower of arr" [value]="follower">{{follower.displayName}}
+            <mat-label *ngFor="let follower of arr" [value]="follower">
+                <a href="/u/{{follower.uid}}">
+                    <img src="{{db.getUser(follower).photoURL}}" alt="User Avatar">
+                    {{db.getUser(follower).displayName}}
+                </a>
                 <br>
             </mat-label>
         </div>
@@ -16,7 +20,11 @@
         <div class="usersList">
             <mat-label align="center">Following</mat-label>
             <hr>
-            <mat-label *ngFor="let follower of arr" [value]="follower">{{follower.displayName}}
+            <mat-label *ngFor="let following of arr" [value]="following">
+                <a href="/u/{{db.getUser(following).uid}}">
+                    <img src="{{db.getUser(following).photoURL}}" alt="User Avatar">
+                    {{db.getUser(following).displayName}}
+                </a>
                 <br>
             </mat-label>
         </div>

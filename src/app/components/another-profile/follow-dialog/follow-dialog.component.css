@@ -1,1 +1,11 @@
-* {}
+a {
+    text-decoration: none;
+    color:black;
+    font-size: 1em;
+}
+
+img {
+    height: 4em;
+    width: 4em;
+}
+

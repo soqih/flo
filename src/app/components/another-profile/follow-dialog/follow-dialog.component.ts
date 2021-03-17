@@ -8,23 +8,15 @@ import { User } from 'src/app/interfaces/User';
   styleUrls: ['./follow-dialog.component.css']
 })
 export class FollowDialogComponent implements OnInit {
-// followingList: User[];
 
-// followersList: Array<User> = [
-//   { displayName: "Test", uid: "test", email:"test@test.com", emailVerified:true, bio:"testttttt", photoURL:"teksdopksdo" },
-//   { displayName: "Test", uid: "test", email:"test@test.com", emailVerified:true, bio:"testttttt", photoURL:"teksdopksdo" },
-//   { displayName: "Test", uid: "test", email:"test@test.com", emailVerified:true, bio:"testttttt", photoURL:"teksdopksdo" },
-//   { displayName: "Test", uid: "test", email:"test@test.com", emailVerified:true, bio:"testttttt", photoURL:"teksdopksdo" },
-//   { displayName: "Test", uid: "test", email:"test@test.com", emailVerified:true, bio:"testttttt", photoURL:"teksdopksdo" },
-//   { displayName: "Test", uid: "test", email:"test@test.com", emailVerified:true, bio:"testttttt", photoURL:"teksdopksdo" },
-// ]
 
-@Input() followingList: User[];
-@Input() followersList: User[];
+  @Input() followingList: User[];
+  @Input() followersList: User[];
 
-  constructor(@Inject(MAT_DIALOG_DATA)public data: {type: {}}) { }
-isFollowers: boolean = this.data['type'] == 'followers';
-arr: [] = this.data['arr'];
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { type: {} }) { }
+  isFollowers: boolean = this.data['type'] == 'followers';
+  arr: [] = this.data['arr'];
+  db = this.data['db']
 
   ngOnInit(): void {
   }

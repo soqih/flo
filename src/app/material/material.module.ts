@@ -12,6 +12,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 // import {ClipboardModule} from '@angular/cdk/clipboard';
 // import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -61,7 +63,8 @@ const MaterialComponents = [
   MatSlideToggleModule,
   MatSelectModule,
   MatCheckboxModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatMenuModule,
   // ClipboardModule,
   // CdkStepperModule,
   // CdkTableModule,

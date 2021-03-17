@@ -20,14 +20,14 @@ export class DB {
         public afAuth: AngularFireAuth,
         public storage: AngularFireStorage,
     ) {
-        
+
         // this.fetchCollection();
         this.afs.collection<User>('users')
             .valueChanges()
             .subscribe((d) => {
                 this.usersCollection = new Map(d.map(i => [i.uid, i]));
             })
-            this.afs.collection<Livestream>('livestreams')
+        this.afs.collection<Livestream>('livestreams')
             .valueChanges()
             .subscribe((d) => {
                 this.livestreamsCollection = new Map(d.map(i => [i.lid, i]));
@@ -36,7 +36,7 @@ export class DB {
     }
     me: User;
     usersCollection: Map<string, User>;
-    livestreamsCollection:Map<string, Livestream>
+    livestreamsCollection: Map<string, Livestream>
 
     // fetchCollection(): Promise<void> {
     //     return new Promise<void>((resolve, reject) => {
@@ -62,13 +62,13 @@ export class DB {
     getMyData(): User {
         return this.me;
     }
-    getUser(uid: string):User {
+    getUser(uid: string): User {
         return this.usersCollection.get(uid);
     }
-    getLivestream(lid: string):Livestream {
+    getLivestream(lid: string): Livestream {
         return this.livestreamsCollection.get(lid);
     }
-    getUser2(uid: string):User {
+    getUser2(uid: string): User {
         return this.usersCollection.get(uid);
     }
 
@@ -113,14 +113,14 @@ export class DB {
     updateUser(uid: string, updatedData: object) {
         this.afs.doc<User>(`users/${uid}`).update(updatedData);
     }
-    searchByUsersname(username: string):User[] { //return users that there username contains the parameter username
-      var users:User[] =[];
-      this.usersCollection.forEach((user)=>{
-        if(user.username.includes(username)){
-            users.push(user);
-        }
+    searchByUsersname(username: string): User[] { //return users that there username contains the parameter username
+        var users: User[] = [];
+        this.usersCollection.forEach((user) => {
+            if (user.username.includes(username)) {
+                users.push(user);
+            }
 
-      })
+        })
         return users;
     }
 
@@ -130,12 +130,12 @@ export class DB {
     // removeFromArray(element){
     //     firebase.firestore.FieldValue.arrayRemove(element)
     // }
-    saveLivestream(livestream:Livestream){
-        this.afs.collection('livestreams').add(livestream).then((l)=>{
-            l.update({'lid':l.id})
+    saveLivestream(livestream: Livestream) {
+        this.afs.collection('livestreams').add(livestream).then((l) => {
+            l.update({ 'lid': l.id })
             this.updateMyData({
-                livestreams: firebase.firestore.FieldValue.arrayUnion(l.id) 
-             })
+                livestreams: firebase.firestore.FieldValue.arrayUnion(l.id)
+            })
         })
     }
 }

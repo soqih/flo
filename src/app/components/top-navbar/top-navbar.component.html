@@ -7,8 +7,17 @@
         </div>
         <div class="input-container">
             <img class="inputImage" src="../../../assets/images/search.svg" alt="">
-            <input type=" search" name="" class=" input" placeholder="Search">
+            <input type=" search" name="" class="input" placeholder="Search" (keyup)="search($event)">
+            <!-- <h1>test</h1> -->
             <img class="inputImage filter" src="../../../assets/images/filter.svg" alt="">
         </div>
+        <ng-container>
+            <div class="searchMenu" *ngFor="let item of items">
+                <img class="searchImg" src="{{item.photoURL}}">
+                <a href="./u/{{item.uid}}">
+                    <pre>{{item.displayName}}<br><small>@{{ item.username }}</small></pre>
+                </a>
+            </div>
+        </ng-container>
     </div>
 </div>
