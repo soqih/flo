@@ -123,13 +123,17 @@ export class DB {
       })
         return users;
     }
-
-    // addToArray(element){
-    //     firebase.firestore.FieldValue.arrayUnion(element)
-    // }
-    // removeFromArray(element){
-    //     firebase.firestore.FieldValue.arrayRemove(element)
-    // }
+    
+    addToArray(arrayName:string,newElemnt:any){
+        var obj ={}
+        obj[arrayName] = firebase.firestore.FieldValue.arrayUnion(newElemnt)
+        this.updateMyData(obj)
+    }
+    removeFromArray(arrayName:string,newElemnt:any){
+        var obj ={}
+        obj[arrayName] = firebase.firestore.FieldValue.arrayRemove(newElemnt)
+        this.updateMyData(obj)
+    }
     saveLivestream(livestream:Livestream){
         this.afs.collection('livestreams').add(livestream).then((l)=>{
             l.update({'lid':l.id})
