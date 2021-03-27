@@ -61,18 +61,18 @@ export class InitLivestreamDialogComponent implements OnInit {
 
   startLivestream() {
     var livestream: Livestream = {
-      lid:null,
+      lid: null,
       title: this.formData.title,
       views: 0,
-      likes: 0,
-      dislikes: 0,
+      likes: [],
+      dislikes: [],
       isActive: true,
       isPrivate: this.formData.private,
       saveStream: this.formData.saveStream,
-      host:this.db.me.uid,
-      photoURL:this.db.me.photoURL,
+      host: this.db.me.uid,
+      photoURL: this.db.me.photoURL,
     }
-    
+
     this.db.saveLivestream(livestream);
   }
 

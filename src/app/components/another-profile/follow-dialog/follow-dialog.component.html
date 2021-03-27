@@ -5,7 +5,7 @@
             <mat-label align="center">Followers</mat-label>
             <hr>
             <mat-label *ngFor="let follower of arr" [value]="follower">
-                <a href="/u/{{db.getUser(follower)?.uid}" *ngIf="db.getUser(follower) != undefined">
+                <a href="/u/{{db.getUser(follower)?.uid}}" *ngIf="db.getUser(follower) != undefined">
                     <img src="{{db.getUser(follower)?.photoURL}}" alt="Photo" *ngIf="db.getUser(follower) != undefined">
                     {{db.getUser(follower)?.displayName}}
                 </a>
