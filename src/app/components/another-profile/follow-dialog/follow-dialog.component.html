@@ -4,8 +4,12 @@
         <div class="usersList">
             <mat-label align="center">Followers</mat-label>
             <hr>
-            <mat-label *ngFor="let follower of arr" [value]="follower">{{follower.displayName}}
-                <br>
+            <mat-label *ngFor="let follower of arr" [value]="follower">
+                <a href="/u/{{db.getUser(follower)?.uid}" *ngIf="db.getUser(follower) != undefined">
+                    <img src="{{db.getUser(follower)?.photoURL}}" alt="Photo" *ngIf="db.getUser(follower) != undefined">
+                    {{db.getUser(follower)?.displayName}}
+                </a>
+                <br *ngIf="db.getUser(follower) != undefined">
             </mat-label>
         </div>
     </mat-dialog-content>
@@ -16,8 +20,13 @@
         <div class="usersList">
             <mat-label align="center">Following</mat-label>
             <hr>
-            <mat-label *ngFor="let follower of arr" [value]="follower">{{follower.displayName}}
-                <br>
+            <mat-label *ngFor="let following of arr" [value]="following">
+                <a href="/u/{{db.getUser(following)?.uid}}" *ngIf="db.getUser(following) != undefined">
+                    <img src="{{db.getUser(following)?.photoURL}}" alt="User Avatar"
+                        *ngIf="db.getUser(following) != undefined">
+                    {{db.getUser(following)?.displayName}}
+                </a>
+                <br *ngIf="db.getUser(following) != undefined">
             </mat-label>
         </div>
     </mat-dialog-content>
