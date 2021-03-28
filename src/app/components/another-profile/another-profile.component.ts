@@ -8,16 +8,10 @@ import { Observable } from 'rxjs';
 import firebase from 'firebase';
 import { ThrowStmt } from '@angular/compiler';
 import { Router } from "@angular/router";
+import { Livestream } from 'src/app/interfaces/livestream';
+import { exit } from 'process';
 
-interface Livestream {
-  name: string;
-  username: string;
-  title: string;
-  // avatar: string;
-  views: number;
-  likes: number;
-  dislikes: number;
-}
+
 
 @Component({
   selector: 'app-another-profile',
@@ -31,12 +25,10 @@ export class AnotherProfileComponent implements OnInit {
   name: string = "none";
   username: string = "@none";
   bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
-  // numFollowing: number = 0;
-  // numFollowers: number = 0;
-  // youAreFollower: boolean = false;
-  image: string = "<img ... />" //??
-
+  numFollowing: number = 0;
+  numFollowers: number = 0;
   livestreamsList: Livestream[];
+  image: string = "<img ... />"
 
   constructor(
     public db: DB,
@@ -47,15 +39,19 @@ export class AnotherProfileComponent implements OnInit {
     // this.route.params.subscribe( params => this.params = params['username'] )
     this.params = this.route.snapshot.params['username'];
     this.anotherUser = this.db.getUser(this.params);
+    this.livestreamsList = this.getMyLivestreams();
+    // this.livestreamsList: Livestream[] = this.getMyLivestreams();
+
     // this.livestreamsList = this.getMyLivestreams();
   }
-
 
   // check if this page is the logged-in users' page
   // and check if its another user and is blocking the logged-in user
 
   ngOnInit(): void {
-
+    if (this.params == this.db.me.uid) {
+      this.router.navigate(['/profile']);
+    }
   }
 
   reloadComponent() {
@@ -67,14 +63,14 @@ export class AnotherProfileComponent implements OnInit {
 
   followUnfollow() {
     // console.log(this.youAreFollower)
-    if (!this.db.me.followingUsers.includes(this.anotherUser.uid)) {
+    if (!this.db.me.followingUsers?.includes(this.anotherUser.uid)) {
       console.log("following")
       this.db.updateMyData({
         followingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid)
       })
       this.db.updateUser(this.anotherUser.uid, {
         followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
-      })
+      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
     } else {
       console.log("unfollowing")
       this.db.updateMyData({
@@ -82,9 +78,10 @@ export class AnotherProfileComponent implements OnInit {
       })
       this.db.updateUser(this.anotherUser.uid, {
         followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      })
+      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
     }
-    this.reloadComponent();
+    // this.reloadComponent();
+
   }
 
   openDialog(e, type, arr) {
@@ -125,8 +122,12 @@ export class AnotherProfileComponent implements OnInit {
   }
 
   isBlocked() {
-    return this.db.me.blockingUsers.includes(this.anotherUser.uid);
+    return this.db.me.blockingUsers?.includes(this.anotherUser.uid);
   }
 
+  isBlockedMe() {
+    console.log(this.db.me.blockedFromUsers?.includes(this.anotherUser.uid))
+    return this.anotherUser.blockingUsers?.includes(this.db.me.uid);
+  }
 
 }

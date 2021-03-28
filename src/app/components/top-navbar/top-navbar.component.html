@@ -12,10 +12,11 @@
             <img class="inputImage filter" src="../../../assets/images/filter.svg" alt="">
         </div>
         <ng-container>
-            <div class="searchMenu" *ngFor="let item of items">
-                <img class="searchImg" src="{{item.photoURL}}">
-                <a href="./u/{{item.uid}}">
-                    <pre>{{item.displayName}}<br><small>@{{ item.username }}</small></pre>
+            <div class="searchMenu" *ngFor="let user of items">
+                <img class="searchImg" src="{{user.photoURL}}"
+                    onError="this.onerror=null;this.src='/assets/images/logo.svg';">
+                <a href="./u/{{user.uid}}">
+                    <pre>{{user.displayName}}<br><small>@{{ user.username }}</small></pre>
                 </a>
             </div>
         </ng-container>
