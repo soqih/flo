@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { RegistrationDialogComponent } from './registration-dialog/registration-dialog.component';
 import { DB } from '../../services/database/DB';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ActivatedRoute } from "@angular/router";
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -10,7 +12,12 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class RegistrationComponent implements OnInit {
   imageNumber: number = 1;
-  constructor(public dialog: MatDialog, private db: DB, public authService: AuthService) { }
+  constructor(
+    public dialog: MatDialog,
+    private db: DB,
+    public authService: AuthService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
     setInterval(() => {
@@ -22,10 +29,18 @@ export class RegistrationComponent implements OnInit {
         this.imageNumber = 1;
 
     }, 4000)
+    if (this.route.snapshot.params && this.route.snapshot.params['type'] == 'signin') {
+      this.openDialog('', 'signin')
+    } else if (this.route.snapshot.params && this.route.snapshot.params['type'] == 'signup') {
+      this.openDialog('', 'signup')
+    }
   }
   openDialog(e, type) {
-    if (type == 'signup')
-      e.preventDefault();
+    if (type == 'signup') {
+      // console.log(e)
+      if (e)
+        e.preventDefault();
+    }
 
 
     let dialogRef = this.dialog.open(RegistrationDialogComponent,

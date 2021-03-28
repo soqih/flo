@@ -8,6 +8,7 @@
     top: 0;
     /* width: 100%; */
     height: fit-content;
+    z-index: -1;
   
 }
 .navContainer {
@@ -77,15 +78,36 @@
 }
 
 .searchMenu {
-  display: flex;
-  background-color: snow;
-  justify-content: left;
-  align-items: center;
-  height: 4rem;
-  width: 90%;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
-  margin-bottom: 0.25em;
+        display: block;
+        position: relative;
+      background-color: rgb(192, 192, 192);
+      justify-content: left;
+      align-items: center;
+      top: 0.5em;
+      left: 6em;
+      height: fit-content;
+      width: 90%;
+      padding: 0;
+      margin: 0;
+      z-index: 10;
+      overflow: hidden;
+      border: 0.1em solid black;
+
+}
+
+.searchItem {
+    /* position: fixed; */
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    justify-content: left;
+    align-items: center;
+    /* top: 10em; */
+    /* height: auto; */
+    padding: 0.5rem;
+    border-radius: 0.15rem;
+    margin-top: 0.1em;
+    z-index: 11;
 }
 
 .searchImg {

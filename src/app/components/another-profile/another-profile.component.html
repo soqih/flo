@@ -1,4 +1,4 @@
-<div *ngIf="!this.anotherUser.blockingUsers?.includes(this.db.me.uid); else blocked">
+<div *ngIf="!this.anotherUser.blockingUsers?.includes(this.db.me?.uid); else blocked">
     <div class="topPart">
         <div class="topOptions">
             <img routerLink="/home" class="arrow" src="../../../assets/images/arrow.svg" alt="">
@@ -21,7 +21,7 @@
                 <div class="followers" (click)="openDialog($event,'followers', anotherUser?.followersUsers)">
                     {{anotherUser?.followersUsers?.length || 0}} Followers</div>
             </div>
-            <div class="follow">
+            <div *ngIf="this.db.me" class="follow">
                 <button class="btn" id="btn2"
                     (click)="followUnfollow()">{{db.me.followingUsers?.includes(anotherUser.uid) ?
                     'Unfollow' : 'Follow'}}</button>

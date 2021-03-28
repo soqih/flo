@@ -1,7 +1,7 @@
 <div class="nav">
     <div class="navContainer">
         <div class="welcome">
-            <a>{{ this.db.me?.displayName||'welcome' }}</a>
+            <a>{{ this.db.me?.displayName || 'Welcome' }}</a>
             <!-- <a *ngIf="!signed">Sign in</a> -->
             <img routerLink="/profile" class="profile" src="../../../assets/images/profile.svg" alt="">
         </div>
@@ -11,14 +11,24 @@
             <!-- <h1>test</h1> -->
             <img class="inputImage filter" src="../../../assets/images/filter.svg" alt="">
         </div>
-        <ng-container>
-            <div class="searchMenu" *ngFor="let user of items">
-                <img class="searchImg" src="{{user.photoURL}}"
-                    onError="this.onerror=null;this.src='/assets/images/logo.svg';">
-                <a href="./u/{{user.uid}}">
-                    <pre>{{user.displayName}}<br><small>@{{ user.username }}</small></pre>
-                </a>
-            </div>
-        </ng-container>
     </div>
 </div>
+<ng-container>
+    <div class="searchMenu">
+        <div class="searchItem" *ngFor="let user of items">
+            <img class="searchImg" src="{{user.photoURL}}"
+                onError="this.onerror=null;this.src='/assets/images/logo.svg';">
+            <a href="./u/{{user.uid}}">
+                <pre>{{user.displayName}}<br><small>@{{ user.username }}</small></pre>
+            </a>
+        </div>
+    </div>
+</ng-container>
+<!-- <ng-container>
+    <div class="searchMenu" *ngFor="let user of items">
+        <img class="searchImg" src="{{user.photoURL}}" onError="this.onerror=null;this.src='/assets/images/logo.svg';">
+        <a href="./u/{{user.uid}}">
+            <pre>{{user.displayName}}<br><small>@{{ user.username }}</small></pre>
+        </a>
+    </div>
+</ng-container> -->

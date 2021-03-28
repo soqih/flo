@@ -24,6 +24,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerfiyEmailComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'r/:type', component: RegistrationComponent },
   { path: '**', redirectTo: '' }
 
 ];

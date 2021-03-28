@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InitLivestreamDialogComponent } from '../home/init-livestream-dialog/init-livestream-dialog.component';
+//import { User } from 'src/app/interfaces/User';
+import { DB } from 'src/app/services/database/DB';
 
 @Component({
   selector: 'app-tool-bar',
@@ -9,7 +11,7 @@ import { InitLivestreamDialogComponent } from '../home/init-livestream-dialog/in
 })
 export class ToolBarComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public db: DB, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -25,5 +27,5 @@ export class ToolBarComponent implements OnInit {
       console.log(result)
     })
   }
-  
+
 }

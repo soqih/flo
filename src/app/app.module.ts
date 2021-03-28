@@ -23,14 +23,16 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { DBTestComponent } from './dbtest/dbtest.component';
 import { AuthService } from "./services/auth/auth.service";
+
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AnotherProfileComponent } from './components/another-profile/another-profile.component';
-import { FollowDialogComponent } from './components/another-profile/follow-dialog/follow-dialog.component';
+import { FollowDialogComponent } from './components/follow-dialog/follow-dialog.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { EditDialogComponent } from './components/profile/edit-dialog/edit-dialog.component';
 import { InitLivestreamDialogComponent } from './components/home/init-livestream-dialog/init-livestream-dialog.component';
+
 @NgModule({
   declarations: [
     AppComponent,

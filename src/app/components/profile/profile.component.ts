@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
 import { MatDialog } from '@angular/material/dialog';
+import { FollowDialogComponent } from '../follow-dialog/follow-dialog.component';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { Livestream } from 'src/app/interfaces/livestream';
 
@@ -41,7 +42,7 @@ export class ProfileComponent implements OnInit {
     //   this.bio = this.db.me.bio;
     // }
   }
-  openDialog() {
+  openDialogEdit() {
     let dialogRef = this.dialog.open(EditDialogComponent,
       {
         width: '400px',
@@ -53,11 +54,22 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  openDialogList(e, type, arr) {
+    let dialogRef = this.dialog.open(FollowDialogComponent,
+      {
+        data: { 'type': type, 'arr': arr, 'db': this.db },
+        width: '400px',
+      });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+    })
+  }
+
   getMyLivestreams(): Livestream[] {
     var livestreams = [];
-      this.db.me.livestreams?.forEach((lid) => {
-        livestreams.push(this.db.getLivestream(lid))
-      })
+    this.db.me.livestreams?.forEach((lid) => {
+      livestreams.push(this.db.getLivestream(lid))
+    })
     return livestreams;
   }
 }
