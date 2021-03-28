@@ -55,7 +55,7 @@
         <div class="like" (click)="like()">
             <mat-icon>{{likeState}}</mat-icon>
             <span class="likes">
-                {{0}}
+                {{this.livestream.likes.length}}
             </span>
         </div>
         <!-- <p> -->
@@ -64,7 +64,7 @@
         <div class="dislike" (click)="dislike()">
             <mat-icon>{{dislikeState}}</mat-icon>
             <span class="dislikes">
-                {{0}}
+                {{this.livestream.dislikes.length}}
             </span>
         </div>
 

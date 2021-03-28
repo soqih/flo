@@ -91,7 +91,7 @@
       margin: 0;
       z-index: 10;
       overflow: hidden;
-      border: 0.1em solid black;
+      /* border: 0.1em solid black; */
 
 }
 

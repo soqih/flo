@@ -4,37 +4,39 @@
 
         <mat-form-field hintLabel="must be unique">
             <mat-label>User name</mat-label>
-            <input #username matInput type="" name="" id="username" class="input">
+            <input   #username matInput type="text" name="" id="username" class="input" [formControl]="userName">
         </mat-form-field>
 
 
         <mat-form-field hintLabel="your displayed name">
             <mat-label>Name</mat-label>
-            <input #name matInput type="text" name="" id="name" class=" input">
+            <input #name matInput type="text" name="" id="name" class="input" [formControl]="Name">
         </mat-form-field>
 
 
         <mat-form-field hintLabel="ex@example.com">
             <mat-label>Email</mat-label>
-            <input #userEmail matInput type="email" name="" id="email" class=" input" [formControl]="email">
-            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+            <input #userEmail matInput type="email" name="" id="email" class="input" [formControl]="email">
+            <mat-error >Not a valid email</mat-error>
         </mat-form-field>
 
         <mat-form-field hintLabel="should be more than 6 characters">
             <mat-label>Password</mat-label>
-            <input #userPwd matInput type="password" name="" id="password" class="input">
+            <input  #userPwd matInput type="password" name="" id="password" class="input" [formControl]="password">
+            <mat-error >Not a valid password</mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Confirm password</mat-label>
-            <input matInput type="password" name="" id="passwordConfirm" class="input">
+            <input  #userPwdConf matInput type="password" name="" id="passwordConfirm" class="input" [formControl]="password2">
+            <mat-error >not match</mat-error>
         </mat-form-field>
 
 
     </mat-dialog-content>
 
     <mat-dialog-actions align="center">
-        <button (click)="signUp(userEmail.value,username.value,name.value,userPwd.value)" id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign
+        <button [disabled]="!correctSignUp" (click)="signUp(userEmail.value,username.value,name.value,userPwd.value)" id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign
             up</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
 
@@ -46,12 +48,12 @@
     <mat-dialog-content>
         <mat-form-field hintLabel="ex@example.com">
             <mat-label>Email</mat-label>
-            <input matInput type="email" name="" id="email" class=" input" [formControl]="email" #userName required>
-            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+            <input  matInput type="email" name="" id="email" class=" input" [formControl]="email" #userName >
+            <mat-error >Not a valid email</mat-error>
         </mat-form-field>
         <mat-form-field hintLabel="should be more than 6 characters">
             <mat-label>Password</mat-label>
-            <input matInput type="password" name="" id="password" class="input" #userPassword required>
+            <input matInput type="password" name="" id="password" class="input" #userPassword >
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="center">

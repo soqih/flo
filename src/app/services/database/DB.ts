@@ -11,9 +11,6 @@ import { Livestream } from 'src/app/interfaces/livestream';
 
 @Injectable({ providedIn: 'root' })
 export class DB {
-
-
-
     constructor(
         public afs: AngularFirestore,
         public router: Router,
