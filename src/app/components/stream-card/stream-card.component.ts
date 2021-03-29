@@ -60,9 +60,9 @@ export class StreamCardComponent implements OnInit {
     this.dislikes = this.livestream.dislikes.length;
     this.userlink = '/u/' + this.user.uid;
 
-      this.liked = this.livestream.likes?.includes(this.db.me.uid) || false
-      this.disliked = this.livestream.dislikes?.includes(this.db.me.uid) || false
-    
+      this.liked = this.livestream.likes?.includes(this.db.me?.uid) || false
+      this.disliked = this.livestream.dislikes?.includes(this.db.me?.uid) || false
+
     this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
     this.dislikeState = this.disliked ? 'thumb_down' : 'thumb_down_off_alt';
 
@@ -72,55 +72,58 @@ export class StreamCardComponent implements OnInit {
 
   like() {
 
-    if (this.liked) {
-      this.liked = false;
-      this.likeState = "thumb_up_off_alt";
-      // remove like from db
+    if(this.db?.me != undefined){
+      if (this.liked) {
+        this.liked = false;
+        this.likeState = "thumb_up_off_alt";
+        // remove like from db
+        this.db.updateLivestream(this.livestream.lid, {
+          likes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+        }).then(()=>{this.updateLivestream()})
+        return;
+      }
+      if (this.disliked) {
+        this.disliked = false;
+        this.dislikeState = "thumb_down_off_alt";
+        // remove dislike from db
+        this.db.updateLivestream(this.livestream.lid, {
+          dislikes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+        }).then(()=>{this.updateLivestream()})
+      }
+      this.liked = true;
+      this.likeState = "thumb_up"
+      // add like to db
       this.db.updateLivestream(this.livestream.lid, {
-        likes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      }).then(()=>{this.updateLivestream()})
-      return;
-    }
-    if (this.disliked) {
-      this.disliked = false;
-      this.dislikeState = "thumb_down_off_alt";
-      // remove dislike from db
-      this.db.updateLivestream(this.livestream.lid, {
-        dislikes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+        likes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
       }).then(()=>{this.updateLivestream()})
     }
-    this.liked = true;
-    this.likeState = "thumb_up"
-    // add like to db
-    this.db.updateLivestream(this.livestream.lid, {
-      likes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
-    }).then(()=>{this.updateLivestream()})
   }
 
   dislike() {
-    if (this.disliked) {
-      this.disliked = false;
-      this.dislikeState = "thumb_down_off_alt";
-      // remove dislike from db
+    if(this.db?.me != undefined){
+      if (this.disliked) {
+        this.disliked = false;
+        this.dislikeState = "thumb_down_off_alt";
+        // remove dislike from db
+        this.db.updateLivestream(this.livestream.lid, {
+          dislikes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+        }).then(()=>{this.updateLivestream()})
+        return
+      }
+      if (this.liked) {
+        this.liked = false;
+        this.likeState = "thumb_up_off_alt";
+        this.db.updateLivestream(this.livestream.lid, {
+          likes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+        }).then(()=>{this.updateLivestream()})
+        this.livestream = this.db.getLivestream(this.livestream.lid);
+      }
+      this.dislikeState = "thumb_down";
+      this.disliked = true;
       this.db.updateLivestream(this.livestream.lid, {
-        dislikes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+        dislikes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
       }).then(()=>{this.updateLivestream()})
-      return
     }
-    if (this.liked) {
-      this.liked = false;
-      this.likeState = "thumb_up_off_alt";
-      this.db.updateLivestream(this.livestream.lid, {
-        likes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      }).then(()=>{this.updateLivestream()})
-      this.livestream = this.db.getLivestream(this.livestream.lid);
-    }
-    this.dislikeState = "thumb_down";
-    this.disliked = true;
-    this.db.updateLivestream(this.livestream.lid, {
-      dislikes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
-    }).then(()=>{this.updateLivestream()})
-
   }
   updateLivestream(){
     this.livestream = this.db.getLivestream(this.livestream.lid);

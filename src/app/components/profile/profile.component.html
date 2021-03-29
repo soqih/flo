@@ -50,7 +50,7 @@
         [dislikes]="livestream.dislikes" [inProfile]="true" [photoURL]="livestream.photoURL">
     </app-stream-card> -->
 
-    <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]="livestream">
+    <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]="livestream" [inProfile]="true">
     </app-stream-card>
 
     <!-- <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
