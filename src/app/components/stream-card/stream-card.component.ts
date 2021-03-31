@@ -71,8 +71,9 @@ export class StreamCardComponent implements OnInit {
 
 
   like() {
-
-    if(this.db?.me != undefined){
+    if(this.db?.me == undefined){
+      return
+    }
       if (this.liked) {
         this.liked = false;
         this.likeState = "thumb_up_off_alt";
@@ -96,11 +97,12 @@ export class StreamCardComponent implements OnInit {
       this.db.updateLivestream(this.livestream.lid, {
         likes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
       }).then(()=>{this.updateLivestream()})
-    }
   }
 
   dislike() {
-    if(this.db?.me != undefined){
+    if(this.db?.me == undefined){
+      return
+    }
       if (this.disliked) {
         this.disliked = false;
         this.dislikeState = "thumb_down_off_alt";
@@ -123,7 +125,7 @@ export class StreamCardComponent implements OnInit {
       this.db.updateLivestream(this.livestream.lid, {
         dislikes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
       }).then(()=>{this.updateLivestream()})
-    }
+    
   }
   updateLivestream(){
     this.livestream = this.db.getLivestream(this.livestream.lid);
