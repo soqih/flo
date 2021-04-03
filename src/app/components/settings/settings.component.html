@@ -3,4 +3,4 @@
     <button *ngIf="!this.authService.isLoggedIn" class="btn" routerLink="/r/signin">Sign In</button>
     <button *ngIf="!this.authService.isLoggedIn" class="btn" routerLink="/r/signup">Sign Up</button>
 </div>
-<app-tool-bar></app-tool-bar>
+<app-tool-bar [where] = "'settings'"></app-tool-bar>

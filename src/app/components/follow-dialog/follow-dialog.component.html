@@ -5,12 +5,20 @@
             <mat-label align="center">Followers</mat-label>
             <hr>
             <mat-label *ngFor="let follower of arr" [value]="follower">
-                <a href="/u/{{db.getUser(follower)?.uid}}" *ngIf="db.getUser(follower) != undefined">
-                    <img src="{{db.getUser(follower)?.photoURL}}"
-                        onError="this.onerror=null;this.src='/assets/images/logo.svg';" alt="Photo"
-                        *ngIf="db.getUser(follower) != undefined">
-                    {{db.getUser(follower)?.displayName}}
-                </a>
+                <div class="user">
+                    <a href="/u/{{db.getUser(follower)?.uid}}" *ngIf="db.getUser(follower) != undefined">
+                        <img src="{{db.getUser(follower)?.photoURL}}"
+                            onError="this.onerror=null;this.src='/assets/images/logo.svg';" alt="Photo"
+                            *ngIf="db.getUser(follower) != undefined" >
+                        <!-- {{db.getUser(follower)?.displayName}} -->
+                        <div class="name">
+                            <span>{{db.getUser(follower)?.displayName}}</span>
+                            <span class="username">@{{db.getUser(follower)?.username}}</span>
+                            <span class="bio">{{db.getUser(follower)?.bio}}</span>
+                        </div>
+                    </a>
+                </div>
+                
                 <br *ngIf="db.getUser(follower) != undefined">
             </mat-label>
         </div>
@@ -23,13 +31,20 @@
             <mat-label align="center">Following</mat-label>
             <hr>
             <mat-label *ngFor="let following of arr" [value]="following">
+                <div class="user">
                 <a href="/u/{{db.getUser(following)?.uid}}" *ngIf="db.getUser(following) != undefined">
                     <img src="{{db.getUser(following)?.photoURL}}"
                         onError="this.onerror=null;this.src='/assets/images/logo.svg';" alt="User Avatar"
                         *ngIf="db.getUser(following) != undefined">
-                    {{db.getUser(following)?.displayName}}
+                        <div class="name">
+                            <span>{{db.getUser(following)?.displayName}}</span>
+                            <span class="username">@{{db.getUser(following)?.username}}</span>
+                            <span class="bio">{{db.getUser(following)?.bio}}</span>
+                        </div>
+                    
                 </a>
-                <br *ngIf="db.getUser(following) != undefined">
+                </div>
+                <!-- <br *ngIf="db.getUser(following) != undefined"> -->
             </mat-label>
         </div>
     </mat-dialog-content>

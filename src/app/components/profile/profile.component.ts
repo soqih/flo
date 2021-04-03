@@ -22,6 +22,7 @@ import { Livestream } from 'src/app/interfaces/livestream';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+
   name: string = "Abdullah ibrahim";
   username: string = "@abdullah";
   bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
@@ -34,7 +35,7 @@ export class ProfileComponent implements OnInit {
   constructor(public db: DB, public dialog: MatDialog,) { }
 
   ngOnInit(): void {
-    console.log(this.num)
+    // console.log(this.num)
 
     // if (this.db.me) {
     //   this.name = this.db.me.displayName;
@@ -58,7 +59,7 @@ export class ProfileComponent implements OnInit {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
         data: { 'type': type, 'arr': arr, 'db': this.db },
-        width: '400px',
+        width: '400px',height: '75vh'
       });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)

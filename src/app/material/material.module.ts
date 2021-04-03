@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 // import {ClipboardModule} from '@angular/cdk/clipboard';
@@ -65,6 +66,7 @@ const MaterialComponents = [
   MatCheckboxModule,
   MatProgressSpinnerModule,
   MatMenuModule,
+  MatTabsModule
   // ClipboardModule,
   // CdkStepperModule,
   // CdkTableModule,

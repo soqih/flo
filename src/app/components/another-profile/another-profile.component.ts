@@ -85,7 +85,7 @@ export class AnotherProfileComponent implements OnInit {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
         data: { 'type': type, 'arr': arr, 'db': this.db },
-        width: '400px',
+        width: '400px', height: '75vh'
       });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)

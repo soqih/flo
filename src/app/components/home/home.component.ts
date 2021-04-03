@@ -23,7 +23,6 @@ import { DB } from 'src/app/services/database/DB';
 export class HomeComponent implements OnInit {
 
 
-
   // @Input() signed: boolean;
   // navbarOpen = false;
   // navbar;
