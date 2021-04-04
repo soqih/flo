@@ -109,20 +109,24 @@ span {
     }
 }
 
-#btn1 {
-    color: #d58895;
-    background-color: transparent;
-    border: solid 2px #d58895;
-    margin: 2px;
+ #btn1 {
+    background-color: #d58895;
 }
-
+#btn2 {
+    background-color: rgb(201, 61, 61);
+}
+#btn1:hover , #btn2:hover {
+    background-color: gray;
+    cursor: pointer;    
+}
+/*
 #btn1:hover {
     border: solid 2px gray;
     color: gray;
     cursor: pointer;
-}
+} */
 
-#btn2 {
+/* #btn2 {
     color: black;
     background-color: snow;
     border: none;
@@ -133,7 +137,7 @@ span {
     background-color: gray;
     color: white;
     cursor: pointer;
-}
+} */
 
 .btn {
     width: 6rem;
@@ -142,4 +146,8 @@ span {
     font-weight: 600;
     font-size: 1rem;
     border-radius: 0.3rem;
+    /* background-color: #D58895; */
+    color: white;
+    outline: none;
+    border: none;
 }

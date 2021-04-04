@@ -103,10 +103,16 @@ export class AnotherProfileComponent implements OnInit {
   blockUnblock() {
     if (!this.isBlocked()) {
       this.db.updateMyData({
-        blockingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid)
+        blockingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid),
+        // remove blocked user from your followings
+        followingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid),
       })
       this.db.updateUser(this.anotherUser.uid, {
         blockedFromUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
+      })
+      // remove you from user followers
+      this.db.updateUser(this.anotherUser.uid, {
+        followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
       })
     } else {
       this.db.updateMyData({
