@@ -23,13 +23,7 @@ import { Livestream } from 'src/app/interfaces/livestream';
 })
 export class ProfileComponent implements OnInit {
 
-  name: string = "Abdullah ibrahim";
-  username: string = "@abdullah";
-  bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
-  numFollowing: number = 0;
-  numFollowers: number = 0;
-  image: string = "<img ... />" //??
-  num = 1;
+
   livestreamsList: Livestream[] = this.getMyLivestreams();
 
   constructor(public db: DB, public dialog: MatDialog,) { }

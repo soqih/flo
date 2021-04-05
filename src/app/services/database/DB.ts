@@ -104,7 +104,7 @@ export class DB {
     // }
     // }
     updateMyData(updatedData: object) {
-        this.updateUser(this.me.uid, updatedData);
+        return this.updateUser(this.me.uid, updatedData);
     }
 
     updateUser(uid: string, updatedData: object) {

@@ -235,8 +235,8 @@ a:hover .demo-logo {
 #video-container video {
 	position: relative;
 	float: left;
-	width: 50%;
-	cursor: pointer;
+	/* width: 50%;
+	cursor: pointer; */
 }
 
 #video-container div {

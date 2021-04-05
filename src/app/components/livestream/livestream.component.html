@@ -24,15 +24,8 @@
 	Bootstrap
 
 	<link rel="styleSheet" href="/assets/openvidu/style.css" type="text/css" media="screen">
-	<script src="openvidu-browser-2.17.0.js"></script>
-	<script src="app.js"></script>
-	<script>
-		$(document).ready(function () {
-			$('[data-toggle="tooltip"]').tooltip({
-				html: true
-			});
-		});
-	</script>
+	<!-- <script src="openvidu-browser-2.17.0.js"></script> -->
+	<!-- <script src="app.js"></script> -->
 </head> 
 
 <body>
@@ -49,7 +42,7 @@
 	</nav>
 
 	<div id="main-container" class="container">
-		<div id="not-logged" class="vertical-center">
+		<!-- <div id="not-logged" class="vertical-center">
 			<div id="img-div"><img src="/assets/openvidu/images/openvidu_grey_bg_transp_cropped.png" /></div>
 			<form class="form-group jumbotron" onsubmit="return false">
 				<p>
@@ -85,10 +78,9 @@
 					<td>SUBSCRIBER</td>
 				</tr>
 			</table>
-		</div>
+		</div> -->
 
-		<div id="logged" hidden>
-			<div id="join" class="vertical-center">
+			<!-- <div id="join" class="vertical-center">
 				<div id="img-div"><img src="/assets/openvidu/images/openvidu_grey_bg_transp_cropped.png" /></div>
 				<div id="join-dialog" class="jumbotron">
 					<h1>Join a video session</h1>
@@ -111,30 +103,31 @@
 						<button id="logout-btn" class="btn btn-warning" (click)="logOut()">Log out</button>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
-			<div id="session" style="display: none;">
+			<div id="session" *ngIf="this.token">
 				<div id="session-header">
 					<h1 id="session-title"></h1>
-					<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" (click)="removeUser(); leaveSession()" value="Leave session">
+					<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" (click)="leaveSession()" value="Leave session">
 					<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" (click)="sendMessage('message')" value="send">
+					<input *ngIf="recorder" class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" (click)="recording()" value="record / stop recording">
 				</div>
-				<div id="main-video" class="col-md-6">
+				<!-- <div id="main-video">
 					<p class="nickName"></p>
 					<p class="userName"></p>
 					<video autoplay playsinline="true"></video>
-				</div>
-				<div id="video-container" class="col-md-6"></div>
+				</div> -->
+				<div id="video-container"></div>
 			</div>
-		</div>
+		
 	</div>
-
+<!-- 
 	<footer class="footer">
 		<div class="container">
 			<div class="text-muted">OpenVidu © 2017</div>
 			<a href="http://www.openvidu.io/" target="_blank"><img class="openvidu-logo" src="/assets/openvidu/images/openvidu_globe_bg_transp_cropped.png"/></a>
 		</div>
-	</footer>
+	</footer> -->
 </body>
     </html>
         

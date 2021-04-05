@@ -46,9 +46,10 @@ export class AnotherProfileComponent implements OnInit {
   // and check if its another user and is blocking the logged-in user
 
   ngOnInit(): void {
-    if (this.params == this.db.me?.uid) {
-      this.router.navigate(['/profile']);
-    }
+    // if (this.params == this.db.me?.uid) {
+    //   this.router.navigate(['/profile']);
+    //   // this.router.
+    // }
   }
 
   reloadComponent() {
@@ -109,18 +110,18 @@ export class AnotherProfileComponent implements OnInit {
       })
       this.db.updateUser(this.anotherUser.uid, {
         blockedFromUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
-      })
+      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
       // remove you from user followers
       this.db.updateUser(this.anotherUser.uid, {
         followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      })
+      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
     } else {
       this.db.updateMyData({
         blockingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
       })
       this.db.updateUser(this.anotherUser.uid, {
         blockedFromUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      })
+      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
     }
   }
 

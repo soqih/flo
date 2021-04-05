@@ -112,10 +112,12 @@
 //    */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, HostListener, OnInit } from '@angular/core';
-import { OpenVidu, Session, SignalOptions } from 'openvidu-angular';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { LocalRecorder, OpenVidu, Session, SignalEvent, SignalOptions, Stream, StreamEvent, VideoElementEvent } from 'openvidu-angular';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { DB } from 'src/app/services/database/DB';
 
 @Component({
   selector: 'app-livestream',
@@ -123,82 +125,110 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./livestream.component.css'],
 })
 
-export class LivestreamComponent implements OnInit {
+export class LivestreamComponent implements OnInit, OnDestroy {
   OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
   OPENVIDU_SERVER_SECRET = 'MY_SECRET';
-  constructor(private httpClient: HttpClient) { }
+  isHost: boolean;
+  recorder: LocalRecorder;
+  toggle: boolean = true;
+  chat: string[];
+  constructor(private httpClient: HttpClient, private route: ActivatedRoute, private db: DB) { }
   OV: OpenVidu;
   session: Session;
 
-  sessionName: string = 's3';	// Name of the video session the user will connect to
+  sessionName: string;	// Name of the video session the user will connect to
   token: string;
-  ngOnInit() { }
+  ngOnInit() {
+    // this.isHost = this.db.getLivestream('B5aWNM3gkbHnyxMcULYq').host == this.db.me?.uid;
+
+    this.sessionName = this.route.snapshot.params['sessionID'];
+    this.isSessionExists(this.sessionName).then((exists) => {
+      if (exists) {
+        this.isHost = true//false;
+      } else {
+        this.isHost = true;
+      }
+      this.joinSession();
+    })
+    // this.joinSession();
+  }
   // Token retrieved from OpenVidu Server
 
 
   /* OPENVIDU METHODS */
-
+  isMyOwnConnection(connectionId: string): boolean {
+    return connectionId == this.session.connection.connectionId
+  }
   joinSession() {
     this.getToken((token) => {
+      this.token = token;
 
       // --- 1) Get an OpenVidu object ---
 
       this.OV = new OpenVidu();
-
       // --- 2) Init a session ---
 
       this.session = this.OV.initSession();
 
-      //chat 
-      this.session.on('signal:chat', (event: any) => {
-        console.log(event.data)
+      //chat // here add to chat
+      this.session.on('signal:chat', (event: SignalEvent) => {
+        var message = event.data;
+        this.chat.push(message)
+        console.log()
       })
 
 
       // --- 3) Specify the actions when events take place in the session ---
 
       // On every new Stream received...
-      this.session.on('streamCreated', (event: any) => {
-
+      this.session.on('streamCreated', (event: StreamEvent) => {
+        const streamConnectionID = event.stream.connection.connectionId;
         // Subscribe to the Stream to receive it
         // HTML video will be appended to element with 'video-container' id
+        if (this.isMyOwnConnection(streamConnectionID)) {
+          return;
+        }
+        console.warn(streamConnectionID, this.session.connection.connectionId)
         var subscriber = this.session.subscribe(event.stream, 'video-container');
 
         // When the HTML video has been appended to DOM...
-        subscriber.on('videoElementCreated', (event: any) => {
+        subscriber.on('videoElementCreated', (event: VideoElementEvent) => {
+          event.element.muted = true; // Chrome's autoplay policies are simple: 1- Muted autoplay is always allowed ...etc, for more check https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+          event.element.controls = true;
 
           // Add a new HTML element for the user's name and nickname over its video
-
-          this.appendUserData(event.element, subscriber.stream.connection);
+          // this.appendUserData(event.element, subscriber.stream.connection);
         });
+
       });
 
       // On every Stream destroyed...
-      this.session.on('streamDestroyed', (event: any) => {
+      this.session.on('streamDestroyed', (event: StreamEvent) => {
         // Delete the HTML element with the user's name and nickname
-        this.removeUserData(event.stream.connection);
+
+        $('remote-video-' + event.stream.streamId).remove();
       });
 
       // --- 4) Connect to the session passing the retrieved token and some more data from
       //        the client (in this case a JSON with the nickname chosen by the user) ---
 
-      var nickName = $("#nickName").val();
+      var nickName = 'nn'//$("#nickName").val();
       this.session.connect(token, { clientData: nickName })
         .then(() => {
 
           // --- 5) Set page layout for active call ---
 
-          var userName = $("#user").val();
+          var userName = 'un'// $("#user").val();
           $('#session-title').text(this.sessionName);
-          $('#join').hide();
-          $('#session').show();
+          //$('#join').hide();
+          //$('#session').show();
 
 
           // Here we check somehow if the user has 'PUBLISHER' role before
           // trying to publish its stream. Even if someone modified the client's code and
           // published the stream, it wouldn't work if the token sent in Session.connect
           // method is not recognized as 'PUBLIHSER' role by OpenVidu Server
-          if (this.isPublisher(userName)) {
+          if (this.isHost) {
 
             // --- 6) Get your own camera stream ---
 
@@ -210,23 +240,25 @@ export class LivestreamComponent implements OnInit {
               resolution: '640x480',  // The resolution of your video
               frameRate: 30,			// The frame rate of your video
               insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-              mirror: false       	// Whether to mirror your local video or not
+              mirror: true       	// Whether to mirror your local video or not
             });
 
             // --- 7) Specify the actions when events take place in our publisher ---
 
             // When our HTML video has been added to DOM...
-            publisher.on('videoElementCreated', (event: any) => {
+            publisher.on('videoElementCreated', (event: VideoElementEvent) => {
               // Init the main video with ours and append our data
-              var userData = {
-                nickName: nickName,
-                userName: userName
-              };
-              this.initMainVideo(event.element, userData);
-              this.appendUserData(event.element, userData);
-              $(event.element).prop('muted', true); // Mute local video
+              // var userData = {
+              //   nickName: nickName,
+              //   userName: userName
+              // };
+              // this.initMainVideo(event.element, userData);
+              // this.appendUserData(event.element, userData);
+
+              event.element.muted = true // Mute local video
             });
 
+            this.recorder = this.OV.initLocalRecorder(publisher.stream);
 
             // --- 8) Publish your stream ---
 
@@ -234,7 +266,7 @@ export class LivestreamComponent implements OnInit {
 
           } else {
             console.warn('You don\'t have permissions to publish');
-            this.initMainVideoThumbnail(); // Show SUBSCRIBER message in main video
+            // this.initMainVideoThumbnail(); // Show SUBSCRIBER message in main video
           }
         })
         .catch(error => {
@@ -249,14 +281,11 @@ export class LivestreamComponent implements OnInit {
 
     // --- 9) Leave the session by calling 'disconnect' method over the Session object ---
 
-    this.session.disconnect();
+    this.session?.disconnect();
     this.session = null;
 
     // Removing all HTML elements with the user's nicknames
-    this.cleanSessionView();
-
-    $('#join').show();
-    $('#session').hide();
+    // this.cleanSessionView();
   }
 
   /* OPENVIDU METHODS */
@@ -350,44 +379,36 @@ export class LivestreamComponent implements OnInit {
 
 
   /* APPLICATION BROWSER METHODS */
-  @HostListener('window:onbeforeunload', ['$event'])
-  onUnloadHandeler() { // Gracefully leave session
-    if (this.session) {
-      this.removeUser();
-      this.leaveSession();
-    }
-    this.logOut();
+  ngOnDestroy() { // Gracefully leave session
+    this.leaveSession();
   }
 
   appendUserData(videoElement, connection) {
-    var clientData;// = 'CD ' + Math.floor(Math.random() * 100);
-    var serverData;// = 'SD ' + Math.floor(Math.random() * 100);
-    var nodeId;// = 'NI' + Math.floor(Math.random() * 100);
-    if (connection.nickName) { // Appending local video data
-      clientData = connection.nickName;
-      serverData = connection.userName;
-      nodeId = 'main-videodata';
-    } else {
-      try{
-      nodeId = connection.connectionId;
-      clientData =JSON.parse(connection.data.split('%/%')[0]).clientData;
-      serverData =JSON.parse(connection.data.split('%/%')[1]).serverData;
-    }catch(e){
-      console.error(e);
-    }
-    }
-    var dataNode = document.createElement('div');
-    dataNode.className = "data-node";
-    dataNode.id = "data-" + nodeId;
-    dataNode.innerHTML = "<p class='nickName'>" + clientData + "</p><p class='userName'>" + serverData + "</p>";
-    videoElement.parentNode.insertBefore(dataNode, videoElement.nextSibling);
-    this.addClickListener(videoElement, clientData, serverData);
+    // var clientData;// = 'CD ' + Math.floor(Math.random() * 100);
+    // var serverData;// = 'SD ' + Math.floor(Math.random() * 100);
+    // var nodeId;// = 'NI' + Math.floor(Math.random() * 100);
+    // if (connection.nickName) { // Appending local video data
+    //   clientData = connection.nickName;
+    //   serverData = connection.userName;
+    //   nodeId = 'main-videodata';
+    // } else {
+    //   nodeId = connection.connectionId;
+    //   clientData =JSON.parse(connection.data).clientData;
+    //   serverData =JSON.parse(connection.data).serverData;
+
+    // }
+    // var dataNode = document.createElement('div');
+    // dataNode.className = "data-node";
+    // dataNode.id = "data-" + nodeId;
+    // dataNode.innerHTML = "<p class='nickName'>" + clientData + "</p><p class='userName'>" + serverData + "</p>";
+    // videoElement.parentNode.insertBefore(dataNode, videoElement.nextSibling);
+    // this.addClickListener(videoElement, clientData, serverData);
   }
 
   removeUserData(connection) {
     var userNameRemoved = $("#data-" + connection.connectionId);
     if ($(userNameRemoved).find('p.userName').html() === $('#main-video p.userName').html()) {
-      this.cleanMainVideo(); // The participant focused in the main video has left
+      // this.cleanMainVideo(); // The participant focused in the main video has left
     }
     $("#data-" + connection.connectionId).remove();
   }
@@ -417,7 +438,7 @@ export class LivestreamComponent implements OnInit {
     });
   }
 
-  initMainVideo(videoElement, userData) {
+  initMainVideo(videoElement: HTMLVideoElement, userData) {
     (<HTMLVideoElement>$('#main-video video').get(0)).srcObject = videoElement.srcObject;
     $('#main-video p.nickName').html(userData.nickName);
     $('#main-video p.userName').html(userData.userName);
@@ -429,23 +450,27 @@ export class LivestreamComponent implements OnInit {
   }
 
   isPublisher(userName) {
-    return userName.includes('publisher');
+    return true;//userName.includes('publisher');
   }
 
   cleanSessionView() {
     this.removeAllUserData();
-    this.cleanMainVideo();
-    $('#main-video video').css("background", "");
   }
 
   //   /* APPLICATION BROWSER METHODS */
 
   getToken(callback) {
-    return this.createSession(this.sessionName).then((sessionId) => {
-      this.createToken(sessionId).then((token) => {
-        callback(token)
-      })
-    });
+    if (this.isHost) {
+      this.createSession(this.sessionName).then((sessionId) => {
+        this.createToken(sessionId).then((token) => {
+          callback(token)
+        })
+      });
+      return;
+    }
+    this.createToken(this.sessionName).then((token) => {
+      callback(token);
+    })
   }
 
   createSession(sessionId) {
@@ -512,8 +537,46 @@ export class LivestreamComponent implements OnInit {
     });
   }
 
+  isSessionExists(sessionId: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const body = JSON.stringify({});
+      const options = {
+        headers: new HttpHeaders({
+          Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET)
+        }),
+      };
+      return this.httpClient
+        .get(this.OPENVIDU_SERVER_URL + '/openvidu/api/sessions/' + sessionId, options)
+        .pipe(
+          catchError((error) => {
+            if (error.status == 404) {
+              resolve(false)
+            }
+            // reject(error);
+            return observableThrowError(error);
+          }),
+        )
+        .subscribe((response) => {
+          console.log(response);
+          resolve(true);
+        });
+    });
+  }
+
+
   sendMessage(message) {
     var so: SignalOptions = { type: 'chat', data: message }
     this.session.signal(so)
+  }
+  recording() {
+    if (this.toggle) {
+      this.recorder.record('video/webm;codecs=vp9');
+    } else {
+      this.recorder.stop().then(() => {
+        this.recorder.download()
+        // this.recorder.clean(); // they say its dismised
+      })
+    }
+    this.toggle = !this.toggle;
   }
 }
