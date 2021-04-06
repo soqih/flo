@@ -3,13 +3,13 @@
         <div class="welcome">
             <a>{{ this.db.me?.displayName || 'Welcome' }}</a>
             <!-- <a *ngIf="!signed">Sign in</a> -->
-            <img routerLink="/profile" class="profile" src="../../../assets/images/profile.svg" alt="">
+            <img routerLink="/profile" class="profile" src="/assets/images/profile.svg" alt="">
         </div>
         <div class="input-container">
-            <img class="inputImage" src="../../../assets/images/search.svg" alt="">
+            <img class="inputImage" src="/assets/images/search.svg" alt="">
             <input type=" search" name="" class="input" placeholder="Search" (keyup)="search($event)">
             <!-- <h1>test</h1> -->
-            <img class="inputImage filter" src="../../../assets/images/filter.svg" alt="">
+            <img class="inputImage filter" src="/assets/images/filter.svg" alt="">
         </div>
     </div>
 </div>

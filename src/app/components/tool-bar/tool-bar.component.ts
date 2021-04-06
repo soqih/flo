@@ -12,11 +12,25 @@ import { DB } from 'src/app/services/database/DB';
 export class ToolBarComponent implements OnInit {
 
   constructor(public db: DB, public dialog: MatDialog) { }
-  clicked:string ="home" ;
+  clicked: string = "home";
+  home = "home";
+  trend = "trend";
+  notification = "notification";
+  settings = "settings"
 
-  @Input() where:string;
+  @Input() where: string;
 
   ngOnInit(): void {
+    if (this.where === "home")
+      this.home = "homeClicked"
+    else if (this.where === "trend")
+      this.trend = "trendClicked"
+
+    else if (this.where === "notification")
+      this.notification = "notificationClicked"
+    else if (this.where === "settings")
+      this.settings = "settingsClicked"
+
     console.log(this.where)
   }
 
@@ -31,28 +45,11 @@ export class ToolBarComponent implements OnInit {
       console.log(result)
     })
   }
-  itemClicked(item){
+  itemClicked(item) {
     // console.log(item)
     this.clicked = item
-    // switch(item){
-    //   case (item === "home"): {
-    //     this.clicked = "home";
-    //     break
-    //   }
-    //   case (item === "trend"): {
-    //     this.clicked = "trend";
-    //     break
-    //   }
-    //   case (item === "notification"): {
-    //     this.clicked = "notification";
-    //     break
-    //   }
-    //   case (item === "settings"): {
-    //     this.clicked = "settings";
-    //     break
-    //   }
-    // }
     console.log(this.clicked)
   }
+
 
 }

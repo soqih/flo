@@ -161,10 +161,11 @@ export class AuthService {
       emailVerified: user.emailVerified,
       username: signUpFormData.username,
       followingUsers: [],
-      followersUsers:  [],
-      blockingUsers:  [],
-      blockedFromUsers:  [],
-      livestreams:[]
+      followersUsers: [],
+      blockingUsers: [],
+      blockedFromUsers: [],
+      livestreams: [],
+      notifications: [],
     }
     return userRef.set(userData, {
       merge: true

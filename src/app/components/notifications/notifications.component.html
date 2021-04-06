@@ -1,0 +1,25 @@
+<div class="top">
+    <span class="Notifications">Notifications</span>
+</div>
+<hr />
+
+<div class="notificationContainer" *ngFor="let notification of notifications">
+    <div class="notification">
+        <mat-icon color="primary">person</mat-icon>{{getUser(notification).displayName}} followed you
+    </div>
+    <div class="user">
+        <a>
+            <img [src]="getUser(notification).photoURL"
+                onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';" alt="Profile Photo">
+            <div class="name">
+                <span>{{getUser(notification).displayName}}</span>
+                <span class="username">@{{getUser(notification).username}}</span>
+                <span class="bio">{{getUser(notification).bio}}</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+
+
+<app-tool-bar [where]="'notification'"></app-tool-bar>

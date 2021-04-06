@@ -11,6 +11,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.component';
 import { DBTestComponent } from './dbtest/dbtest.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerfiyEmailComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'notifications', component: NotificationsComponent },
   { path: 'r/:type', component: RegistrationComponent },
   { path: '**', redirectTo: '' }
 

@@ -66,9 +66,19 @@ export class AnotherProfileComponent implements OnInit {
       this.db.updateMyData({
         followingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid)
       })
+      //
+      if (this.followedMeBefore(this.anotherUser.notifications, this.db.me.uid)) {
+        this.db.updateUser(this.anotherUser.uid, {
+          followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
+        }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+        return
+      }
       this.db.updateUser(this.anotherUser.uid, {
-        followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
+        followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
+        notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me?.uid, isItLike: false, date: new Date().getTime() })
       }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+
+
     } else {
       console.log("unfollowing")
       this.db.updateMyData({
@@ -133,5 +143,26 @@ export class AnotherProfileComponent implements OnInit {
     console.log(this.db.me.blockedFromUsers?.includes(this.anotherUser.uid))
     return this.anotherUser.blockingUsers?.includes(this.db.me.uid);
   }
+  followedMeBefore(notifications, uid: string): boolean {
+    if (!notifications) {
+      return;
+    }
+    const now = new Date().getTime();
+    // 1 day in ms = 86400000
+    const threeDaysInMs = 86400000 * 1;
 
+    console.log(now)
+
+    for (var i = 0; i < notifications.length; i++) {
+      console.log(notifications[i].date)
+
+      if (notifications[i].uid === uid && notifications[i].isItLike === false && now - notifications[i].date < threeDaysInMs) {
+        return true;
+      }
+
+      return false;
+    }
+
+
+  }
 }

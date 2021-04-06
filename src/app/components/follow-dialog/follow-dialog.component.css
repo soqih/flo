@@ -17,8 +17,8 @@ img {
     height: 4em;
     width: 4em;
     margin-right: 15px;
-    /* border: 1px solid #F0A397;
-    border-radius: 50%; */
+    /* border: 1px solid #F0A397; */
+    border-radius: 50%;
 }
 span{
     font-size: 1.2rem;

@@ -29,9 +29,9 @@ import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.com
 import { SettingsComponent } from './components/settings/settings.component';
 import { AnotherProfileComponent } from './components/another-profile/another-profile.component';
 import { FollowDialogComponent } from './components/follow-dialog/follow-dialog.component';
-import { NotificationComponent } from './components/notification/notification.component';
 import { EditDialogComponent } from './components/profile/edit-dialog/edit-dialog.component';
 import { InitLivestreamDialogComponent } from './components/home/init-livestream-dialog/init-livestream-dialog.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -51,9 +51,9 @@ import { InitLivestreamDialogComponent } from './components/home/init-livestream
     SettingsComponent,
     AnotherProfileComponent,
     FollowDialogComponent,
-    NotificationComponent,
     EditDialogComponent,
     InitLivestreamDialogComponent,
+    NotificationsComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [

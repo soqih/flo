@@ -1,7 +1,7 @@
 <div *ngIf="!this.anotherUser.blockingUsers?.includes(this.db.me?.uid); else blocked">
     <div class="topPart">
         <div class="topOptions">
-            <img routerLink="/home" class="arrow" src="../../../assets/images/arrow.svg" alt="">
+            <img routerLink="/home" class="arrow" src="/assets/images/arrow.svg" alt="">
         </div>
         <div class="topInfo">
             <div class="avatar"> <img class="avatar" [src]="anotherUser?.photoURL"
@@ -22,10 +22,9 @@
                     {{anotherUser?.followersUsers?.length || 0}} Followers</div>
             </div>
             <div *ngIf="this.db.me" class="follow">
-                <button class="btn" id="btn1"
-                    (click)="followUnfollow()" [disabled] = "isBlocked()">
+                <button class="btn" id="btn1" (click)="followUnfollow()" [disabled]="isBlocked()">
                     {{db.me.followingUsers?.includes(anotherUser.uid) ?
-                    'Unfollow' : 'Follow'}}  </button>
+                    'Unfollow' : 'Follow'}} </button>
                 <button class="btn" id="btn2" (click)="blockUnblock()">{{db.me.blockingUsers?.includes(anotherUser.uid)
                     ?
                     'Unblock' : 'Block'}}</button>
@@ -42,7 +41,7 @@
 <ng-template #blocked>
     <div class="topPart">
         <div class="topOptions">
-            <img routerLink="/home" class="arrow" src="../../../assets/images/arrow.svg" alt="">
+            <img routerLink="/home" class="arrow" src="/assets/images/arrow.svg" alt="">
         </div>
         <div class="topInfo">
             <div class="avatar"> <img class="avatar" src="/assets/images/logoWhite.svg" alt="Profile Photo"></div>
