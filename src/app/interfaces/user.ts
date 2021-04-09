@@ -1,7 +1,9 @@
-class notification {
+export interface notification {
     uid: string;
     isItLike: boolean;
-    date: Date;
+    date: number;
+    hasSeen:boolean;
+    lid?:string;
 }
 export interface User {
     uid: string;

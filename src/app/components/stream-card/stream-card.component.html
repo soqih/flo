@@ -15,22 +15,26 @@
 
 </div> -->
 
-
-<mat-card class="example-card">
+<!-- " -->
+<mat-card class="example-card" (click)="navgateTo(livestreamURL,$event)">
     <!-- <img [src]="db.me.photoURL" mat-card-image> -->
 
-    <mat-card-header>
-        <div class="titles">
-            <mat-card-title class="title">{{name}}</mat-card-title>
-            <mat-card-subtitle class="subtitle" [routerLink]="userlink">@{{username}}
-            </mat-card-subtitle>
+    <!-- <mat-card-header> -->
+    <div class="titles">
 
-        </div>
-        <!-- <a *ngIf="!signed">Sign in</a> -->
-
+        <mat-card-title class="title">{{title}}</mat-card-title>
         <mat-icon *ngIf="inProfile" class="settings">delete</mat-icon>
 
-    </mat-card-header>
+        <div class="names">
+            <div class="name">{{name}}</div>
+            <div class="username" (click)="navgateTo(userlink,$event)">@{{username}}</div>
+
+        </div>
+    </div>
+    <!-- <a *ngIf="!signed">Sign in</a> -->
+
+
+    <!-- </mat-card-header> -->
 
     <!-- Livestream photo (square need full size )   OR    Avtar photo (circle) ?  ((SIZE!!))-->
     <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';">
@@ -38,28 +42,48 @@
 
     <!-- <img [src]="db.me.photoURL" alt=""> -->
     <!-- <mat-icon class="mat-avatar">person</mat-icon> -->
-    <mat-card-content class="content">
+    <!-- <mat-card-content class="content" >
+
         <p>
             {{title}}
         </p>
-    </mat-card-content>
+    </mat-card-content> -->
 
     <mat-card-content class="view">
-        <mat-icon>remove_red_eye</mat-icon>
-        <span class="views">
-            {{views}}
-        </span>
+        <div class="views">
+            <mat-icon>remove_red_eye</mat-icon>
+            <span>
+                {{views}}
+            </span>
+        </div>
+
+
+        <div class="likeDislike">
+            <div class="like" (click)="like($event)">
+                <mat-icon>{{likeState}}</mat-icon>
+                <span class="likes">
+                    {{this.livestream.likes.length}}
+                </span>
+            </div>
+            <div class="dislike" (click)="dislike($event)">
+                <mat-icon>{{dislikeState}}</mat-icon>
+                <span class="dislikes">
+                    {{this.livestream.dislikes.length}}
+                </span>
+            </div>
+        </div>
+
+
     </mat-card-content>
 
-    <mat-card-actions class="actions">
+    <!-- <mat-card-actions class="actions">
         <div class="like" (click)="like()">
             <mat-icon>{{likeState}}</mat-icon>
             <span class="likes">
                 {{this.livestream.likes.length}}
             </span>
         </div>
-        <!-- <p> -->
-        <!-- <mat-icon>thumb_up_off_alt</mat-icon> -->
+        
 
         <div class="dislike" (click)="dislike()">
             <mat-icon>{{dislikeState}}</mat-icon>
@@ -68,9 +92,8 @@
             </span>
         </div>
 
-        <!-- <mat-icon>thumb_down</mat-icon> -->
-        <!-- </p> -->
+        
 
-    </mat-card-actions>
+    </mat-card-actions> -->
 
 </mat-card>

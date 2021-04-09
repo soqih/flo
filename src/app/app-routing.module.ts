@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'u/:username', component: AnotherProfileComponent },
   { path: 'start', component: InitLiveComponent },
-  { path: 'session/:sessionID', component: LivestreamComponent },
+  { path: 'session/:lid', component: LivestreamComponent },
   { path: 'db', component: DBTestComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerfiyEmailComponent },

@@ -18,6 +18,7 @@ export class ToolBarComponent implements OnInit {
   notification = "notification";
   settings = "settings"
 
+
   @Input() where: string;
 
   ngOnInit(): void {
@@ -50,6 +51,5 @@ export class ToolBarComponent implements OnInit {
     this.clicked = item
     console.log(this.clicked)
   }
-
 
 }

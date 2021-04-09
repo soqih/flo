@@ -21,28 +21,8 @@ import { DB } from 'src/app/services/database/DB';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-
-  // @Input() signed: boolean;
-  // navbarOpen = false;
-  // navbar;
-  // sticky;
-
-  // toggleNavbar() {
-  //   this.navbarOpen = !this.navbarOpen;
-  // }
   constructor(private route: Router, public authService: AuthService, public db: DB) { }
-
-  livestreamsList: Livestream[] = [];
-
   ngOnInit(): void {
-    this.db.livestreamsCollection.forEach((l) => {
-      this.livestreamsList.push(l)
-    })
-    // this.route.routeReuseStrategy.shouldReuseRoute = () => false
   }
-
-
-
-
 }
+

@@ -1,54 +1,35 @@
 <div class="toolbar">
-  <!-- <img class="logo" src="/assets/images/logoWhite.svg" alt=""> -->
-  <!-- <div class="flexItems"> -->
+
   <div class="flexItem" routerLink="/home" (click)="itemClicked('home')">
+    <div class="imgContainer">
     <img src="/assets/images/{{home}}.svg" alt="">
+    </div>
     <span class="navButtonText">Home</span>
-    <!-- "/assets/images/home.svg" -->
   </div>
+
   <div class="flexItem" (click)="itemClicked('trend')">
+    <div class="imgContainer">
     <img src="/assets/images/{{trend}}.svg" alt="">
+    </div>
     <span class="navButtonText">Trending</span>
   </div>
-  <!-- "/assets/images/trend.svg" -->
+
   <div *ngIf="this.db.me" class="plus" (click)="openDialog()">
     <img src="/assets/images/plus.svg" alt="">
   </div>
-  <div class="flexItem" routerLink='/notifications' (click)="itemClicked('notification')">
-    <img src="/assets/images/{{notification}}.svg" alt="">
+
+  <div  class="flexItem" routerLink='/notifications' (click)="itemClicked('notification')">
+    <div [matBadge]="db.myUnseenNotifications().length" class="imgContainer" [matBadgeHidden]="db.myUnseenNotifications().length==0" >
+      <img  src="/assets/images/{{notification}}.svg" alt="" >
+    </div>
     <span class="navButtonText">Notification</span>
   </div>
+
   <div class="flexItem" routerLink='/settings' (click)="itemClicked('settings')">
+    <div class="imgContainer">
     <img src="/assets/images/{{settings}}.svg" alt="">
+    </div>
     <span class="navButtonText">Settings</span>
   </div>
-  <!-- </div> -->
+
 </div>
-<!-- <mat-tab-group>
-  <mat-tab>
-
-    <ng-template mat-tab-label>
-      <mat-icon class="example-tab-icon">thumb_up</mat-icon>
-      First
-    </ng-template>
-
-    Content 1
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <mat-icon class="example-tab-icon">thumb_up</mat-icon>
-      Second
-    </ng-template>
-    Content 2
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <mat-icon class="example-tab-icon">thumb_up</mat-icon>
-      Third
-    </ng-template>
-
-    Content 3
-  </mat-tab>
-</mat-tab-group> -->

@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/interfaces/User';
+import { notification, User } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { FollowDialogComponent } from '../follow-dialog/follow-dialog.component';
 import { Observable } from 'rxjs';
 import firebase from 'firebase';
-import { ThrowStmt } from '@angular/compiler';
 import { Router } from "@angular/router";
 import { Livestream } from 'src/app/interfaces/livestream';
-import { exit } from 'process';
+
 
 
 
@@ -71,8 +70,10 @@ export class AnotherProfileComponent implements OnInit {
         this.db.updateUser(this.anotherUser.uid, {
           followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
         }).then(() => { this.anotherUser = this.db.getUser(this.params); })
-        return
+        return;
       }
+
+      var notification: notification = { uid: this.db.me?.uid, isItLike: false, date: new Date().getTime(), hasSeen: false };
       this.db.updateUser(this.anotherUser.uid, {
         followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
         notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me?.uid, isItLike: false, date: new Date().getTime() })
@@ -143,7 +144,7 @@ export class AnotherProfileComponent implements OnInit {
     console.log(this.db.me.blockedFromUsers?.includes(this.anotherUser.uid))
     return this.anotherUser.blockingUsers?.includes(this.db.me.uid);
   }
-  followedMeBefore(notifications, uid: string): boolean {
+  followedMeBefore(notifications: notification[], uid: string): boolean {
     if (!notifications) {
       return;
     }
@@ -152,17 +153,16 @@ export class AnotherProfileComponent implements OnInit {
     const threeDaysInMs = 86400000 * 1;
 
     console.log(now)
+    // if (notifications.filter((n) => n.uid === uid && n.isItLike === false).some((n) => now - n.date < threeDaysInMs)) {
+    //   return true;
+    // }
 
     for (var i = 0; i < notifications.length; i++) {
       console.log(notifications[i].date)
-
       if (notifications[i].uid === uid && notifications[i].isItLike === false && now - notifications[i].date < threeDaysInMs) {
         return true;
       }
-
-      return false;
     }
-
-
+    return false;
   }
 }

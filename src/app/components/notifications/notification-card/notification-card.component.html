@@ -1,0 +1,16 @@
+<div class="notificationContainer">
+    <div class="notification">
+        <mat-icon color="primary">{{notification.isItLike?'thumb_up':'person'}}</mat-icon>{{user.displayName}} {{text}}
+    </div>
+    <div class="user">
+        <a>
+            <img [src]="user.photoURL"
+                onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';" alt="Profile Photo">
+            <div class="name">
+                <span>{{user.displayName}}</span>
+                <span class="username">@{{user.username}}</span>
+                <span class="bio">{{user.bio}}</span>
+            </div>
+        </a>
+    </div>
+</div>

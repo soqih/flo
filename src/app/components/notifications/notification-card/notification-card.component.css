@@ -1,0 +1,60 @@
+.notification{
+    display: flex;
+}
+.Notifications{
+    font-size: 2rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* span{
+    font-size: 1.2rem;
+    color: black;
+} */
+.name{
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+}
+.username{
+    color: gray;
+    font-size: 0.8rem;
+
+}
+.bio{
+    font-size: 1rem;
+    margin-top: 3px;
+
+}
+img {
+    height: 4em;
+    width: 4em;
+    margin-right: 15px;
+    /* border: 1px solid #F0A397;
+    border-radius: 50%; */
+}
+a {
+    text-decoration: none;
+    color:black;
+    font-size: 1em;
+    outline: none;
+    display: flex;
+    /* background-color: rebeccapurple; */
+    width: fit-content;
+}
+.notificationContainer{
+    border-bottom: 1px solid #9A9A9A;
+    padding: 0.5rem;
+    /* background-color: blue; */
+}
+.user{
+    margin-top: 5px;
+    border: 2px solid whitesmoke;
+    border-radius: 0.7rem;
+    padding: 0.6rem;
+    cursor: pointer;
+}
+a img {
+    border-radius: 50%;
+    border: 1px solid whitesmoke;
+}

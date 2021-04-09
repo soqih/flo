@@ -32,6 +32,7 @@ import { FollowDialogComponent } from './components/follow-dialog/follow-dialog.
 import { EditDialogComponent } from './components/profile/edit-dialog/edit-dialog.component';
 import { InitLivestreamDialogComponent } from './components/home/init-livestream-dialog/init-livestream-dialog.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationCardComponent } from './components/notifications/notification-card/notification-card.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     EditDialogComponent,
     InitLivestreamDialogComponent,
     NotificationsComponent,
+    NotificationCardComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [

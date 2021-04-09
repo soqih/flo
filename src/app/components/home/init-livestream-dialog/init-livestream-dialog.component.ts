@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DB } from 'src/app/services/database/DB';
 import { Livestream } from '../../../interfaces/livestream';
+import { LivestreamComponent } from '../../livestream/livestream.component';
 
 interface User {
   selected: boolean;
@@ -43,7 +44,7 @@ export class InitLivestreamDialogComponent implements OnInit {
     { selected: false, value: 'user-3', viewValue: "user3" },
   ]
 
-  constructor(private fb: FormBuilder, public db: DB) { }
+  constructor(private fb: FormBuilder, public db: DB,/* private OV: LivestreamComponent*/) { }
 
   ngOnInit(): void {
     //  console.log(this.userform.value)
@@ -60,20 +61,23 @@ export class InitLivestreamDialogComponent implements OnInit {
   }
 
   startLivestream() {
-    var livestream: Livestream = {
-      lid: null,
-      title: this.formData.title,
-      views: 0,
-      likes: [],
-      dislikes: [],
-      isActive: true,
-      isPrivate: this.formData.private,
-      saveStream: this.formData.saveStream,
-      host: this.db.me.uid,
-      photoURL: this.db.me.photoURL,
-    }
+   // this.OV.createSession(undefined).then((sessionID: string) => {
+      var livestream: Livestream = {
+        lid: null,
+        title: this.formData.title,
+        views: 0,
+        likes: [],
+        dislikes: [],
+        isActive: true,
+        isPrivate: this.formData.private,
+        saveStream: this.formData.saveStream,
+        host: this.db.me.uid,
+        photoURL: this.db.me.photoURL,
+      //  sessionID:sessionID
+      }
+      this.db.saveLivestream(livestream);
+  //  })
 
-    this.db.saveLivestream(livestream);
   }
 
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { Router } from "@angular/router";
-import { User } from 'src/app/interfaces/User';
+import { notification, User } from 'src/app/interfaces/User';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { Livestream } from 'src/app/interfaces/livestream';
@@ -17,8 +17,6 @@ export class DB {
         public afAuth: AngularFireAuth,
         public storage: AngularFireStorage,
     ) {
-
-        // this.fetchCollection();
         this.afs.collection<User>('users')
             .valueChanges()
             .subscribe((d) => {
@@ -35,27 +33,6 @@ export class DB {
     usersCollection: Map<string, User>;
     livestreamsCollection: Map<string, Livestream>
 
-    // fetchCollection(): Promise<void> {
-    //     return new Promise<void>((resolve, reject) => {
-    //         if (this.usersCollection != null) {
-    //             // console.log("its not null")
-    //             resolve()
-    //         } else {
-    //             // console.log("its null")
-    //             this.afs.collection<User>('users')
-    //                 // .get()
-    //                 .valueChanges()
-    //                 .subscribe((d) => {
-    //                     // console.log("data changed")
-    //                     // this.usersCollection = new Map(d.docs.map(i => [i.data().uid, i.data()]));
-    //                     this.usersCollection = new Map(d.map(i => [i.uid, i]));
-    //                     // console.log(this.usersCollection)
-    //                     resolve()
-    //                 })
-    //         }
-    //     })
-    // }
-
     getMyData(): User {
         return this.me;
     }
@@ -65,44 +42,7 @@ export class DB {
     getLivestream(lid: string): Livestream {
         return this.livestreamsCollection.get(lid);
     }
-    getUser2(uid: string): User {
-        return this.usersCollection.get(uid);
-    }
 
-    // async getUser(uid: string): Promise<User> {
-    //     await this.fetchCollection();
-    //     return new Promise<User>((resolve, reject) => {
-    //         let u: User;
-    //         if (this.usersCollection) u = this.usersCollection.get(uid)
-    //         resolve(u)
-    //     })
-    // }
-
-    // async getUser2(uid: string): Promise<User> {
-    //     return new Promise<User>((resolve, reject) => {
-    //         this.afs.doc<User>(`users/${uid}`)
-    //             .get()
-    //             .subscribe((d) => {
-    //                 resolve(d.data())
-    //             })
-    //     })
-    // }
-
-    // getUser(uid:string) : Promise<User>{
-    //        return new Promise<User>((resolve,reject)=>{
-    //         if (this.usersCollection)
-    //         resolve(this.usersCollection
-    //             .get(uid),)
-    //     })
-    // }
-
-    //     if(this.usersCollection){
-    //         console.log(this.usersCollection.get(uid));
-    //     return this.usersCollection.get(uid);
-    // } else {
-    //     console.log("not found")
-    // }
-    // }
     updateMyData(updatedData: object) {
         return this.updateUser(this.me.uid, updatedData);
     }
@@ -142,4 +82,10 @@ export class DB {
     updateLivestream(lid: string, updatedData: object) {
         return this.afs.doc<User>(`livestreams/${lid}`).update(updatedData);
     }
+     myNotifications(): notification[] {
+        return this.me.notifications;
+      }
+      myUnseenNotifications():notification[]{
+        return this.me.notifications.filter((n)=>!n.hasSeen)
+      }
 }

@@ -2,10 +2,7 @@
 <app-top-navbar></app-top-navbar>
 
 <div class="content">
-
-
-
-    <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]="livestream">
+    <app-stream-card *ngFor="let livestream of this.db.livestreamsCollection | keyvalue" [livestream]="livestream.value">
     </app-stream-card>
 
 </div>

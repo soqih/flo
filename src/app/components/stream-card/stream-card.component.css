@@ -83,9 +83,21 @@
 
 .title {
     font-size: 1.4rem;
-    margin: 0.2rem;
+    font-weight: 700;
+    /* margin: 0.2rem; */
 }
-
+.names{
+display: flex;
+margin-bottom: 5px;
+}
+.name{
+    font-size:1.2rem;
+    margin-right: 8px;
+}
+.username{
+    font-size: 0.8rem;
+    color: gainsboro
+}
 
 /* .cardContainer{
     display: flex;
@@ -109,14 +121,9 @@
     color: gray;
 }
 
-.name {
-    font-size: 1rem;
-}
 
-.username {
-    color: white;
-    font-size: 1rem;
-}
+
+
 
 .mat-avatar {
     color: #ad6975;
@@ -128,26 +135,49 @@
     background-color: #efa297;
 }
 .avatar {
-    height: 7.5rem;
-    width: 7.5rem;
+    height: 12.5rem;
+    width: 12.5rem;
+    /* width:100%; */
     background: #F0A397;
-    border-radius: 50%;
+    object-fit: cover;
+    border-radius: 0.6rem;
     /* padding: 0.05rem 0.05rem; */
 
     margin-bottom: 0.5rem;
 }
 .content {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin: 0.25rem 0;
     margin-top: 0.25rem;
+/*     
+    text-overflow: ellipsis;
+    overflow: hidden; */
 }
 
 .view {
     font-size: 1rem;
     margin: 0.3rem auto;
     margin-bottom: 0;
+    display: flex;
+    /* background-color: red; */
+    width: 100%;
+    align-content: center;
+    justify-content: space-between;
+    padding: 0 1rem;
 }
-
+.likeDislike{
+    display: flex;
+    /* background-color: green; */
+}
+.views{
+    /* background-color: yellow; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.views span{
+    margin-left: 5px;
+}
 mat-icon {
     vertical-align: middle;
 }
@@ -163,18 +193,17 @@ mat-icon {
 .subtitle {
     font-size: 1.1rem;
 }
-mat-card-header{
-    /* background-color: red; */
-    width: 100%;
-    display: flex;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    /* justify-content: space-between; */
-}
+
+
+
 .titles{
     /* background-color: gray; */
-    margin-right: auto;
+    /* margin-right: auto; */
+    width: inherit;
+    padding: 0 10px;
 }
 .settings:hover{
     color:grey
 }
+
+/* text-overflow: ellipsis; */

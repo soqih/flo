@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import firebase from 'firebase/app';
 import { Livestream } from 'src/app/interfaces/livestream';
-import { User } from 'src/app/interfaces/User';
+import { User, notification } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stream-card',
@@ -40,14 +41,15 @@ export class StreamCardComponent implements OnInit {
   likeState: string;
   dislikeState: string;
 
-  userlink: string = '';
+  userlink: string;
+  livestreamURL: string;
 
 
   @Input() inProfile: boolean = false;
 
 
 
-  constructor(public db: DB) { }
+  constructor(public db: DB, public router: Router) { }
 
   ngOnInit(): void {
     this.user = this.db.getUser(this.livestream.host)
@@ -59,6 +61,7 @@ export class StreamCardComponent implements OnInit {
     this.likes = this.livestream.likes.length;
     this.dislikes = this.livestream.dislikes.length;
     this.userlink = this.db.me?.uid == this.user.uid ? '/profile' : '/u/' + this.user.uid;
+    this.livestreamURL = '/session/' + this.livestream.lid
 
     this.liked = this.livestream.likes?.includes(this.db.me?.uid) || false
     this.disliked = this.livestream.dislikes?.includes(this.db.me?.uid) || false
@@ -66,14 +69,17 @@ export class StreamCardComponent implements OnInit {
     this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
     this.dislikeState = this.disliked ? 'thumb_down' : 'thumb_down_off_alt';
 
+
   }
 
 
 
-  like() {
+  like(event: Event) {
+    event.stopPropagation();
     if (this.db?.me == undefined) {
       return
     }
+
     if (this.liked) {
       this.liked = false;
       this.likeState = "thumb_up_off_alt";
@@ -97,9 +103,14 @@ export class StreamCardComponent implements OnInit {
     this.db.updateLivestream(this.livestream.lid, {
       likes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
     }).then(() => { this.updateLivestream() })
+    this.db.updateUser(this.user.uid, {
+      notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid })
+    })
+    // var x: notification = { uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid }
   }
 
-  dislike() {
+  dislike(event: Event) {
+    event.stopPropagation();
     if (this.db?.me == undefined) {
       return
     }
@@ -129,6 +140,10 @@ export class StreamCardComponent implements OnInit {
   }
   updateLivestream() {
     this.livestream = this.db.getLivestream(this.livestream.lid);
+  }
+  navgateTo(url: string, event: Event) {
+    event.stopPropagation();
+    this.router.navigate([url])
   }
 
 }
