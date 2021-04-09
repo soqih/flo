@@ -56,7 +56,13 @@ export class StreamCardComponent implements OnInit {
     this.username = this.user?.username;
     this.name = this.user?.displayName;
     this.photoURL = this.livestream.photoURL; // **!!  HTML AVATAR NOTE  !!**
-    this.title = this.livestream.title;
+    // if(this.livestream.title.length>20){
+    //   this.title = this.livestream.title.substring(0, 19) + "...";
+    // }
+    // else{
+      this.title = this.livestream.title;
+    // }
+    // this.title = this.livestream.title;
     this.views = this.livestream.views;
     this.likes = this.livestream.likes.length;
     this.dislikes = this.livestream.dislikes.length;

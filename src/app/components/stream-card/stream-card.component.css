@@ -75,6 +75,7 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     margin: 1rem;
+    padding: 0.5rem;
 }
 
 .example-card:hover {
@@ -82,9 +83,11 @@
 }
 
 .title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    /* margin: 0.2rem; */
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .names{
 display: flex;
@@ -95,7 +98,7 @@ margin-bottom: 5px;
     margin-right: 8px;
 }
 .username{
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: gainsboro
 }
 
@@ -125,7 +128,7 @@ margin-bottom: 5px;
 
 
 
-.mat-avatar {
+/* .mat-avatar {
     color: #ad6975;
     font-size: 8rem;
     height: auto;
@@ -133,17 +136,17 @@ margin-bottom: 5px;
     border-radius: 50%;
     padding: 0.05rem 0.05rem;
     background-color: #efa297;
-}
+} */
 .avatar {
-    height: 12.5rem;
-    width: 12.5rem;
-    /* width:100%; */
+    height: 11rem;
+    /* width: 15rem; */
+    width:inherit;
     background: #F0A397;
     object-fit: cover;
-    border-radius: 0.6rem;
+    /* border-radius: 0.4rem; */
     /* padding: 0.05rem 0.05rem; */
 
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
 }
 .content {
     font-size: 1.3rem;
@@ -156,13 +159,14 @@ margin-bottom: 5px;
 
 .view {
     font-size: 1rem;
-    margin: 0.3rem auto;
+    /* margin: 0.3rem auto; */
     margin-bottom: 0;
     display: flex;
+    flex-direction: column;
     /* background-color: red; */
     width: 100%;
-    align-content: center;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     padding: 0 1rem;
 }
 .likeDislike{
@@ -174,6 +178,7 @@ margin-bottom: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 5px;
 }
 .views span{
     margin-left: 5px;
@@ -201,6 +206,7 @@ mat-icon {
     /* margin-right: auto; */
     width: inherit;
     padding: 0 10px;
+    margin-bottom: 5px;
 }
 .settings:hover{
     color:grey
