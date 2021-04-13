@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalRecorder, OpenVidu, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent } from 'openvidu-angular';
 import { throwError as observableThrowError } from 'rxjs';
@@ -14,7 +14,9 @@ import { DB } from 'src/app/services/database/DB';
 })
 
 export class LivestreamComponent implements OnInit, OnDestroy {
-  OPENVIDU_SERVER_URL = 'https://' + '192.168.100.184' + ':4443';
+  // @ViewChild("msg") msg: ElementRef;
+
+  OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
   OPENVIDU_SERVER_SECRET = 'MY_SECRET';
   isHost: boolean;
   recorder: LocalRecorder;
@@ -22,11 +24,18 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   chat: string[] = [];
   lid: string;
   livestream: Livestream;
+  resolution: string;
+  width: number;
+  height: number;
+  /*@ViewChild('vid') */publisherVideoElement: HTMLVideoElement;
+
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private db: DB,) { }
+
+
   OV: OpenVidu;
   session: Session;
 
@@ -49,6 +58,27 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   }
   // Token retrieved from OpenVidu Server
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    
+    this.width = event.target.innerWidth
+    if(!this.publisherVideoElement){
+      return;
+    }
+    if (window.screen.width > window.screen.height) {
+      this.publisherVideoElement.height = event.target.innerHeight;
+      this.publisherVideoElement.width =(4.0 / 3.0) * this.publisherVideoElement.height;
+      
+    } else {
+      this.publisherVideoElement.width = event.target.innerWidth;
+      this.publisherVideoElement.height =0.75 * this.publisherVideoElement.width;
+    }
+    console.log("height: " + event.target.innerHeight);
+    console.log("width: " + event.target.innerWidth);
+
+  }
+
 
 
   /* OPENVIDU METHODS */
@@ -130,18 +160,27 @@ export class LivestreamComponent implements OnInit, OnDestroy {
               videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
               publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-              resolution: '640x480',  // The resolution of your video
+              // resolution: "640x480",
+              //this.resolution,  // The resolution of your video
               frameRate: 30,			// The frame rate of your video
               insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-              mirror: true       	// Whether to mirror your local video or not
+              mirror: true,       	// Whether to mirror your local video or not
             });
 
             // --- 7) Specify the actions when events take place in our publisher ---
 
             // When our HTML video has been added to DOM...
             publisher.on('videoElementCreated', (event: VideoElementEvent) => {
+              event.element.muted = true;// Mute local video
+              this.publisherVideoElement = event.element;
+              
+              if (window.screen.width > window.screen.height) {
+                this.publisherVideoElement.height = window.innerHeight;
+              } else {
+                this.publisherVideoElement.width = window.innerWidth;
+              }
 
-              event.element.muted = true // Mute local video
+              // event.element.controls = true;
             });
 
             this.recorder = this.OV.initLocalRecorder(publisher.stream);
@@ -306,8 +345,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   sendMessage(message) {
     var so: SignalOptions = { type: 'chat', data: message }
-
     this.session.signal(so)
+
+
   }
   recording() {
     if (this.toggle) {

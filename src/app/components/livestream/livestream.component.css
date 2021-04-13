@@ -1,0 +1,149 @@
+.container{
+    background: rgb(239,162,151);
+    background: linear-gradient(0deg, rgba(239,162,151,1) 0%, rgba(239,162,151,1) 18%, rgba(213,136,149,1) 100%);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding: 1rem; */
+
+}
+.stop{
+    background-color: #AC717B;
+    padding: 1rem;
+    margin: 1.3rem;
+    font-size: 1.5rem;
+    border-radius: 0.6rem;
+    color: white;
+    cursor: pointer;
+}
+.stop:hover{
+    opacity: 0.8;
+}
+#video-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 70%; */
+    /* border-radius: 2rem; */
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1rem;
+    scrollbar-width: none;
+
+}
+
+.chatContainer{
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+.chat{
+    /* background-color: goldenrod; */
+    width: 40%;
+    height: 30rem;
+    word-wrap: break-word;
+    opacity: 0.7;
+    /* margin: auto; */
+    /* width: inherit; */
+    overflow-y: auto;
+    scrollbar-width: none;
+    
+}
+.messageContainer{
+    background-color: #AC717B;
+    margin: 15px;
+    display: flex;
+    padding: 8px;
+    border-radius: 0.6rem;
+    color: white;
+}
+.messageContentRightSide{
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+}
+.sender{
+    font-size: 0.7rem;
+    color: gainsboro;
+}
+.message{
+    font-size: 1rem;
+    
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    -ms-word-break: break-all;
+    
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+  
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  
+
+}
+.senderAvatar{
+padding: 10px;
+/* background-color: red; */
+width: 3rem;
+/* height: 100%;
+width: ; */
+object-fit: contain;
+}
+.chatInput{
+
+
+/* width: 100%; */
+}
+
+input{
+    width: 70%;
+    height: 2rem;
+    background-color: #AC717B;
+    outline: none;
+    border: none;
+    padding: 15px;
+/* border-radius: 1rem; */
+
+}
+::placeholder {
+    color: white;
+    opacity: 1;
+    padding: 15px;
+}
+button{
+    width: 30%;
+    height: 2rem;
+    background-color: gray;
+    color: white;
+/* border-radius: 1rem; */
+    border: none;
+    cursor: pointer;
+
+}
+button:hover{
+    opacity: 0.8;
+    transition: 0.5s;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}

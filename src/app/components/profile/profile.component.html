@@ -52,6 +52,7 @@
 
     <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]="livestream" [inProfile]="true">
     </app-stream-card>
+    <img *ngIf="livestreamsList.length == 0" style="margin: auto; margin-top: 5rem;"  src="./assets/images/logo.svg">
 
     <!-- <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
     </app-stream-card>

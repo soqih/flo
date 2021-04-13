@@ -1,9 +1,17 @@
 <!-- <div class="cont"> -->
 <app-top-navbar></app-top-navbar>
 
-<div class="content">
-    <app-stream-card *ngFor="let livestream of this.db.livestreamsCollection | keyvalue" [livestream]="livestream.value">
-    </app-stream-card>
-
-</div>
+<!-- <div class="content"> -->
+    <div class="content" *ngIf="!this.db?.me">
+        <app-stream-card  *ngFor="let livestream of this.db.livestreamsCollection | keyvalue" [livestream]="livestream.value">
+        </app-stream-card>
+        <img *ngIf="!this.db.livestreamsCollection" style="margin-top: 5rem;"  src="./assets/images/logo.svg">
+    </div>
+    <div class="content" *ngIf="this.db?.me">
+        <app-stream-card  *ngFor="let livestream of livestreamsList | keyvalue" [livestream]="livestream.value">
+        </app-stream-card>
+        <img *ngIf="!this.db.livestreamsCollection" style="margin-top: 5rem;"  src="./assets/images/logo.svg">
+    </div>
+    
+<!-- </div> -->
 <app-tool-bar [where]="'home'"></app-tool-bar>
