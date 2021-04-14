@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalRecorder, OpenVidu, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent } from 'openvidu-angular';
+import { LocalRecorder, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent } from 'openvidu-angular';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Livestream } from 'src/app/interfaces/livestream';
@@ -15,7 +15,7 @@ import { DB } from 'src/app/services/database/DB';
 
 export class LivestreamComponent implements OnInit, OnDestroy {
   // @ViewChild("msg") msg: ElementRef;
-
+  counter: number = 0;
   OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
   OPENVIDU_SERVER_SECRET = 'MY_SECRET';
   isHost: boolean;
@@ -27,8 +27,11 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   resolution: string;
   width: number;
   height: number;
-  /*@ViewChild('vid') */publisherVideoElement: HTMLVideoElement;
-
+  isFrontCamera = true;
+  /*@ViewChild('vid') */
+  publisherVideoElement: HTMLVideoElement;
+  @ViewChild('chatContainer') chatContainer: ElementRef;
+  publisher: Publisher;
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
@@ -38,6 +41,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   OV: OpenVidu;
   session: Session;
+  cams: Device[];
 
   sessionName: string;	// Name of the video session the user will connect to
   token: string;
@@ -55,27 +59,29 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         this.createSession(this.sessionName).then(() => { this.joinSession() })
       }
     })
-
+    // this.chatStyle = {
+    // "width": this.publisherVideoElement.width * 0.1, 
+    // "height": this.publisherVideoElement.height * 0.1}
   }
   // Token retrieved from OpenVidu Server
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    
+
     this.width = event.target.innerWidth
-    if(!this.publisherVideoElement){
+    if (!this.publisherVideoElement) {
       return;
     }
     if (window.screen.width > window.screen.height) {
       this.publisherVideoElement.height = event.target.innerHeight;
-      this.publisherVideoElement.width =(4.0 / 3.0) * this.publisherVideoElement.height;
-      
+      this.publisherVideoElement.width = (4.0 / 3.0) * this.publisherVideoElement.height;
+
     } else {
       this.publisherVideoElement.width = event.target.innerWidth;
-      this.publisherVideoElement.height =0.75 * this.publisherVideoElement.width;
+      this.publisherVideoElement.height = 0.75 * this.publisherVideoElement.width;
     }
-    console.log("height: " + event.target.innerHeight);
-    console.log("width: " + event.target.innerWidth);
+    // console.log("height: " + event.target.innerHeight);
+    // console.log("width: " + event.target.innerWidth);
 
   }
 
@@ -93,6 +99,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
       this.OV = new OpenVidu();
       // --- 2) Init a session ---
+      this.OV.getDevices().then((devices) => {
+        this.cams = devices.filter((d) => d.kind == "videoinput")
+      })
 
       this.session = this.OV.initSession();
 
@@ -155,7 +164,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
             // --- 6) Get your own camera stream ---
 
-            var publisher = this.OV.initPublisher('video-container', {
+            this.publisher = this.OV.initPublisher('video-container', {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
@@ -170,10 +179,10 @@ export class LivestreamComponent implements OnInit, OnDestroy {
             // --- 7) Specify the actions when events take place in our publisher ---
 
             // When our HTML video has been added to DOM...
-            publisher.on('videoElementCreated', (event: VideoElementEvent) => {
+            this.publisher.on('videoElementCreated', (event: VideoElementEvent) => {
               event.element.muted = true;// Mute local video
               this.publisherVideoElement = event.element;
-              
+
               if (window.screen.width > window.screen.height) {
                 this.publisherVideoElement.height = window.innerHeight;
               } else {
@@ -183,11 +192,11 @@ export class LivestreamComponent implements OnInit, OnDestroy {
               // event.element.controls = true;
             });
 
-            this.recorder = this.OV.initLocalRecorder(publisher.stream);
+            this.recorder = this.OV.initLocalRecorder(this.publisher.stream);
 
             // --- 8) Publish your stream ---
 
-            this.session.publish(publisher);
+            this.session.publish(this.publisher);
 
           } else {
             console.warn('You don\'t have permissions to publish');
@@ -346,7 +355,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   sendMessage(message) {
     var so: SignalOptions = { type: 'chat', data: message }
     this.session.signal(so)
-
+    this.chatContainer.nativeElement.scrollBy(0, -10000)
 
   }
   recording() {
@@ -400,5 +409,37 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     }));
   }
 
-}
 
+  toggleCamera() {
+    this.OV.getDevices().then(devices => {
+      // Getting only the video devices
+      var videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+      if (videoDevices && videoDevices.length > 1) {
+
+        // Creating a new publisher with specific videoSource
+        // In mobile devices the default and first camera is the front one
+        // this.counter = (this.counter + 1) % videoDevices.length;
+
+        var newPublisher = this.OV.initPublisher('video-container', {
+          videoSource: videoDevices[this.counter].deviceId,
+          publishAudio: true,
+          publishVideo: true,
+          mirror: this.isFrontCamera // Setting mirror enable if front camera is selected
+        });
+
+        // Changing isFrontCamera value
+        this.isFrontCamera = !this.isFrontCamera;
+
+        // Unpublishing the old publisher
+        this.session.unpublish(this.publisher);
+
+        // Assigning the new publisher to our global variable 'publisher'
+        this.publisher = newPublisher;
+
+        // Publishing the new publisher
+        this.session.publish(this.publisher);
+      }
+    });
+  }
+}

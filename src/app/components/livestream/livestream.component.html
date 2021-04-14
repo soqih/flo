@@ -2,13 +2,15 @@
 	<div class="stop">
 Stop Livestream
 	</div>
+	<button (click)="toggleCamera()">switch</button>
 	
 	<div id="video-container">
 		
 		<div class="chatContainer">
-			<div class="chat">
+			<div #chatContainer class="chat">
 				<!-- {{chat.length}} -->
-				<div class="messageContainer" *ngFor="let message of chat.slice().reverse()">
+				
+				<div  class="messageContainer" *ngFor="let message of chat.slice().reverse()">
 
 					
 						<img class="senderAvatar" src="/assets/images/logo.svg" alt="">
@@ -20,13 +22,11 @@ Stop Livestream
 							{{message}}
 						</div> 
 					</div>
-					
-
 				</div>
 				
 			</div>
 			<div class="chatInput">	
-				<input type="text" #message placeholder="Say somthing..." maxlength="140">
+				<input type="text" #message placeholder="Say somthing..." maxlength="100">
 				<button (click)="sendMessage(message.value)">Send</button>
 			</div>
 		</div>
