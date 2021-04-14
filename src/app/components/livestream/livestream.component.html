@@ -1,5 +1,5 @@
 <div class="container" id="session" *ngIf="this.token">
-	<div class="stop">
+	<div class="stop" (click)="leaveSession()">
 Stop Livestream
 	</div>
 	<button (click)="toggleCamera()">switch</button>

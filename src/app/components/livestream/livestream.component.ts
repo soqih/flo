@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalRecorder, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent } from 'openvidu-angular';
+import { LocalRecorder, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent, PublisherProperties } from 'openvidu-angular';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Livestream } from 'src/app/interfaces/livestream';
@@ -409,37 +409,53 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     }));
   }
 
-
   toggleCamera() {
     this.OV.getDevices().then(devices => {
+      var pp:PublisherProperties;
       // Getting only the video devices
       var videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-      if (videoDevices && videoDevices.length > 1) {
-
-        // Creating a new publisher with specific videoSource
-        // In mobile devices the default and first camera is the front one
-        // this.counter = (this.counter + 1) % videoDevices.length;
-
-        var newPublisher = this.OV.initPublisher('video-container', {
+      var frontCam = videoDevices.find((d) => d.label.includes('front'));
+      var BackCam = videoDevices.find((d) => d.label.includes('back'));
+      if (frontCam && BackCam){
+        pp = {
+          videoSource: this.isFrontCamera? BackCam.deviceId:frontCam.deviceId,
+          publishAudio: true,
+          publishVideo: true,
+          mirror: !this.isFrontCamera // Setting mirror enable if front camera is selected
+        }
+      }else{
+        this.counter = (this.counter + 1) % videoDevices.length;
+        pp ={
           videoSource: videoDevices[this.counter].deviceId,
           publishAudio: true,
           publishVideo: true,
-          mirror: this.isFrontCamera // Setting mirror enable if front camera is selected
-        });
-
-        // Changing isFrontCamera value
-        this.isFrontCamera = !this.isFrontCamera;
-
-        // Unpublishing the old publisher
-        this.session.unpublish(this.publisher);
-
-        // Assigning the new publisher to our global variable 'publisher'
-        this.publisher = newPublisher;
-
-        // Publishing the new publisher
-        this.session.publish(this.publisher);
+          mirror: false,// Setting mirror enable if front camera is selected
+        }
       }
+
+
+
+
+        if (videoDevices && videoDevices.length > 1) {
+
+          // Creating a new publisher with specific videoSource
+          // In mobile devices the default and first camera is the front one
+          
+
+          var newPublisher = this.OV.initPublisher('video-container', pp);
+
+          // Changing isFrontCamera value
+          this.isFrontCamera = !this.isFrontCamera;
+
+          // Unpublishing the old publisher
+          this.session.unpublish(this.publisher);
+
+          // Assigning the new publisher to our global variable 'publisher'
+          this.publisher = newPublisher;
+
+          // Publishing the new publisher
+          this.session.publish(this.publisher);
+        }
     });
   }
 }
