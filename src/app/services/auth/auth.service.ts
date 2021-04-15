@@ -60,7 +60,6 @@ export class AuthService {
           this.db.me = user;
           this.isLoggedIn = true;
         });
-        localStorage.setItem('authUser', JSON.stringify(this.authUser));
       } else {
         if (this.userSubscription) {
           this.userSubscription.unsubscribe();
@@ -68,8 +67,7 @@ export class AuthService {
         this.isLoggedIn = false;
         this.authUser = null;
         this.db.me = null;
-        localStorage.setItem('authUser', null);
-
+        console.log('signed out');
       }
     })
 

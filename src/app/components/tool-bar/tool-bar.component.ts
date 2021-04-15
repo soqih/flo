@@ -39,7 +39,7 @@ export class ToolBarComponent implements OnInit {
     let dialogRef = this.dialog.open(InitLivestreamDialogComponent,
       {
         width: '400px',
-        height: '600px',
+        height: '500px',
 
       });
     dialogRef.afterClosed().subscribe(result => {

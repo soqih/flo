@@ -1,37 +1,25 @@
-<div class="container" id="session" *ngIf="this.token">
-	<div class="stop" (click)="leaveSession()">
-Stop Livestream
+<div class="container" id="session" >
+	<div class="stop" (click)="stopRecording()">
+		Stop Livestream
 	</div>
-	<button (click)="toggleCamera()">switch</button>
-	
+	<button *ngIf="isHost" (click)="toggleCamera()">switch</button>	
 	<div id="video-container">
-		
 		<div class="chatContainer">
 			<div #chatContainer class="chat">
-				<!-- {{chat.length}} -->
-				
-				<div  class="messageContainer" *ngFor="let message of chat.slice().reverse()">
-
-					
-						<img class="senderAvatar" src="/assets/images/logo.svg" alt="">
-					
-
+				<div class="messageContainer" *ngFor="let data of chat.slice().reverse()">
+						<img class="senderAvatar" [src]="data.photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';" alt="Sender Image">
 					<div class="messageContentRightSide">
-						<div class="sender">@abdullah</div>
+						<div class="sender">@{{data.username}}</div>
 						<div class="message" #msg id="ms">
-							{{message}}
+							{{data.message}}
 						</div> 
 					</div>
-				</div>
-				
+				</div>	
 			</div>
 			<div class="chatInput">	
-				<input type="text" #message placeholder="Say somthing..." maxlength="120">
-				<button (click)="sendMessage(message.value)">Send</button>
+				<input type="text" #message placeholder="Say somthing..." maxlength="120" value="">
+				<button [disabled]="message.value == '' " (click)="sendMessage(message.value);message.value=''">Send</button>
 			</div>
-		</div>
-		
+		</div>	
 	</div>
-
-	
 </div>

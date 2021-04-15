@@ -1,0 +1,9 @@
+<!-- <div class="cont"> -->
+    <app-top-navbar></app-top-navbar>
+
+    <div class="content">
+        <app-stream-card  *ngFor="let livestream of myLivestreams" [livestream]="livestream">
+        </app-stream-card>
+        <img *ngIf="!myLivestreams" style="margin-top: 5rem;"  src="./assets/images/logo.svg">
+    </div>
+    <app-tool-bar [where]="'trend'"></app-tool-bar>

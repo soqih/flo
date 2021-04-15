@@ -1,4 +1,7 @@
 <div class="settings">
+    <div (click)="openDialog()" class="blockedUsers" *ngIf="this.authService.isLoggedIn">
+        Blocked Users
+    </div>
     <button *ngIf="this.authService.isLoggedIn" class="btn" (click)="this.authService.SignOut()">Sign out</button>
     <button *ngIf="!this.authService.isLoggedIn" class="btn" routerLink="/r/signin">Sign In</button>
     <button *ngIf="!this.authService.isLoggedIn" class="btn" routerLink="/r/signup">Sign Up</button>

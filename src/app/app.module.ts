@@ -33,6 +33,10 @@ import { EditDialogComponent } from './components/profile/edit-dialog/edit-dialo
 import { InitLivestreamDialogComponent } from './components/home/init-livestream-dialog/init-livestream-dialog.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NotificationCardComponent } from './components/notifications/notification-card/notification-card.component';
+import { BlockedDialogComponent } from './components/blocked-dialog/blocked-dialog.component';
+import { TrendComponent } from './components/trend/trend.component';
+import { UnsignedUserViewComponent } from './components/unsigned-user-view/unsigned-user-view.component';
+import {AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -56,6 +60,9 @@ import { NotificationCardComponent } from './components/notifications/notificati
     InitLivestreamDialogComponent,
     NotificationsComponent,
     NotificationCardComponent,
+    BlockedDialogComponent,
+    TrendComponent,
+    UnsignedUserViewComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [
@@ -66,9 +73,10 @@ import { NotificationCardComponent } from './components/notifications/notificati
     OpenviduSessionModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
+    AngularFireStorageModule,
     AngularFirestoreModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService,/* { provide: BUCKET, useValue: 'my-bucket-name' }*/],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -82,10 +82,14 @@ export class DB {
     updateLivestream(lid: string, updatedData: object) {
         return this.afs.doc<User>(`livestreams/${lid}`).update(updatedData);
     }
+    deleteLivestream(lid: string){
+        return this.afs.doc<User>(`livestreams/${lid}`).delete();
+    }
+
      myNotifications(): notification[] {
         return this.me.notifications;
       }
       myUnseenNotifications():notification[]{
-        return this.me.notifications.filter((n)=>!n.hasSeen)
+        return this.me?.notifications.filter((n)=>!n.hasSeen)
       }
 }

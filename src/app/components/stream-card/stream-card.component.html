@@ -16,7 +16,8 @@
 </div> -->
 
 <!-- " -->
-<mat-card class="example-card" (click)="navgateTo(livestreamURL,$event)">
+<mat-card class="example-card" >
+    console.log("LID:",this.livestream.lid)
     <!-- <img [src]="db.me.photoURL" mat-card-image> -->
 
     <!-- <mat-card-header> -->
@@ -27,8 +28,8 @@
         <div class="names">
             <!-- <div class="name">{{name}}</div> -->
 
-            <div class="username" (click)="navgateTo(userlink,$event)">@{{username}}</div>
-            <mat-icon *ngIf="inProfile" class="settings">delete</mat-icon>
+            <div class="username" (click)="navgateToUser(userlink,$event)">@{{username}}</div>
+            <mat-icon (click)="deleteLivestream(this.livestream.lid)" *ngIf="inProfile" class="settings">delete</mat-icon>
 
         </div>
     </div>
@@ -38,7 +39,7 @@
     <!-- </mat-card-header> -->
 
     <!-- Livestream photo (square need full size )   OR    Avtar photo (circle) ?  ((SIZE!!))-->
-    <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';">
+    <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';" (click)="navgateToStream(livestreamURL,$event)">
 
 
     <!-- <img [src]="db.me.photoURL" alt=""> -->

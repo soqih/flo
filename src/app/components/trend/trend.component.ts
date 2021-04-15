@@ -19,12 +19,12 @@ import { DB } from 'src/app/services/database/DB';
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-trend',
+  templateUrl: './trend.component.html',
+  styleUrls: ['./trend.component.css']
 })
 
-export class HomeComponent implements OnInit {
+export class TrendComponent implements OnInit {
   
   // livestreamsList: Livestream[] = this.MyLivestreams;
   constructor(private route: Router, public authService: AuthService, public db: DB) { }
@@ -33,17 +33,13 @@ export class HomeComponent implements OnInit {
   
 
   get myLivestreams(): Livestream[] {
-    var livestreams = [];
-    var following: User[] = [];
-    this.db.me?.followingUsers.forEach((uid) => {
-      following.push(this.db.getUser(uid))
-    })
-    following?.forEach((user) => {
-      user?.livestreams.forEach((lid) => {
-        livestreams.push(this.db.getLivestream(lid))
-      });
-    })
-    return livestreams;
+    var livestreams:Livestream[] = [];
+    this.db.livestreamsCollection.forEach((value) => {
+      livestreams.push(value)
+    });
+    //sort
+    livestreams = livestreams.sort((a,b)=>b.views - a.views)
+    return livestreams ;
   }
 }
 

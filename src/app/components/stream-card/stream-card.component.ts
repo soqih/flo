@@ -147,11 +147,25 @@ export class StreamCardComponent implements OnInit {
   updateLivestream() {
     this.livestream = this.db.getLivestream(this.livestream.lid);
   }
-  navgateTo(url: string, event: Event) {
+  navgateToStream(url: string, event: Event) {
+    event.stopPropagation();
+    if(this.db?.me){
+      this.router.navigate([url])
+    } else{
+      this.router.navigate([""])
+    }
+  }
+
+  navgateToUser(url: string, event: Event) {
     event.stopPropagation();
     this.router.navigate([url])
   }
-
+   
+  
+  deleteLivestream(lid){
+      console.log(lid)
+         this.db.deleteLivestream(lid)
+  }
 }
 
 

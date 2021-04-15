@@ -12,10 +12,11 @@ import { VerfiyEmailComponent } from './components/verfiy-email/verfiy-email.com
 import { DBTestComponent } from './dbtest/dbtest.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotificationsComponent } from './components/notifications/notifications.component';
-
+import { TrendComponent } from './components/trend/trend.component';
 
 const routes: Routes = [
   { path: '', component: RegistrationComponent },
+  { path: 'trend', component: TrendComponent },
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'u/:username', component: AnotherProfileComponent },

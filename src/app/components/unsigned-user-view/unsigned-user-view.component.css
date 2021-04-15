@@ -1,0 +1,45 @@
+.container{
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    flex-direction: row;
+}
+h1 {
+color: #D98C95;
+}
+#btn1{
+    color:#D58895;
+    background-color: transparent;
+    border:solid 2px #D58895;
+}
+#btn1:hover{
+    border:solid 2px gray;
+    color: gray;
+    cursor: pointer;
+    
+}
+a{
+    text-decoration: none;
+    color: #D58895;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+a:hover{
+    color:gray
+}
+.btn{
+    width: 70%;
+    height: 3rem;
+    margin: 0.5rem 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    outline: none;
+    transition: 0.5s;
+}
+.btn:hover{
+    transition: 0.5s;
+}
+

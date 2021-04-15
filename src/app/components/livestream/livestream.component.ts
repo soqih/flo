@@ -1,18 +1,18 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalRecorder, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent, PublisherProperties } from 'openvidu-angular';
+import { LocalRecorder, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent, PublisherProperties, LocalRecorderState } from 'openvidu-angular';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Livestream } from 'src/app/interfaces/livestream';
 import { DB } from 'src/app/services/database/DB';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-livestream',
   templateUrl: './livestream.component.html',
   styleUrls: ['./livestream.component.css'],
 })
-
 export class LivestreamComponent implements OnInit, OnDestroy {
   // @ViewChild("msg") msg: ElementRef;
   counter: number = 0;
@@ -32,12 +32,17 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   publisherVideoElement: HTMLVideoElement;
   @ViewChild('chatContainer') chatContainer: ElementRef;
   publisher: Publisher;
+  connected: boolean;
+
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
-    private db: DB,) { }
+    private fireStorage: AngularFireStorage,
 
+    public db: DB,) {
+
+  }
 
   OV: OpenVidu;
   session: Session;
@@ -46,22 +51,21 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   sessionName: string;	// Name of the video session the user will connect to
   token: string;
   ngOnInit() {
+    console.log(this.connected)
+
     // this.isHost = this.db.getLivestream('B5aWNM3gkbHnyxMcULYq').host == this.db.me?.uid;
     this.lid = this.route.snapshot.params['lid'];
     this.livestream = this.db.getLivestream(this.lid)
     this.sessionName = this.livestream?.lid || 'livestream Not Found';
     this.isHost = this.db.me?.uid == this.livestream?.host;
-    console.log(this.livestream)
-    this.isSessionExists(this.sessionName).then((exists) => {
-      if (exists) {
-        this.joinSession();
-      } else {
-        this.createSession(this.sessionName).then(() => { this.joinSession() })
-      }
-    })
-    // this.chatStyle = {
-    // "width": this.publisherVideoElement.width * 0.1, 
-    // "height": this.publisherVideoElement.height * 0.1}
+    this.joinSession();
+    // this.isSessionExists(this.sessionName).then((exists) => {
+    //   if (exists) {
+    //     this.joinSession();
+    //   } else {
+    //     this.createSession(this.sessionName).then(() => { this.joinSession() })
+    //   }
+    // })
   }
   // Token retrieved from OpenVidu Server
 
@@ -85,8 +89,6 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   }
 
-
-
   /* OPENVIDU METHODS */
   isMyOwnConnection(connectionId: string): boolean {
     return connectionId == this.session.connection.connectionId
@@ -99,17 +101,14 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
       this.OV = new OpenVidu();
       // --- 2) Init a session ---
-      this.OV.getDevices().then((devices) => {
-        this.cams = devices.filter((d) => d.kind == "videoinput")
-      })
 
       this.session = this.OV.initSession();
 
       //chat // here add to chat
       this.session.on('signal:chat', (event: SignalEvent) => {
-        var message = event.data;
-        this.chat.push(message)
-        console.log(message)
+        var data = JSON.parse(event.data)
+        this.chat.push(data)
+        console.log(data)
       })
 
 
@@ -150,7 +149,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
       //        the client (in this case a JSON with the nickname chosen by the user) ---
       this.session.connect(this.token, this.db.me?.uid)
         .then(() => {
-
+          this.connected = true;
           // --- 5) Set page layout for active call ---
 
           $('#session-title').text(this.sessionName);
@@ -192,11 +191,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
               // event.element.controls = true;
             });
 
-            this.recorder = this.OV.initLocalRecorder(this.publisher.stream);
-
             // --- 8) Publish your stream ---
 
-            this.session.publish(this.publisher);
+            this.session.publish(this.publisher).then(() => { this.recording(); });
 
           } else {
             console.warn('You don\'t have permissions to publish');
@@ -211,7 +208,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   }
 
   leaveSession() {
-
+    // this.stopRecording()
     // --- 9) Leave the session by calling 'disconnect' method over the Session object ---
     // if (this.isHost) {
     //   this.removeSisson();
@@ -233,16 +230,16 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   getToken(callback) {
     // if (this.isHost) {
-    //   this.createSession(this.sessionName).then((sessionId) => {
-    //     this.createToken(sessionId).then((token) => {
-    //       callback(token)
-    //     })
-    //   });
+    this.createSession(this.sessionName).then((sessionId) => {
+      this.createToken(sessionId).then((token) => {
+        callback(token)
+      })
+    });
     //   return;
     // }
-    this.createToken(this.sessionName).then((token) => {
-      callback(token);
-    })
+    // this.createToken(this.sessionName).then((token) => {
+    //   callback(token);
+    // })
   }
 
   createSession(sessionId): Promise<string> {
@@ -353,22 +350,33 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
 
   sendMessage(message) {
-    var so: SignalOptions = { type: 'chat', data: message }
+    var so: SignalOptions = { type: 'chat', data: JSON.stringify({ message: message, username: this.db.me.username, photoURL: this.db.me.photoURL }) }
     this.session.signal(so)
-    this.chatContainer.nativeElement.scrollBy(0, -10000)
+    console.log(this.connected);
+  }
+
+  recording() {
+    this.recorder = this.OV.initLocalRecorder(this.publisher.stream);
+    this.recorder.record('video/webm;codecs=vp9')
 
   }
-  recording() {
-    if (this.toggle) {
-      this.recorder.record('video/webm;codecs=vp9');
-    } else {
+
+  stopRecording() {
+    if (this.recorder && this.recorder.state === LocalRecorderState.RECORDING) {
       this.recorder.stop().then(() => {
-        this.recorder.download()
-        // this.recorder.clean(); // they say its dismised
+        this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
+          task.ref.getDownloadURL().then((url) => {
+            this.db.updateLivestream(this.livestream.lid, { isActive: false, videoURL: url })
+          })
+        })
+        this.leaveSession()
       })
+    } else {
+      this.leaveSession()
     }
-    this.toggle = !this.toggle;
   }
+
+
   removeSisson() {
     const options = {
       headers: new HttpHeaders({
@@ -411,22 +419,22 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   toggleCamera() {
     this.OV.getDevices().then(devices => {
-      var pp:PublisherProperties;
+      var pp: PublisherProperties;
       // Getting only the video devices
       var videoDevices = devices.filter(device => device.kind === 'videoinput');
       alert(JSON.stringify(videoDevices));
       var frontCam = videoDevices.find((d) => d.label.includes('front'));
       var BackCam = videoDevices.find((d) => d.label.includes('back'));
-      if (frontCam && BackCam){
+      if (frontCam && BackCam) {
         pp = {
-          videoSource: this.isFrontCamera? BackCam.deviceId:frontCam.deviceId,
+          videoSource: this.isFrontCamera ? BackCam.deviceId : frontCam.deviceId,
           publishAudio: true,
           publishVideo: true,
           mirror: !this.isFrontCamera // Setting mirror enable if front camera is selected
         }
-      }else{
+      } else {
         this.counter = (this.counter + 1) % videoDevices.length;
-        pp ={
+        pp = {
           videoSource: videoDevices[this.counter].deviceId,
           publishAudio: true,
           publishVideo: true,
@@ -437,26 +445,26 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
 
 
-        if (videoDevices && videoDevices.length > 1) {
+      if (videoDevices && videoDevices.length > 1) {
 
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          
+        // Creating a new publisher with specific videoSource
+        // In mobile devices the default and first camera is the front one
 
-          var newPublisher = this.OV.initPublisher('video-container', pp);
 
-          // Changing isFrontCamera value
-          this.isFrontCamera = !this.isFrontCamera;
+        var newPublisher = this.OV.initPublisher('video-container', pp);
 
-          // Unpublishing the old publisher
-          this.session.unpublish(this.publisher);
+        // Changing isFrontCamera value
+        this.isFrontCamera = !this.isFrontCamera;
 
-          // Assigning the new publisher to our global variable 'publisher'
-          this.publisher = newPublisher;
+        // Unpublishing the old publisher
+        this.session.unpublish(this.publisher);
 
-          // Publishing the new publisher
-          this.session.publish(this.publisher);
-        }
+        // Assigning the new publisher to our global variable 'publisher'
+        this.publisher = newPublisher;
+
+        // Publishing the new publisher
+        this.session.publish(this.publisher);
+      }
     });
   }
 }

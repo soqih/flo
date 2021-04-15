@@ -7,7 +7,7 @@
     <span class="navButtonText">Home</span>
   </div>
 
-  <div class="flexItem" (click)="itemClicked('trend')">
+  <div class="flexItem" routerLink="/trend" (click)="itemClicked('trend')">
     <div class="imgContainer">
     <img src="/assets/images/{{trend}}.svg" alt="">
     </div>
@@ -19,7 +19,7 @@
   </div>
 
   <div  class="flexItem" routerLink='/notifications' (click)="itemClicked('notification')">
-    <div [matBadge]="db.myUnseenNotifications().length" class="imgContainer" [matBadgeHidden]="db.myUnseenNotifications().length==0" >
+    <div [matBadge]="db.myUnseenNotifications()?.length" class="imgContainer" [matBadgeHidden]="db.myUnseenNotifications()?.length==0" >
       <img  src="/assets/images/{{notification}}.svg" alt="" >
     </div>
     <span class="navButtonText">Notification</span>

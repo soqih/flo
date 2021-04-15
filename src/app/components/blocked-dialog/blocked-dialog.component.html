@@ -1,0 +1,23 @@
+<h1 mat-dialog-title class="blockedUsers">
+    Blocked Users
+</h1>
+
+
+<div class="blocked" *ngFor="let blocked of this.db.me?.blockingUsers" >
+    <!-- <div>
+        {{ db.getUser(blocked).username }}
+    </div> -->
+    <div class="user">
+        <a href="/u/{{db.getUser(blocked)?.uid}}" *ngIf="db.getUser(blocked) != undefined">
+            <img src="{{db.getUser(blocked)?.photoURL}}"
+                onError="this.onerror=null;this.src='/assets/images/logo.svg';" alt="Photo"
+                *ngIf="db.getUser(blocked) != undefined">
+     
+            <div class="name">
+                <span>{{db.getUser(blocked)?.displayName}}</span>
+                <span class="username">@{{db.getUser(blocked)?.username}}</span>
+            </div>
+        </a>
+        <div (click)="unblock(blocked)" class="unblock">Unblock</div>
+    </div>
+</div>

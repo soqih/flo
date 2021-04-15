@@ -11,7 +11,7 @@ export class NotificationsComponent implements OnInit {
 
   constructor(public db: DB) { }
   get notifications(): notification[] {
-    return this.db.me.notifications.sort((a, b) => b.date - a.date);
+    return this.db.me.notifications?.sort((a, b) => b.date - a.date);
   }
   // get unseenNotifications(): notification[] {
   //   return this.db.me.notifications.filter((n) => !n.hasSeen)

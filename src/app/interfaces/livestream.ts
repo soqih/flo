@@ -11,4 +11,5 @@ export interface Livestream {
     saveStream: boolean;
     host: string;
     photoURL: string;
+    videoURL?: string;
 }

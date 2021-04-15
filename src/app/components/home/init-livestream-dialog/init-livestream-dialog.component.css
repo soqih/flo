@@ -41,3 +41,22 @@ mat-form-field{
       cursor: pointer;
       transition: 0.5s;
   }
+.dialog{
+    /* background-color: rebeccapurple; */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* padding: 1rem; */
+    /* width: 100%; */
+}
+.save{
+    margin-bottom: 1rem;
+}
+.title{
+    margin-bottom: 10px;
+}
+.privacy{
+    margin-bottom: 15px;
+
+}

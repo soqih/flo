@@ -1,0 +1,60 @@
+a {
+    text-decoration: none;
+    color:black;
+    font-size: 1em;
+    outline: none;
+    display: flex;
+    /* background-color: rebeccapurple; */
+    width: fit-content;
+}
+.user{
+    border-bottom: 1px solid #9A9A9A;
+    padding: 0.5rem;
+    /* background-color: blue; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+img {
+    height: 4em;
+    width: 4em;
+    margin-right: 15px;
+    /* border: 1px solid #F0A397; */
+    border-radius: 50%;
+}
+span{
+    font-size: 1.2rem;
+    color: black;
+}
+.name{
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+}
+.username{
+    color: gray;
+    font-size: 0.8rem;
+
+}
+
+mat-dialog-content{
+    /* background-color: gray; */
+    height: 100%;
+}
+.bio{
+    font-size: 1rem;
+    margin-top: 3px;
+
+}
+.unblock{
+    border: 1px solid gray;
+    color: gray;
+    padding: 8px;
+    cursor: pointer;
+}
+.unblock:hover{
+    background-color: gray;
+    color: white;
+    transition: 0.6s;
+}

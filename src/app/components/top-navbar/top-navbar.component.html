@@ -18,7 +18,7 @@
         <div class="searchItem" *ngFor="let user of items">
             <img class="searchImg" src="{{user.photoURL}}"
                 onError="this.onerror=null;this.src='/assets/images/logo.svg';">
-            <a href="./u/{{user.uid}}">
+            <a [routerLink]="'/u/'+user.uid">
                 <pre>{{user.displayName}}<br><small>@{{ user.username }}</small></pre>
             </a>
         </div>

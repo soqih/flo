@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DB } from 'src/app/services/database/DB';
 import { Livestream } from '../../../interfaces/livestream';
 import { LivestreamComponent } from '../../livestream/livestream.component';
+import {ErrorStateMatcher} from '@angular/material/core';
 
 interface User {
   selected: boolean;
@@ -17,24 +18,10 @@ interface User {
   styleUrls: ['./init-livestream-dialog.component.css']
 })
 export class InitLivestreamDialogComponent implements OnInit {
-  formData: {
-    title: string,
-    private: boolean,
-    allowedFollowers: FormArray,
-    saveStream: boolean,
-  };
-
-
-  // isPrivate = true;
-
-  // allInvited = false;
-
-  // titleField = new FormControl('', [
-  //   Validators.required
-  // ]);
-
-  // userform = new FormControl();
-  myForm: FormGroup;
+  privacyisChecked = false;
+  saveisChecked = false;
+  
+  // myForm: FormGroup;
 
   // usersList: string[] = ['User1', 'User2', 'User3', 'User4'];
 
@@ -46,31 +33,36 @@ export class InitLivestreamDialogComponent implements OnInit {
 
   constructor(private fb: FormBuilder, public db: DB,/* private OV: LivestreamComponent*/) { }
 
+   title = new FormControl('', [
+      Validators.required,
+    ]);
+
   ngOnInit(): void {
     //  console.log(this.userform.value)
-    this.myForm = this.fb.group({
-      title: "",
-      private: false,
-      allowedFollowers: new FormArray([]),
-      saveStream: false,
-    })
+    // this.myForm = this.fb.group({
+    //   title: "",
+    //   private: false,
+    //   allowedFollowers: new FormArray([]),
+    //   saveStream: false,
+    // })
     // this.myForm.patchValue({allowedFollowers: this.usersList})
-    this.myForm.valueChanges.subscribe((data) => {
-      this.formData = data;
-    });
+    // this.myForm.valueChanges.subscribe((data) => {
+    //   this.formData = data;
+    // });
   }
 
-  startLivestream() {
+  startLivestream(title) {
+    console.log(title,this.privacyisChecked,this.saveisChecked);
    // this.OV.createSession(undefined).then((sessionID: string) => {
       var livestream: Livestream = {
         lid: null,
-        title: this.formData.title,
+        title: title,
         views: 0,
         likes: [],
         dislikes: [],
         isActive: true,
-        isPrivate: this.formData.private,
-        saveStream: this.formData.saveStream,
+         isPrivate: this.privacyisChecked,
+        saveStream: this.saveisChecked,
         host: this.db.me.uid,
         photoURL: this.db.me.photoURL,
       //  sessionID:sessionID
@@ -96,31 +88,31 @@ export class InitLivestreamDialogComponent implements OnInit {
 
 
 
-  onCheckChange(event) {
-    // console.log(this.myForm.get("allowedFollowers"))
-    if (event.isUserInput) {
-      console.log(event);
-      const formArray: FormArray = this.myForm.get('allowedFollowers') as FormArray;
+  // onCheckChange(event) {
+  //   // console.log(this.myForm.get("allowedFollowers"))
+  //   if (event.isUserInput) {
+  //     console.log(event);
+  //     const formArray: FormArray = this.myForm.get('allowedFollowers') as FormArray;
 
-      // check selected
-      if (event.source.selected) {
-        formArray.push(new FormControl(event.source.value));
-      }
+  //     // check selected
+  //     if (event.source.selected) {
+  //       formArray.push(new FormControl(event.source.value));
+  //     }
 
-      // check unselected
-      else {
-        // find the unselected element
-        let i: number = 0;
-        formArray.controls.forEach((ctrl: FormControl) => {
-          if (ctrl.value == event.source.value) {
-            formArray.removeAt(i);
-            return;
-          }
-          i += 1;
-        })
-      }
+  //     // check unselected
+  //     else {
+  //       // find the unselected element
+  //       let i: number = 0;
+  //       formArray.controls.forEach((ctrl: FormControl) => {
+  //         if (ctrl.value == event.source.value) {
+  //           formArray.removeAt(i);
+  //           return;
+  //         }
+  //         i += 1;
+  //       })
+  //     }
 
-    }
-  }
+  //   }
+  // }
 
 }

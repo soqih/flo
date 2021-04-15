@@ -1,0 +1,175 @@
+/* .cont{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-items: flex-start;
+} */
+.content{
+    margin: 1rem 1rem  7rem;
+    /* margin-bottom:7rem; */
+    display: flex;
+    /* flex-grow:1 ; */
+    flex-wrap: wrap;
+    /* height: 100%;
+    width: 100%; */
+  justify-content: center;
+}
+
+
+/* app-tool-bar{
+    
+} */
+
+    /* max-width: 120px;
+    height: 100%; */
+    /* height: 50%; */
+
+/* .nav {
+    background-color: #efa297;
+    position: sticky;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    height: fit-content;
+} */
+/* .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  } */
+ /* .navContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}  */
+/* .welcome{
+    display: flex;
+    width:100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+sign in (temp style)
+.welcome a {
+    margin: 1rem 0rem;
+    margin-left: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+} */
+
+/* .profile {
+    margin: 1rem 0rem;
+    margin-right: 2rem;
+    width:5%;
+    max-width: 60px;
+    min-width: 50px;
+    cursor: pointer;
+}
+.profile:hover {
+    opacity: 0.6;
+    transition: 0.5s;
+}
+
+.input {
+    outline: none;
+    border: none;
+    width: 100%;
+    height: inherit;
+    font-size: 1rem;
+    
+}
+.input-container{
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 90%;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  margin-bottom: 1rem;
+  
+}
+.inputImage{
+    margin: 0 0.5rem;
+    margin-left: 0.1rem;
+    width: 8%;
+    max-width: 25px;
+} */
+
+/* .content{
+    display: flex;
+    height: 100%;
+    background-color: green;
+} */
+@media (max-width: 768px) {
+    .content{
+        margin-bottom:5rem;
+    }
+    /* .navButtonText{
+        display: none;
+        
+    } */
+    /* .input-container{
+        height: 2rem;
+    } */
+    /* .flexItem img{
+        margin-right: 0;
+        
+    }
+    .flexItem{
+        justify-content: center;
+        margin: 4rem 0rem;
+        padding: 0.4rem;
+    } */
+    /* .toolbar{
+        width: 13%;
+        transition: 0.6s;
+    } */
+    
+    /* .flexItems{
+        top:7%;
+        
+    } */
+   
+}
+
+
+/* .toolbar{
+    background-color: #D58895;
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    max-width: 150px;
+    align-items: center;
+    transition: 0.6s;
+    height: inherit;
+    justify-content: center;
+    background-color: blue;
+} */
+/* .flexItems{
+    position: relative;
+}
+.flexItem{
+    display: flex;
+    border-radius: 2rem;
+
+    margin-bottom: 5rem;
+    padding: 0.4rem;
+    height: auto;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+}
+.flexItem img{
+    margin-right: 10px;
+}
+.flexItem:hover{
+    background-color:#EFA297;
+   
+    cursor: pointer;
+   
+
+} */
