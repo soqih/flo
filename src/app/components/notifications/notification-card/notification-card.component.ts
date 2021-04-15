@@ -24,7 +24,11 @@ export class NotificationCardComponent implements OnInit {
     this.user = this.db.getUser(this.notification?.uid);
     if (this.notification?.isItLike) {
       this.livestream = this.db.getLivestream(this.notification.lid)
-      this.text = ' liked your livestream ' + this.livestream.title;
+      if (this.livestream) {
+        this.text = ' liked your livestream ' + this.livestream.title;
+      } else {
+        this.text = ' liked your livestream: (DELETED)'
+      }
     } else {
       this.text = ' follows you'
     }

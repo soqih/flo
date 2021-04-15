@@ -60,7 +60,7 @@ export class StreamCardComponent implements OnInit {
     //   this.title = this.livestream.title.substring(0, 19) + "...";
     // }
     // else{
-      this.title = this.livestream.title;
+    this.title = this.livestream.title;
     // }
     // this.title = this.livestream.title;
     this.views = this.livestream.views;
@@ -109,9 +109,17 @@ export class StreamCardComponent implements OnInit {
     this.db.updateLivestream(this.livestream.lid, {
       likes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
     }).then(() => { this.updateLivestream() })
-    this.db.updateUser(this.user.uid, {
-      notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid })
-    })
+    let flag = true;
+    this.db.getUser(this.user.uid).notifications?.forEach((notification) => {
+      if (flag && notification.lid == this.livestream.lid && notification.uid == this.db.me.uid) {
+        flag = false;
+      }
+    });
+    if (flag) {
+      this.db.updateUser(this.user.uid, {
+        notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid })
+      })
+    }
     // var x: notification = { uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid }
   }
 
@@ -149,9 +157,9 @@ export class StreamCardComponent implements OnInit {
   }
   navgateToStream(url: string, event: Event) {
     event.stopPropagation();
-    if(this.db?.me){
+    if (this.db?.me) {
       this.router.navigate([url])
-    } else{
+    } else {
       this.router.navigate([""])
     }
   }
@@ -160,13 +168,30 @@ export class StreamCardComponent implements OnInit {
     event.stopPropagation();
     this.router.navigate([url])
   }
-   
-  
-  deleteLivestream(lid){
-      console.log(lid)
-         this.db.deleteLivestream(lid)
+
+
+  deleteLivestream(lid) {
+    console.log(lid)
+    // this.db.deleteLivestream(lid)this.
+    this.db.deleteLivestream(lid)
+      .then(res => {
+        if (res) {
+          this.reloadComponent();
+        }
+      })
+  }
+
+  reloadComponent() {
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
+  }
+  reloadCurrentPage() {
+    window.location.reload();
   }
 }
+
 
 
 

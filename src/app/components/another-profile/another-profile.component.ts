@@ -11,7 +11,6 @@ import { Livestream } from 'src/app/interfaces/livestream';
 
 
 
-
 @Component({
   selector: 'app-another-profile',
   templateUrl: './another-profile.component.html',
