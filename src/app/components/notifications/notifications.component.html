@@ -2,5 +2,8 @@
     <span class="Notifications">Notifications</span>
 </div>
 <hr />
-<app-notification-card *ngFor="let notification of notifications" [notification]="notification" ></app-notification-card>
+<div class="notificationsContainer">
+    <app-notification-card *ngFor="let notification of notifications" [notification]="notification" ></app-notification-card>
+
+</div>
 <app-tool-bar [where]="'notification'"></app-tool-bar>

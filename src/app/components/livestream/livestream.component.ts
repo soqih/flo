@@ -414,6 +414,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
       var pp:PublisherProperties;
       // Getting only the video devices
       var videoDevices = devices.filter(device => device.kind === 'videoinput');
+      alert(JSON.stringify(videoDevices));
       var frontCam = videoDevices.find((d) => d.label.includes('front'));
       var BackCam = videoDevices.find((d) => d.label.includes('back'));
       if (frontCam && BackCam){

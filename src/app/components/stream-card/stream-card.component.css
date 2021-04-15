@@ -92,7 +92,13 @@
 .names{
 display: flex;
 margin-bottom: 5px;
+
 }
+
+.settings{
+    margin-left: auto;
+}
+
 .name{
     font-size:1.2rem;
     margin-right: 8px;

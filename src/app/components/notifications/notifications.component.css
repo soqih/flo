@@ -15,7 +15,9 @@
     font-weight: 600;
     color: white;
 }
-
+.notificationsContainer{
+    margin-bottom: 7rem;
+}
 /* span{
     font-size: 1.2rem;
     color: black;

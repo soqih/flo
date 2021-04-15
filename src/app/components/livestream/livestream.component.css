@@ -34,7 +34,7 @@
     position: relative;
     margin-bottom: 1rem;
     scrollbar-width: none;
-    background-color: black;
+    background-color: rgb(41, 41, 41);
 
 }
 
@@ -66,6 +66,7 @@
     width: fit-content;
 
     margin: 15px;
+    margin-left: 5px;
     display: flex;
     padding: 8px;
     border-radius: 0.6rem;
@@ -115,12 +116,17 @@ object-fit: contain;
 input{
     width: 70%;
     height: 2rem;
-    background-color: #AC717B;
+    background-color: transparent;
     outline: none;
-    border: none;
+    border: 1px solid #AC717B;
+    color: #D88B95;
     padding: 15px;
 /* border-radius: 1rem; */
-
+}
+input:hover{
+    background-color: #AC717B;
+    color: white;
+    transition: 0.5s;
 }
 ::placeholder {
     color: white;
@@ -130,15 +136,16 @@ input{
 button{
     width: 30%;
     height: 2rem;
-    background-color: gray;
+    background-color: transparent;
     color: white;
 /* border-radius: 1rem; */
-    border: none;
+    border: 1px solid gray;
     cursor: pointer;
 
 }
 button:hover{
-    opacity: 0.8;
+    /* opacity: 0.8; */
+    background-color: gray;
     transition: 0.5s;
 }
 
