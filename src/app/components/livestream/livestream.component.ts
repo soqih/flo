@@ -7,6 +7,8 @@ import { catchError } from 'rxjs/operators';
 import { Livestream } from 'src/app/interfaces/livestream';
 import { DB } from 'src/app/services/database/DB';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import firebase from 'firebase';
+import { User } from 'src/app/interfaces/User';
 
 @Component({
   selector: 'app-livestream',
@@ -34,30 +36,36 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   publisher: Publisher;
   connected: boolean;
 
+  liked: boolean;
+  disliked: boolean;
+
+  likeState: string;
+  dislikeState: string;
+  
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private fireStorage: AngularFireStorage,
 
-    public db: DB,) {
-
-  }
+    public db: DB,) {}
 
   OV: OpenVidu;
   session: Session;
-  cams: Device[];
+  host:User;
 
   sessionName: string;	// Name of the video session the user will connect to
   token: string;
   ngOnInit() {
     console.log(this.connected)
-
+    this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
+    this.dislikeState = this.disliked ? 'thumb_down' : 'thumb_down_off_alt';
     // this.isHost = this.db.getLivestream('B5aWNM3gkbHnyxMcULYq').host == this.db.me?.uid;
     this.lid = this.route.snapshot.params['lid'];
     this.livestream = this.db.getLivestream(this.lid)
     this.sessionName = this.livestream?.lid || 'livestream Not Found';
-    this.isHost = this.db.me?.uid == this.livestream?.host;
+    this.host = this.db.getUser(this.livestream?.host)
+    this.isHost = this.db.me?.uid == this.host?.uid;
     this.joinSession();
     // this.isSessionExists(this.sessionName).then((exists) => {
     //   if (exists) {
@@ -68,10 +76,13 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     // })
   }
   // Token retrieved from OpenVidu Server
+  @HostListener('window:beforeunload', ['$event'])
+  leave() {
+    // this.stopRecording();
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-
     this.width = event.target.innerWidth
     if (!this.publisherVideoElement) {
       return;
@@ -362,6 +373,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   }
 
   stopRecording() {
+    console.warn('leaveaing stream ...')
     if (this.recorder && this.recorder.state === LocalRecorderState.RECORDING) {
       this.recorder.stop().then(() => {
         this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
@@ -466,5 +478,77 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         this.session.publish(this.publisher);
       }
     });
+  }
+  like(event: Event) {
+    event.stopPropagation();
+    if (this.db?.me == undefined) {
+      return
+    }
+
+    if (this.liked) {
+      this.liked = false;
+      this.likeState = "thumb_up_off_alt";
+      // remove like from db
+      this.db.updateLivestream(this.livestream.lid, {
+        likes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+      })
+      return;
+    }
+    if (this.disliked) {
+      this.disliked = false;
+      this.dislikeState = "thumb_down_off_alt";
+      // remove dislike from db
+      this.db.updateLivestream(this.livestream.lid, {
+        dislikes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+      })
+    }
+    this.liked = true;
+    this.likeState = "thumb_up"
+    // add like to db
+    this.db.updateLivestream(this.livestream.lid, {
+      likes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
+    })
+    let flag = true;
+    this.db.getUser(this.host.uid).notifications?.forEach((notification) => {
+      if (flag && notification.lid == this.livestream.lid && notification.uid == this.db.me.uid) {
+        flag = false;
+      }
+    });
+    if (flag) {
+      this.db.updateUser(this.host.uid, {
+        notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid })
+      })
+    }
+    // var x: notification = { uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid }
+  }
+
+  dislike(event: Event) {
+    event.stopPropagation();
+    if (this.db?.me == undefined) {
+      return
+    }
+    if (this.disliked) {
+      this.disliked = false;
+      this.dislikeState = "thumb_down_off_alt";
+      // remove dislike from db
+      this.db.updateLivestream(this.livestream.lid, {
+        dislikes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+      })
+      return
+    }
+    if (this.liked) {
+      this.liked = false;
+      this.likeState = "thumb_up_off_alt";
+      this.db.updateLivestream(this.livestream.lid, {
+        likes: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+      })
+      this.livestream = this.db.getLivestream(this.livestream.lid);
+    }
+    this.dislikeState = "thumb_down";
+    this.disliked = true;
+    this.db.updateLivestream(this.livestream.lid, {
+      dislikes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
+    })
+
   }
 }
