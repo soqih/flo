@@ -14,7 +14,7 @@ export class RegistrationComponent implements OnInit {
   imageNumber: number = 1;
   constructor(
     public dialog: MatDialog,
-    private db: DB,
+    public db: DB,
     public authService: AuthService,
     private route: ActivatedRoute,
   ) { }

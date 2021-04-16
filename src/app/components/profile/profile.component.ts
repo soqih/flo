@@ -69,7 +69,10 @@ export class ProfileComponent implements OnInit {
     this.db.me.livestreams?.forEach((lid) => {
       livestreams.push(this.db.getLivestream(lid))
     })
-    return livestreams;
+    return  livestreams.sort((a,b) => b.date - a.date);
+  }
+  remove(event){
+    this.livestreamsList = this.livestreamsList.filter((l)=>l.lid !=event)
   }
 
   reloadComponent() {

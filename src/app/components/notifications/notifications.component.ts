@@ -18,6 +18,9 @@ export class NotificationsComponent implements OnInit {
   // }
 
   ngOnInit(): void {
+    if(!this.db?.me){
+      return;
+    }
     this.db.updateMyData({
       notifications: this.notifications.filter((n) => {
         n.hasSeen = true;

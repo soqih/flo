@@ -1,9 +1,9 @@
 <div class="container">
+    <img style="margin-top: 5rem;"  src="./assets/images/logo.svg">
 <h1>
     You should sign in first, in order to view this page
 </h1>
-<button *ngIf="!this.authService.isLoggedIn" (click)="openDialog($event,'signin')" class="btn" id="btn1">Sign
+<button *ngIf="!this.authService.isLoggedIn" class="btn" id="btn1" routerLink="/r/signin">Sign
     in</button>
-    <a *ngIf="!this.authService.isLoggedIn" (click)="openDialog($event,'signup')" href="#">Sign up</a>
-<!--  D98C95 -->
+    <a *ngIf="!this.authService.isLoggedIn" routerLink="/r/signup">Sign up</a>
 </div>

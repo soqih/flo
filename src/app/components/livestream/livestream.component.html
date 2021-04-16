@@ -2,7 +2,7 @@
 	<div class="stop" (click)="stopRecording()">
 		Stop Livestream
 	</div>
-	<button *ngIf="isHost" (click)="toggleCamera()">switch</button>	
+	<!-- <button *ngIf="isHost" (click)="toggleCamera()">switch</button>	 -->
 	<div id="video-container">
 		<div class="chatContainer">
 			<div #chatContainer class="chat">
@@ -16,10 +16,28 @@
 					</div>
 				</div>	
 			</div>
-			<div class="chatInput">	
-				<input type="text" #message placeholder="Say somthing..." maxlength="120" value="">
-				<button [disabled]="message.value == '' " (click)="sendMessage(message.value);message.value=''">Send</button>
+
+			<div class="toolbar">
+				<div class="chatInput">	
+					<input type="text" #message placeholder="Say somthing..." maxlength="120" value="">
+					<button [disabled]="message.value == '' || !this.db?.me" (click)="sendMessage(message.value);message.value=''">
+					<mat-icon class="send" >send</mat-icon>
+					</button>
+				</div>
+	
+				<div class="likeDislike">
+					<div class="like" (click)="like($event)">
+						<mat-icon class="likeIcon">{{likeState}}</mat-icon>
+					</div>
+					<div class="dislike" (click)="dislike($event)">
+						<mat-icon>{{dislikeState}}</mat-icon>
+					</div>
+					<div *ngIf="isHost"> <mat-icon (click)="toggleCamera()">switch_camera</mat-icon> </div>
+					
+				</div>
 			</div>
+			
+
 		</div>	
 	</div>
 </div>

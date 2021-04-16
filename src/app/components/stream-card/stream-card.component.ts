@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output,EventEmitter } from '@angular/core';
 import firebase from 'firebase/app';
 import { Livestream } from 'src/app/interfaces/livestream';
 import { User, notification } from 'src/app/interfaces/User';
@@ -20,7 +20,7 @@ export class StreamCardComponent implements OnInit {
   // @Input() views: number;
   // @Input() likes: number;
   // @Input() dislikes: number;
-
+  @Output() deleteEvent: EventEmitter<string> = new EventEmitter();
 
 
   @ViewChild("likeIcon") likeIcon: ElementRef;
@@ -155,16 +155,16 @@ export class StreamCardComponent implements OnInit {
   updateLivestream() {
     this.livestream = this.db.getLivestream(this.livestream.lid);
   }
-  navgateToStream(url: string, event: Event) {
-    event.stopPropagation();
-    if (this.db?.me) {
-      this.router.navigate([url])
-    } else {
-      this.router.navigate([""])
-    }
-  }
+  // navgateToStream(url: string, event: Event) {
+  //   event.stopPropagation();
+  //   if (this.db?.me) {
+  //     this.router.navigate([url])
+  //   } else {
+  //     this.router.navigate([""])
+  //   }
+  // }
 
-  navgateToUser(url: string, event: Event) {
+  navgateTo(url: string, event: Event) {
     event.stopPropagation();
     this.router.navigate([url])
   }
@@ -174,11 +174,12 @@ export class StreamCardComponent implements OnInit {
     console.log(lid)
     // this.db.deleteLivestream(lid)this.
     this.db.deleteLivestream(lid)
-      .then(res => {
-        if (res) {
-          this.reloadComponent();
-        }
-      })
+    this.deleteEvent.emit(lid);
+      // .then(res => {
+      //   if (res) {
+      //     this.reloadComponent();
+      //   }
+      // })
   }
 
   reloadComponent() {

@@ -27,7 +27,7 @@
         <div class="names">
             <!-- <div class="name">{{name}}</div> -->
 
-            <div class="username" (click)="navgateToUser(userlink,$event)">@{{username}}</div>
+            <div class="username" (click)="navgateTo(userlink,$event)">@{{username}}</div>
             <mat-icon (click)="deleteLivestream(this.livestream.lid)" *ngIf="inProfile" class="settings">delete
             </mat-icon>
 
@@ -40,7 +40,7 @@
 
     <!-- Livestream photo (square need full size )   OR    Avtar photo (circle) ?  ((SIZE!!))-->
     <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';"
-        (click)="navgateToStream(livestreamURL,$event)">
+        (click)="navgateTo(livestreamURL,$event)">
 
 
     <!-- <img [src]="db.me.photoURL" alt=""> -->

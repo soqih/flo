@@ -61,10 +61,11 @@ export class InitLivestreamDialogComponent implements OnInit {
         likes: [],
         dislikes: [],
         isActive: true,
-         isPrivate: this.privacyisChecked,
+        isPrivate: this.privacyisChecked,
         saveStream: this.saveisChecked,
         host: this.db.me.uid,
         photoURL: this.db.me.photoURL,
+        date:new Date().getTime(),
       //  sessionID:sessionID
       }
       this.db.saveLivestream(livestream);

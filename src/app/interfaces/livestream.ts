@@ -4,7 +4,7 @@ export interface Livestream {
     views: number;
     likes: any[]; // change it to string (uid)
     dislikes: any[]; // change it to string (uid)
-    date?: Date;
+    date?: number;
     isActive: boolean;
     isPrivate: boolean;
     allowedFollowers?: string[];

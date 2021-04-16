@@ -108,7 +108,7 @@ export class AnotherProfileComponent implements OnInit {
     this.anotherUser.livestreams?.forEach((lid) => {
       livestreams.push(this.db.getLivestream(lid))
     })
-    return livestreams;
+    return  livestreams.sort((a,b) => b.date - a.date);
   }
 
   blockUnblock() {

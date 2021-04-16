@@ -25,12 +25,12 @@ import { DB } from 'src/app/services/database/DB';
 })
 
 export class HomeComponent implements OnInit {
-  
+
   // livestreamsList: Livestream[] = this.MyLivestreams;
   constructor(private route: Router, public authService: AuthService, public db: DB) { }
   ngOnInit(): void {
   }
-  
+
 
   get myLivestreams(): Livestream[] {
     var livestreams = [];
@@ -43,7 +43,8 @@ export class HomeComponent implements OnInit {
         livestreams.push(this.db.getLivestream(lid))
       });
     })
-    return livestreams;
+    
+    return  livestreams.sort((a,b) => b.date - a.date);
   }
 }
 
