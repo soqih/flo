@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalRecorder, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent, PublisherProperties, LocalRecorderState } from 'openvidu-angular';
+import { LocalRecorder,Subscriber, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent, PublisherProperties, LocalRecorderState } from 'openvidu-angular';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Livestream } from 'src/app/interfaces/livestream';
@@ -9,13 +9,17 @@ import { DB } from 'src/app/services/database/DB';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import firebase from 'firebase';
 import { User } from 'src/app/interfaces/User';
+import { BlockedDialogComponent } from '../blocked-dialog/blocked-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-livestream',
   templateUrl: './livestream.component.html',
   styleUrls: ['./livestream.component.css'],
 })
+
 export class LivestreamComponent implements OnInit, OnDestroy {
+  saveisChecked = true;
   // @ViewChild("msg") msg: ElementRef;
   counter: number = 0;
   OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
@@ -41,32 +45,47 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   likeState: string;
   dislikeState: string;
-  
+
+  isVideoMuted:boolean;
+  isAudioMuted:boolean;
+
+
+  @ViewChild('stopDialog') stopDialog: TemplateRef<any>;
+  subscriber: Subscriber;
+
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private fireStorage: AngularFireStorage,
+    public db: DB,
+    public dialog: MatDialog,) { }
 
-    public db: DB,) {}
-
-  OV: OpenVidu;
-  session: Session;
-  host:User;
-
-  sessionName: string;	// Name of the video session the user will connect to
-  token: string;
+    OV: OpenVidu;
+    session: Session;
+    host: User;
+    sessionName: string;	// Name of the video session the user will connect to
+    token: string;
+    
   ngOnInit() {
-    console.log(this.connected)
-    this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
-    this.dislikeState = this.disliked ? 'thumb_down' : 'thumb_down_off_alt';
-    // this.isHost = this.db.getLivestream('B5aWNM3gkbHnyxMcULYq').host == this.db.me?.uid;
     this.lid = this.route.snapshot.params['lid'];
     this.livestream = this.db.getLivestream(this.lid)
-    this.sessionName = this.livestream?.lid || 'livestream Not Found';
-    this.host = this.db.getUser(this.livestream?.host)
-    this.isHost = this.db.me?.uid == this.host?.uid;
-    this.joinSession();
+    this.liked = this.livestream.likes?.includes(this.db.me?.uid) || false
+    this.disliked = this.livestream.dislikes?.includes(this.db.me?.uid) || false
+    this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
+    this.dislikeState = this.disliked ? 'thumb_down' : 'thumb_down_off_alt';
+    if (this.livestream?.isActive) {
+      // this.isHost = this.db.getLivestream('B5aWNM3gkbHnyxMcULYq').host == this.db.me?.uid;
+      this.sessionName = this.livestream?.lid || 'livestream Not Found';
+      this.host = this.db.getUser(this.livestream?.host)
+      this.isHost = this.db.me?.uid == this.host?.uid;
+      this.joinSession();
+    } else {
+      console.warn('not active');
+      // this.publisherVideoElement = 
+      // $('video-container').append()
+
+    }
     // this.isSessionExists(this.sessionName).then((exists) => {
     //   if (exists) {
     //     this.joinSession();
@@ -75,11 +94,19 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     //   }
     // })
   }
-  // Token retrieved from OpenVidu Server
-  @HostListener('window:beforeunload', ['$event'])
-  leave() {
-    // this.stopRecording();
+  openDialog() {
+    let dialogRef = this.dialog.open(this.stopDialog,
+      {
+        width: '350px',
+        height: '300px',
+
+      });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+    })
   }
+
+  // Token retrieved from OpenVidu Server
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -134,10 +161,10 @@ export class LivestreamComponent implements OnInit, OnDestroy {
           return;
         }
         console.warn(streamConnectionID, this.session.connection.connectionId)
-        var subscriber = this.session.subscribe(event.stream, 'video-container');
+        this.subscriber = this.session.subscribe(event.stream, 'video-container');
 
         // When the HTML video has been appended to DOM...
-        subscriber.on('videoElementCreated', (event: VideoElementEvent) => {
+        this.subscriber.on('videoElementCreated', (event: VideoElementEvent) => {
           event.element.muted = true; // Chrome's autoplay policies are simple: 1- Muted autoplay is always allowed ...etc, for more check https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
           event.element.controls = true;
 
@@ -150,9 +177,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
       // On every Stream destroyed...
       this.session.on('streamDestroyed', (event: StreamEvent) => {
         // Delete the HTML element with the user's name and nickname
-        // setTimeout(() => {
-        //   this.leaveSession()
-        // }, 500);
+        setTimeout(() => {
+          this.leaveSession()
+        }, 500);
 
       });
 
@@ -185,6 +212,8 @@ export class LivestreamComponent implements OnInit, OnDestroy {
               insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
               mirror: true,       	// Whether to mirror your local video or not
             });
+            this.isVideoMuted = false;
+            this.isAudioMuted = false;
 
             // --- 7) Specify the actions when events take place in our publisher ---
 
@@ -207,6 +236,8 @@ export class LivestreamComponent implements OnInit, OnDestroy {
             this.session.publish(this.publisher).then(() => { this.recording(); });
 
           } else {
+            this.isVideoMuted = false;
+            this.isAudioMuted = false;
             console.warn('You don\'t have permissions to publish');
           }
         })
@@ -374,7 +405,8 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   stopRecording() {
     console.warn('leaveaing stream ...')
-    if (this.recorder && this.recorder.state === LocalRecorderState.RECORDING) {
+    console.log(this.saveisChecked)
+    if (this.recorder && this.recorder.state === LocalRecorderState.RECORDING && this.saveisChecked) {
       this.recorder.stop().then(() => {
         this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
           task.ref.getDownloadURL().then((url) => {
@@ -551,4 +583,11 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     })
 
   }
+  muteAudio(){
+    this.publisher.publishAudio(!this.isAudioMuted);
+  }
+  muteVideo(){
+    this.publisher.publishVideo(!this.isVideoMuted);
+  }
+
 }

@@ -2,7 +2,8 @@
     <mat-dialog-content>
 
         <div class="usersList">
-            <mat-label align="center">Followers</mat-label>
+            <h3 mat-dialog-title>Followers</h3>
+            <!-- <mat-label align="center">Followers</mat-label> -->
             <hr>
             <mat-label *ngFor="let follower of arr" [value]="follower">
                 <div class="user">
@@ -28,7 +29,9 @@
 <ng-template #following>
     <mat-dialog-content>
         <div class="usersList">
-            <mat-label align="center">Following</mat-label>
+            <!-- <mat-label align="center">Following</mat-label> -->
+            <h3 mat-dialog-title>Following</h3>
+
             <hr>
             <mat-label *ngFor="let following of arr" [value]="following">
                 <div class="user">

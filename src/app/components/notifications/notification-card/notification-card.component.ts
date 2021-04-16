@@ -30,7 +30,7 @@ export class NotificationCardComponent implements OnInit {
         this.text = ' liked your livestream: (DELETED)'
       }
     } else {
-      this.text = ' follows you'
+      this.text = ' followed you'
     }
   }
 

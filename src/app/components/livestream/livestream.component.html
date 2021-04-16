@@ -1,9 +1,26 @@
-<div class="container" id="session" >
-	<div class="stop" (click)="stopRecording()">
+<div class="recordedVideoPageContainer" *ngIf="!livestream?.isActive">
+	<div routerLink="/home" class="leave">
+		Leave
+	</div>
+	<div class="recordedVideoContainer">
+		<video *ngIf="!livestream?.isActive" style="z-index: 10;" controls>
+			<source [src]="livestream?.videoURL" >
+		</video>
+	</div>
+</div>
+
+
+<div class="container" id="session" *ngIf="livestream?.isActive" >
+	<div class="stop" (click)="openDialog()" *ngIf="isHost">
 		Stop Livestream
 	</div>
+	<div routerLink="/home" class="stop" *ngIf="!isHost">
+		Leave
+	</div>
+	
 	<!-- <button *ngIf="isHost" (click)="toggleCamera()">switch</button>	 -->
 	<div id="video-container">
+	
 		<div class="chatContainer">
 			<div #chatContainer class="chat">
 				<div class="messageContainer" *ngFor="let data of chat.slice().reverse()">
@@ -17,10 +34,10 @@
 				</div>	
 			</div>
 
-			<div class="toolbar">
+			<div class="toolbar" *ngIf="db.me">
 				<div class="chatInput">	
 					<input type="text" #message placeholder="Say somthing..." maxlength="120" value="">
-					<button [disabled]="message.value == '' || !this.db?.me" (click)="sendMessage(message.value);message.value=''">
+					<button class="sendButton" [disabled]="message.value == ''" (click)="sendMessage(message.value);message.value=''">
 					<mat-icon class="send" >send</mat-icon>
 					</button>
 				</div>
@@ -38,6 +55,27 @@
 			</div>
 			
 
-		</div>	
+		</div>
+		
+		
 	</div>
+	
+	<ng-template #stopDialog>
+		<div class="dialog">
+			<h1 matDialogTitle>Stop Dialog</h1>
+
+			<div class="save">
+				<mat-label>Do you want the Livestream to be saved in your profile after finshed?</mat-label>
+				<mat-slide-toggle #saved [(ngModel)]="saveisChecked">Yes</mat-slide-toggle>
+			</div>
+			
+			<mat-dialog-actions align="end">
+				<button id="stop" mat-stroked-button mat-dialog-close mat-dialog-close
+				(click)="stopRecording()">Stop</button>
+			<button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
+			</mat-dialog-actions>
+		</div>
+		
+
+	</ng-template>
 </div>

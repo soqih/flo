@@ -4,13 +4,13 @@
 
         <mat-form-field hintLabel="must be unique">
             <mat-label>User name</mat-label>
-            <input   #username matInput type="text" name="" id="username" class="input" [formControl]="userName">
+            <input   #username matInput type="text" name="" id="username" class="input" [formControl]="userName" maxlength="20">
         </mat-form-field>
 
 
         <mat-form-field hintLabel="your displayed name">
             <mat-label>Name</mat-label>
-            <input #name matInput type="text" name="" id="name" class="input" [formControl]="Name">
+            <input #name matInput type="text" name="" id="name" class="input" [formControl]="Name" maxlength="30">
         </mat-form-field>
 
 
