@@ -28,6 +28,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'r/:type', component: RegistrationComponent },
+  {path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: '**', redirectTo: '' }
 
 ];

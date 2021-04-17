@@ -1,7 +1,8 @@
 <div class="notificationContainer">
     <div class="notification">
-        <mat-icon color="primary">{{notification.isItLike?'thumb_up':'person'}}</mat-icon>{{user.displayName}} {{text}}
+        <mat-icon color="primary">{{notification.type === "like" ?'thumb_up':'person'}}</mat-icon>{{user.displayName}} {{text}}
     </div>
+    <!-- notificationType.LIKE -->
     <div class="user">
         <a>
             <img [src]="user.photoURL"

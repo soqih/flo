@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Livestream } from 'src/app/interfaces/livestream';
-import { notification, User } from 'src/app/interfaces/User';
+import { notification, User ,notificationType} from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
 
 @Component({
@@ -22,15 +22,16 @@ export class NotificationCardComponent implements OnInit {
   ngOnInit(): void {
 
     this.user = this.db.getUser(this.notification?.uid);
-    if (this.notification?.isItLike) {
+    if (this.notification?.type === notificationType.LIKE) {
       this.livestream = this.db.getLivestream(this.notification.lid)
       if (this.livestream) {
         this.text = ' liked your livestream ' + this.livestream.title;
-      } else {
-        this.text = ' liked your livestream: (DELETED)'
       }
-    } else {
+    } else if(this.notification?.type === notificationType.FOLLOW) {
       this.text = ' followed you'
+    }else{
+      this.text = ' Started a new livestream ' + this.livestream.title;
+      
     }
   }
 

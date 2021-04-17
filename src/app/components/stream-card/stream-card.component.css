@@ -247,4 +247,52 @@ mat-icon {
     color:grey
 }
 
+#delete{
+    width: 100%;
+    /* background-color: brown; */
+    margin: 5px 0px;
+    margin-bottom: 10px;
+    color: #D58895;
+    border: 2px solid #D58895;
+    background: transparent;
+}
+#cancel{
+    width: 100%;
+    /* background-color: green; */
+    margin:  5px 0px;
+    background:#D58895;
+    color: white;
+}
+#delete:hover{
+    border:solid 2px gray;
+    color: gray;
+    cursor: pointer;
+    transition: 0.5s;
+}
+#cancel:hover{
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+}
+mat-dialog-actions{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: hotpink; */
+}
+.dialog{
+    /* background-color: lawngreen; */
+    height: inherit;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    padding: 5px;
+}
+.confirmation{
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
 /* text-overflow: ellipsis; */

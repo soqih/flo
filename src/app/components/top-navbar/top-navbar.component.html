@@ -6,24 +6,54 @@
             <img routerLink="/profile" class="profile" src="/assets/images/profile.svg" alt="">
         </div>
         <div class="input-container">
-            <img class="inputImage" src="/assets/images/search.svg" alt="">
+            <img  class="inputImage" src="/assets/images/search.svg" alt="">
             <input type=" search" name="" class="input" placeholder="Search" (keyup)="search($event)">
             <!-- <h1>test</h1> -->
-            <img class="inputImage filter" src="/assets/images/filter.svg" alt="">
+            <img class="inputImage filter" src="/assets/images/filter.svg" alt="" (click)="openDialog()">
         </div>
     </div>
 </div>
 <ng-container>
     <div class="searchMenu">
-        <div class="searchItem" *ngFor="let user of items">
-            <img class="searchImg" src="{{user.photoURL}}"
-                onError="this.onerror=null;this.src='/assets/images/logo.svg';">
-            <a [routerLink]="'/u/'+user.uid">
-                <pre>{{user.displayName}}<br><small>@{{ user.username }}</small></pre>
-            </a>
+        <div class="searchItem" *ngFor="let item of items">
+            <div *ngIf="searchFilter == 'user'">
+                <img class="searchImg" src="{{item.photoURL}}"
+                    onError="this.onerror=null;this.src='/assets/images/logo.svg';">
+                <a [routerLink]="'/u/'+user.uid">
+                    <pre>{{user.displayName}}<br><small>@{{ user.username }}</small></pre>
+                </a>
+            </div>
+            <div *ngIf="searchFilter == 'livestream'">
+                <img class="searchImg" src="{{item.photoURL}}"
+                    onError="this.onerror=null;this.src='/assets/images/logo.svg';">
+                <a [routerLink]="'/session/'+livestreams.lid">
+                    <pre>{{livestream.title}}<br></pre>
+                </a>
+            </div>
         </div>
     </div>
 </ng-container>
+
+
+<ng-template #filterDialog>
+    <div class="dialog">
+        <h1 matDialogTitle>Filter</h1>
+
+        <div class="checkbox">
+            <mat-label>Search for?</mat-label>
+                <section class="">
+                    <mat-checkbox [(ngModel)]="usersIsChecked" #users class="">Users</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="LivestreamsIsChecked" #livestreams class="">Livestreams</mat-checkbox>
+                </section>
+        </div>
+        
+        <mat-dialog-actions align="end">
+            <button id="ok" mat-stroked-button mat-dialog-close mat-dialog-close
+            (click)="setFilter()">OK</button>
+        <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
+        </mat-dialog-actions>
+    </div>
+</ng-template>
 <!-- <ng-container>
     <div class="searchMenu" *ngFor="let user of items">
         <img class="searchImg" src="{{user.photoURL}}" onError="this.onerror=null;this.src='/assets/images/logo.svg';">

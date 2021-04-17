@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalRecorder,Subscriber, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent, PublisherProperties, LocalRecorderState } from 'openvidu-angular';
+import { LocalRecorder, Subscriber, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent, PublisherProperties, LocalRecorderState } from 'openvidu-angular';
 import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Livestream } from 'src/app/interfaces/livestream';
@@ -46,10 +46,10 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   likeState: string;
   dislikeState: string;
 
-  isVideoMuted:boolean;
-  isAudioMuted:boolean;
-  micState:string = "mic"
-  camState:string = "videocam"
+  isVideoMuted: boolean;
+  isAudioMuted: boolean;
+  micState: string = "mic"
+  camState: string = "videocam"
   @ViewChild('stopDialog') stopDialog: TemplateRef<any>;
   subscriber: Subscriber;
 
@@ -61,12 +61,12 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     public db: DB,
     public dialog: MatDialog,) { }
 
-    OV: OpenVidu;
-    session: Session;
-    host: User;
-    sessionName: string;	// Name of the video session the user will connect to
-    token: string;
-    
+  OV: OpenVidu;
+  session: Session;
+  host: User;
+  sessionName: string;	// Name of the video session the user will connect to
+  token: string;
+
   ngOnInit() {
     this.lid = this.route.snapshot.params['lid'];
     this.livestream = this.db.getLivestream(this.lid)
@@ -176,11 +176,13 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
       // On every Stream destroyed...
       this.session.on('streamDestroyed', (event: StreamEvent) => {
+        // const streamConnectionID = event.stream.connection.connectionId;
         // Delete the HTML element with the user's name and nickname
-        setTimeout(() => {
-          this.leaveSession()
-        }, 500);
-
+        if (!this.isHost) {
+          setTimeout(() => {
+            this.leaveSession()
+          }, 500);
+        }
       });
 
       // --- 4) Connect to the session passing the retrieved token and some more data from
@@ -250,8 +252,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   }
 
   leaveSession() {
-    if(!this.saveisChecked){
+    if (!this.saveisChecked) {
       // delete livestream
+      
     }
     // this.stopRecording()
     // --- 9) Leave the session by calling 'disconnect' method over the Session object ---
@@ -409,7 +412,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   stopRecording() {
     console.warn('leaveaing stream ...')
     console.log(this.saveisChecked)
-    if (this.recorder && this.recorder.state === LocalRecorderState.RECORDING && this.saveisChecked) {
+    if (this.recorder?.state === LocalRecorderState.RECORDING && this.saveisChecked) {
       this.recorder.stop().then(() => {
         this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
           task.ref.getDownloadURL().then((url) => {
@@ -419,6 +422,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         this.leaveSession()
       })
     } else {
+      this.db.deleteLivestream(this.lid)
       this.leaveSession()
     }
   }
@@ -586,28 +590,28 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     })
 
   }
-  muteAudio(){
-    if(this.micState==="mic"){
+  muteAudio() {
+    if (this.micState === "mic") {
       this.micState = "mic_off"
       this.publisher.publishAudio(false);
     }
-    else{
+    else {
       this.micState = "mic"
       this.publisher.publishAudio(true);
 
     }
   }
-  muteVideo(){
-    if(this.camState==="videocam"){
+  muteVideo() {
+    if (this.camState === "videocam") {
       this.camState = "videocam_off"
       this.publisher.publishVideo(false);
     }
-    else{
+    else {
       this.camState = "videocam"
       this.publisher.publishVideo(true);
 
     }
-  
+
   }
 
 }

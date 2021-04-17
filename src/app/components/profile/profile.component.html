@@ -50,7 +50,7 @@
         [dislikes]="livestream.dislikes" [inProfile]="true" [photoURL]="livestream.photoURL">
     </app-stream-card> -->
 
-    <app-stream-card (deleteEvent)="remove($event)" *ngFor="let livestream of livestreamsList" [livestream]="livestream" [inProfile]="true">
+    <app-stream-card (deleteEvent)="deleteLivestream($event)" *ngFor="let livestream of livestreamsList" [livestream]="livestream" [inProfile]="true">
     </app-stream-card>
     <!-- <img *ngIf="livestreamsList.length == 0" style="margin: auto; margin-top: 5rem;"  src="./assets/images/logo.svg"> -->
 <app-no-content *ngIf="livestreamsList.length == 0" [where]="'myProfile'"></app-no-content>

@@ -71,8 +71,9 @@ export class ProfileComponent implements OnInit {
     })
     return  livestreams.sort((a,b) => b.date - a.date);
   }
-  remove(event){
-    this.livestreamsList = this.livestreamsList.filter((l)=>l.lid !=event)
+  deleteLivestream(lid){
+    this.db.deleteLivestream(lid)
+    this.livestreamsList = this.livestreamsList.filter((l)=>l.lid !=lid)
   }
 
   reloadComponent() {

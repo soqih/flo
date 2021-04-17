@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, TemplateRef } from '@angular/core';
 import firebase from 'firebase/app';
 import { Livestream } from 'src/app/interfaces/livestream';
-import { User, notification } from 'src/app/interfaces/User';
+import { User, notification, notificationType } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-stream-card',
@@ -47,9 +48,10 @@ export class StreamCardComponent implements OnInit {
 
   @Input() inProfile: boolean = false;
 
+  @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
 
 
-  constructor(public db: DB, public router: Router) { }
+  constructor(public db: DB, public router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.user = this.db.getUser(this.livestream.host)
@@ -75,14 +77,24 @@ export class StreamCardComponent implements OnInit {
     this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
     this.dislikeState = this.disliked ? 'thumb_down' : 'thumb_down_off_alt';
 
-    
+
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(this.deleteDialog,
+      {
+        width: '370px',
+        height: '250px',
+
+      });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+    })
   }
 
 
-
   like(event: Event) {
-    event.stopPropagation();
-    if (this.db?.me == undefined) {
+      if (this.db?.me == undefined) {
       return
     }
 
@@ -110,14 +122,15 @@ export class StreamCardComponent implements OnInit {
       likes: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
     }).then(() => { this.updateLivestream() })
     let flag = true;
-    this.db.getUser(this.user.uid).notifications?.forEach((notification) => {
+    this.user.notifications?.forEach((notification) => {
       if (flag && notification.lid == this.livestream.lid && notification.uid == this.db.me.uid) {
         flag = false;
       }
     });
     if (flag) {
+      var n: notification = { uid: this.db.me.uid, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid, type: notificationType.LIKE }
       this.db.updateUser(this.user.uid, {
-        notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid })
+        notifications: firebase.firestore.FieldValue.arrayUnion(n)
       })
     }
     // var x: notification = { uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid }
@@ -168,18 +181,10 @@ export class StreamCardComponent implements OnInit {
     event.stopPropagation();
     this.router.navigate([url])
   }
-  
+
 
   deleteLivestream(lid) {
-    console.log(lid)
-    // this.db.deleteLivestream(lid)this.
-    this.db.deleteLivestream(lid)
     this.deleteEvent.emit(lid);
-      // .then(res => {
-      //   if (res) {
-      //     this.reloadComponent();
-      //   }
-      // })
   }
 
   reloadComponent() {

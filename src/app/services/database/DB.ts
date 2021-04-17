@@ -51,16 +51,16 @@ export class DB {
     updateUser(uid: string, updatedData: object) {
         return this.afs.doc<User>(`users/${uid}`).update(updatedData);
     }
-    searchByUsersname(username: string): User[] { //return users that there username contains the parameter username
-        var users: User[] = [];
-        this.usersCollection.forEach((user) => {
-            if (user.username.includes(username)) {
-                users.push(user);
-            }
+    // searchByUsersname(username: string): User[] { //return users that there username contains the parameter username
+    //     var users: User[] = [];
+    //     this.usersCollection.forEach((user) => {
+    //         if (user.username.includes(username)) {
+    //             users.push(user);
+    //         }
 
-        })
-        return users;
-    }
+    //     })
+    //     return users;
+    // }
 
     addToArray(arrayName: string, newElemnt: any) {
         var obj = {}

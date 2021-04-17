@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { notification, User } from 'src/app/interfaces/User';
+import { notification, notificationType, User } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
@@ -72,7 +72,7 @@ export class AnotherProfileComponent implements OnInit {
         return;
       }
 
-      var notification: notification = { uid: this.db.me?.uid, isItLike: false, date: new Date().getTime(), hasSeen: false };
+      var notification: notification = { uid: this.db.me?.uid, date: new Date().getTime(), hasSeen: false, type: notificationType.FOLLOW };
       this.db.updateUser(this.anotherUser.uid, {
         followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
         notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me?.uid, isItLike: false, date: new Date().getTime() })
@@ -108,7 +108,7 @@ export class AnotherProfileComponent implements OnInit {
     this.anotherUser.livestreams?.forEach((lid) => {
       livestreams.push(this.db.getLivestream(lid))
     })
-    return  livestreams.sort((a,b) => b.date - a.date);
+    return livestreams.sort((a, b) => b.date - a.date);
   }
 
   blockUnblock() {
@@ -157,8 +157,7 @@ export class AnotherProfileComponent implements OnInit {
     // }
 
     for (var i = 0; i < notifications.length; i++) {
-      console.log(notifications[i].date)
-      if (notifications[i].uid === uid && notifications[i].isItLike === false && now - notifications[i].date < threeDaysInMs) {
+      if (notifications[i].uid === uid && notifications[i].type  === notificationType.FOLLOW && now - notifications[i].date < threeDaysInMs) {
         return true;
       }
     }

@@ -1,6 +1,11 @@
+export enum notificationType {
+    LIKE = 'like',
+    FOLLOW= "follow",
+    INVITE = "invite"
+}
 export interface notification {
     uid: string;
-    isItLike: boolean;
+    type:notificationType;
     date: number;
     hasSeen:boolean;
     lid?:string;

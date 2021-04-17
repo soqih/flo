@@ -60,6 +60,11 @@
         <button (click)="signIn(userName.value,userPassword.value)" id="signIn" mat-stroked-button mat-dialog-close>Sign
             in</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
+        
+        <div routerLink="/forgotPassword" class="forgot" mat-dialog-close>
+            Forgot password?
+        </div>
     </mat-dialog-actions>
 
+    
 </ng-template>

@@ -125,7 +125,52 @@ a {
         font-size: 1.5em;
 }
 
-
+mat-checkbox{
+    /* background-color: red; */
+    width: fit-content;
+    margin-right: 1rem;
+    margin-top: 0.4rem;
+}
+.dialog{
+    /* background-color: lawngreen; */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    padding: 5px;
+}
+.checkbox{
+    /* background-color: red; */
+    margin-bottom: 0.7rem;
+}
+#ok{
+    width: 100%;
+    /* background-color: brown; */
+    margin: 0px 10px;
+    margin-bottom: 10px;
+    color: #D58895;
+    border: 2px solid #D58895;
+    background: transparent;
+}
+#cancel{
+    width: 100%;
+    /* background-color: green; */
+    margin: 0px 10px;
+    background:#D58895;
+    color: white;
+}
+#ok:hover{
+    border:solid 2px gray;
+    color: gray;
+    cursor: pointer;
+    transition: 0.5s;
+}
+#cancel:hover{
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+}
 @media (max-width: 768px) {
     .input-container{
         height: 2rem;

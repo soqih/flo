@@ -320,18 +320,6 @@ mat-dialog-actions{
     background:#D58895;
     color: white;
 }
-/* #signUp, #signIn{
-    color: #D58895;
-    border: 2px solid #D58895;
-    background: transparent;
-    } */
-    
-/* #cancel{
-    background:#D58895;
-    color: white;
-    margin-bottom: 1rem;
-} */
-
 #stop:hover{
     border:solid 2px gray;
     color: gray;
@@ -344,6 +332,18 @@ mat-dialog-actions{
     cursor: pointer;
     transition: 0.5s;
 }
+/* #signUp, #signIn{
+    color: #D58895;
+    border: 2px solid #D58895;
+    background: transparent;
+    } */
+    
+/* #cancel{
+    background:#D58895;
+    color: white;
+    margin-bottom: 1rem;
+} */
+
 .recordedVideoContainer{
     /* width: 100%; */
     /* height: 100%; */

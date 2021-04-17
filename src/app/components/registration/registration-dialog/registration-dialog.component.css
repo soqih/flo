@@ -13,20 +13,28 @@ button{
     background: transparent;
     }
     
+    #signUp:hover , #signIn:hover{
+        border:solid 2px gray;
+        color: gray;
+        cursor: pointer;
+        transition: 0.5s;
+    }
 #cancel{
     background:#D58895;
     color: white;
     margin-bottom: 1rem;
 }
-#signUp:hover , #signIn:hover{
-    border:solid 2px gray;
-    color: gray;
-    cursor: pointer;
-    transition: 0.5s;
-}
 #cancel:hover{
     background-color: gray;
     color: white;
     cursor: pointer;
+    transition: 0.5s;
+}
+.forgot{
+    cursor: pointer;
+    color: #D58895;
+}
+.forgot:hover{
+    font-size: 1rem;
     transition: 0.5s;
 }
