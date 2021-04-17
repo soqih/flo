@@ -36,7 +36,7 @@ export class TopNavbarComponent implements OnInit {
       "displayName",
     ]
   };
-  
+
   livestreamoptions = {
     // isCaseSensitive: false,
     // includeScore: false,
@@ -54,7 +54,7 @@ export class TopNavbarComponent implements OnInit {
       "title",
       // "displayName",
     ]
-  
+
   };
 
 
@@ -64,8 +64,8 @@ export class TopNavbarComponent implements OnInit {
 
   usersArray = Array.from(this.db.usersCollection, ([key, value]) => value);
   livestreamsArray = Array.from(this.db.livestreamsCollection, ([key, value]) => value);
-  
- 
+
+
   mixArray = [...this.usersArray, ...this.livestreamsArray]
   // mix = new Fuse(this.mixArray, this.options)
 
@@ -114,6 +114,7 @@ export class TopNavbarComponent implements OnInit {
     if(this.usersIsChecked && this.LivestreamsIsChecked){
       this.searchFilter = "mix"
     }
+
 
   }
 }

@@ -7,7 +7,7 @@
         </div>
         <div class="input-container">
             <img  class="inputImage" src="/assets/images/search.svg" alt="">
-            <input type=" search" name="" class="input" placeholder="Search" (keyup)="search($event)">
+            <input #searchField type=" search" name="" class="input" placeholder="Search" (keyup)="search($event)">
             <!-- <h1>test</h1> -->
             <img class="inputImage filter" src="/assets/images/filter.svg" alt="" (click)="openDialog()">
         </div>
@@ -15,19 +15,19 @@
 </div>
 <ng-container>
     <div class="searchMenu">
-        <div class="searchItem" *ngFor="let item of items">
-            <div *ngIf="searchFilter == 'user'">
+        <div *ngFor="let item of items">
+             <div class="searchItem" *ngIf="searchFilter == 'user'">
                 <img class="searchImg" src="{{item.photoURL}}"
                     onError="this.onerror=null;this.src='/assets/images/logo.svg';">
-                <a [routerLink]="'/u/'+user.uid">
-                    <pre>{{user.displayName}}<br><small>@{{ user.username }}</small></pre>
+                <a [routerLink]="'/u/'+item.uid">
+                    <pre>{{item.displayName}}<br><small>@{{ item.username }}</small></pre>
                 </a>
             </div>
-            <div *ngIf="searchFilter == 'livestream'">
+            <div class="searchItem" *ngIf="searchFilter == 'livestream'">
                 <img class="searchImg" src="{{item.photoURL}}"
                     onError="this.onerror=null;this.src='/assets/images/logo.svg';">
-                <a [routerLink]="'/session/'+livestreams.lid">
-                    <pre>{{livestream.title}}<br></pre>
+                <a [routerLink]="'/session/'+item.lid">
+                    <pre>{{item.title}}<br></pre>
                 </a>
             </div>
         </div>
@@ -46,10 +46,10 @@
                     <mat-checkbox [(ngModel)]="LivestreamsIsChecked" #livestreams class="">Livestreams</mat-checkbox>
                 </section>
         </div>
-        
+
         <mat-dialog-actions align="end">
             <button id="ok" mat-stroked-button mat-dialog-close mat-dialog-close
-            (click)="setFilter()">OK</button>
+            (click)="setFilter(); searchField.value=''; search($event)">OK</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
         </mat-dialog-actions>
     </div>
