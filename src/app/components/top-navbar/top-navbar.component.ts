@@ -31,9 +31,12 @@ export class TopNavbarComponent implements OnInit {
       "username",
       "displayName",
     ]
+  
   };
 
   fuse = new Fuse(Array.from(this.db.usersCollection, ([key, value]) => value), this.options);
+
+
 
   // test = this.fuse.search('test')
   items = [];

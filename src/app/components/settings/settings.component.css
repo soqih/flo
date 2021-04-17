@@ -8,37 +8,58 @@
     height: 100%;
     /* margin-bottom: 5rem; */
 }
-.btn:hover{
+#btn1{
+    color:white;
+    background-color: transparent;
+    border:solid 2px #D58895;
+}
+#btn1:hover{
+    border:solid 2px gray;
+    /* color: gray; */
+    
+}
+
+#btn2{
+    color:white;
+    background-color: #D58895;
+    border: none;
+}
+#btn2:hover{
     background-color: gray;
     color: white;
-    cursor: pointer;
-    transition: 0.5s;
 }
 .btn{
-    width: 30%;
+    width: 50%;
     height: 3rem;
     margin: 0.5rem 0.5rem;
     font-weight: 600;
     font-size: 1rem;
-    /* border-radius: 0.3rem; */
+    border-radius: 0.3rem;
     outline: none;
     transition: 0.5s;
-    color:white;
-    background-color: transparent;
-    border: 2px solid #C93D3D;
-    text-align: center;
-    
+    cursor: pointer;
+
 }
 .btn:hover{
+    transition: 0.5s;
+    font-size: 1.3rem;
+}
+
+.signout:hover{
     background-color: #C93D3D;
 
     transition: 0.5s;
 
 }
+.signout{
+    color:white;
+    background-color: transparent;
+    border: 2px solid #C93D3D;
+}
 .blockedUsers{
     cursor: pointer;
-   
-    width: 30%;
+    border-radius: 0.3rem;
+    width: 50%;
     height: 3rem;
     padding: 10px;
     font-weight: 600;
@@ -51,6 +72,7 @@
 }
 .blockedUsers:hover{
     background-color: gray;
-
     transition: 0.5s;
+    font-size: 1.3rem;
+   
 }

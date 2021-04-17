@@ -2,8 +2,8 @@
     <div (click)="openDialog()" class="blockedUsers" *ngIf="this.authService.isLoggedIn">
         Blocked Users
     </div>
-    <button *ngIf="this.authService.isLoggedIn" class="btn" (click)="this.authService.SignOut()">Sign out</button>
-    <button *ngIf="!this.authService.isLoggedIn" class="btn" routerLink="/r/signin">Sign In</button>
-    <button *ngIf="!this.authService.isLoggedIn" class="btn" routerLink="/r/signup">Sign Up</button>
+    <button *ngIf="this.authService.isLoggedIn" class="btn signout" (click)="this.authService.SignOut()">Sign out</button>
+    <button *ngIf="!this.authService.isLoggedIn" class="btn" id="btn1" routerLink="/r/signin">Sign In</button>
+    <button *ngIf="!this.authService.isLoggedIn" class="btn" id="btn2" routerLink="/r/signup">Sign Up</button>
 </div>
 <app-tool-bar [where] = "'settings'"></app-tool-bar>

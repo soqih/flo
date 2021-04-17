@@ -37,6 +37,7 @@ import { BlockedDialogComponent } from './components/blocked-dialog/blocked-dial
 import { TrendComponent } from './components/trend/trend.component';
 import { UnsignedUserViewComponent } from './components/unsigned-user-view/unsigned-user-view.component';
 import {AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
+import { NoContentComponent } from './components/no-content/no-content.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import {AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
     BlockedDialogComponent,
     TrendComponent,
     UnsignedUserViewComponent,
+    NoContentComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [

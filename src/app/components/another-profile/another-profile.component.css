@@ -11,7 +11,8 @@
     /* height: auto; */
     flex-wrap: wrap;
     margin: 1rem 1rem  7rem;
-
+    justify-content: center;
+    align-items: center;
     /* background-color: red; */
     /* justify-content: center; */
 }

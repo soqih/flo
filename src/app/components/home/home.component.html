@@ -2,16 +2,17 @@
 <app-top-navbar></app-top-navbar>
 
 <!-- <div class="content"> -->
-    <div class="content" *ngIf="!this.db?.me">
+    <!-- <div  *ngIf="!this.db?.me"> -->
         <!-- <app-stream-card  *ngFor="let livestream of this.db.livestreamsCollection | keyvalue" [livestream]="livestream.value">
         </app-stream-card> -->
         <!-- <img style="margin-top: 5rem;"  src="./assets/images/logo.svg"> -->
-        <app-unsigned-user-view></app-unsigned-user-view>
-    </div>
+        <app-unsigned-user-view *ngIf="!this.db?.me"></app-unsigned-user-view>
+    <!-- </div> -->
     <div class="content" *ngIf="this.db?.me">
         <app-stream-card  *ngFor="let livestream of myLivestreams" [livestream]="livestream">
         </app-stream-card>
-        <img *ngIf="!myLivestreams" style="margin-top: 5rem;"  src="./assets/images/logo.svg">
+        <!-- <img *ngIf="!myLivestreams" style="margin-top: 5rem;"  src="./assets/images/logo.svg"> -->
+        <app-no-content *ngIf="myLivestreams.length == 0" [where]="'home'"></app-no-content>
     </div>
     
 <!-- </div> -->

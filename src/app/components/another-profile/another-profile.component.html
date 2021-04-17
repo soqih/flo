@@ -34,7 +34,8 @@
     <div class="content">
         <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]="livestream">
         </app-stream-card>
-        <img *ngIf="livestreamsList.length == 0" style="margin: auto; margin-top: 5rem;"  src="./assets/images/logo.svg">
+        <!-- <img *ngIf="livestreamsList.length == 0" style="margin: auto; margin-top: 5rem;"  src="./assets/images/logo.svg"> -->
+        <app-no-content *ngIf="livestreamsList.length == 0" [where]="'anotherProfile'"></app-no-content>
     </div>
     <app-tool-bar></app-tool-bar>
 </div>
