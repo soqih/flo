@@ -6,6 +6,7 @@ export enum notificationType {
 export interface notification {
     uid: string;
     type:notificationType;
+    isItLike?:boolean;
     date: number;
     hasSeen:boolean;
     lid?:string;
