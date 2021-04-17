@@ -48,8 +48,8 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   isVideoMuted:boolean;
   isAudioMuted:boolean;
-
-
+  micState:string = "mic"
+  camState:string = "videocam"
   @ViewChild('stopDialog') stopDialog: TemplateRef<any>;
   subscriber: Subscriber;
 
@@ -250,6 +250,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   }
 
   leaveSession() {
+    if(!this.saveisChecked){
+      // delete livestream
+    }
     // this.stopRecording()
     // --- 9) Leave the session by calling 'disconnect' method over the Session object ---
     // if (this.isHost) {
@@ -584,10 +587,27 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   }
   muteAudio(){
-    this.publisher.publishAudio(!this.isAudioMuted);
+    if(this.micState==="mic"){
+      this.micState = "mic_off"
+      this.publisher.publishAudio(false);
+    }
+    else{
+      this.micState = "mic"
+      this.publisher.publishAudio(true);
+
+    }
   }
   muteVideo(){
-    this.publisher.publishVideo(!this.isVideoMuted);
+    if(this.camState==="videocam"){
+      this.camState = "videocam_off"
+      this.publisher.publishVideo(false);
+    }
+    else{
+      this.camState = "videocam"
+      this.publisher.publishVideo(true);
+
+    }
+  
   }
 
 }

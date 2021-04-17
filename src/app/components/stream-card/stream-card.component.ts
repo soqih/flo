@@ -75,7 +75,7 @@ export class StreamCardComponent implements OnInit {
     this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
     this.dislikeState = this.disliked ? 'thumb_down' : 'thumb_down_off_alt';
 
-
+    
   }
 
 
@@ -168,7 +168,7 @@ export class StreamCardComponent implements OnInit {
     event.stopPropagation();
     this.router.navigate([url])
   }
-
+  
 
   deleteLivestream(lid) {
     console.log(lid)

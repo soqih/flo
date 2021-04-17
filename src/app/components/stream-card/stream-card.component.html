@@ -16,87 +16,93 @@
 </div> -->
 
 <!-- " -->
-<mat-card class="example-card" *ngIf="this.livestream">
-    <!-- <img [src]="db.me.photoURL" mat-card-image> -->
-
-    <!-- <mat-card-header> -->
-    <div class="titles">
-
-        <mat-card-title class="title">{{title}}</mat-card-title>
-
-        <div class="names">
-            <!-- <div class="name">{{name}}</div> -->
-
-            <div class="username" (click)="navgateTo(userlink,$event)">@{{username}}</div>
-            <mat-icon (click)="deleteLivestream(this.livestream.lid)" *ngIf="inProfile" class="settings">delete
-            </mat-icon>
-
-        </div>
+<div class="card">
+    <div class="live" *ngIf="this.livestream.isActive">
+        Live
     </div>
-    <!-- <a *ngIf="!signed">Sign in</a> -->
-
-
-    <!-- </mat-card-header> -->
-
-    <!-- Livestream photo (square need full size )   OR    Avtar photo (circle) ?  ((SIZE!!))-->
-    <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';"
-        (click)="navgateTo(livestreamURL,$event)">
-
-
-    <!-- <img [src]="db.me.photoURL" alt=""> -->
-    <!-- <mat-icon class="mat-avatar">person</mat-icon> -->
-    <!-- <mat-card-content class="content" >
-
-        <p>
-            {{title}}
-        </p>
-    </mat-card-content> -->
-
-    <mat-card-content class="view">
-        <div class="views">
-            <mat-icon>remove_red_eye</mat-icon>
-            <span>
-                {{views}}
-            </span>
+    <mat-card class="example-card" *ngIf="this.livestream">
+        
+        <!-- <img [src]="db.me.photoURL" mat-card-image> -->
+    
+        <!-- <mat-card-header> -->
+        <div class="titles">
+    
+            <mat-card-title class="title">{{title}}</mat-card-title>
+    
+            <div class="names">
+                <!-- <div class="name">{{name}}</div> -->
+    
+                <div class="username" (click)="navgateTo(userlink,$event)">@{{username}}</div>
+                <mat-icon (click)="deleteLivestream(this.livestream.lid)" *ngIf="inProfile" class="settings">delete
+                </mat-icon>
+    
+            </div>
         </div>
-
-
-        <div class="likeDislike">
-            <div class="like" (click)="like($event)">
+        <!-- <a *ngIf="!signed">Sign in</a> -->
+    
+    
+        <!-- </mat-card-header> -->
+    
+        <!-- Livestream photo (square need full size )   OR    Avtar photo (circle) ?  ((SIZE!!))-->
+        <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';"
+            (click)="navgateTo(livestreamURL,$event)">
+    
+    
+        <!-- <img [src]="db.me.photoURL" alt=""> -->
+        <!-- <mat-icon class="mat-avatar">person</mat-icon> -->
+        <!-- <mat-card-content class="content" >
+    
+            <p>
+                {{title}}
+            </p>
+        </mat-card-content> -->
+    
+        <mat-card-content class="view">
+            <div class="views">
+                <mat-icon>remove_red_eye</mat-icon>
+                <span>
+                    {{views}}
+                </span>
+            </div>
+    
+    
+            <div class="likeDislike">
+                <div class="like" (click)="like($event)">
+                    <mat-icon>{{likeState}}</mat-icon>
+                    <span class="likes">
+                        {{this.livestream.likes.length}}
+                    </span>
+                </div>
+                <div class="dislike" (click)="dislike($event)">
+                    <mat-icon>{{dislikeState}}</mat-icon>
+                    <span class="dislikes">
+                        {{this.livestream.dislikes.length}}
+                    </span>
+                </div>
+            </div>
+    
+    
+        </mat-card-content>
+    
+        <!-- <mat-card-actions class="actions">
+            <div class="like" (click)="like()">
                 <mat-icon>{{likeState}}</mat-icon>
                 <span class="likes">
                     {{this.livestream.likes.length}}
                 </span>
             </div>
-            <div class="dislike" (click)="dislike($event)">
+            
+    
+            <div class="dislike" (click)="dislike()">
                 <mat-icon>{{dislikeState}}</mat-icon>
                 <span class="dislikes">
                     {{this.livestream.dislikes.length}}
                 </span>
             </div>
-        </div>
-
-
-    </mat-card-content>
-
-    <!-- <mat-card-actions class="actions">
-        <div class="like" (click)="like()">
-            <mat-icon>{{likeState}}</mat-icon>
-            <span class="likes">
-                {{this.livestream.likes.length}}
-            </span>
-        </div>
-        
-
-        <div class="dislike" (click)="dislike()">
-            <mat-icon>{{dislikeState}}</mat-icon>
-            <span class="dislikes">
-                {{this.livestream.dislikes.length}}
-            </span>
-        </div>
-
-        
-
-    </mat-card-actions> -->
-
-</mat-card>
+    
+            
+    
+        </mat-card-actions> -->
+    
+    </mat-card>
+</div>

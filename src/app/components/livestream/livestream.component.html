@@ -1,14 +1,29 @@
 <div class="recordedVideoPageContainer" *ngIf="!livestream?.isActive">
-	<div routerLink="/home" class="leave">
-		Leave
-	</div>
+	
 	<div class="recordedVideoContainer">
+
+		<div class="recordedVideoOptions">
+			<div class="like" (click)="like($event)">
+				<mat-icon class="likeIcon">{{likeState}}</mat-icon>
+			</div>
+			<div routerLink="/home" class="leave">
+				Leave
+			</div>
+			
+			<div class="dislike" (click)="dislike($event)">
+				<mat-icon>{{dislikeState}}</mat-icon>
+			</div>
+		</div>
+		
+
+		
+		
+
 		<video *ngIf="!livestream?.isActive" style="z-index: 10;" controls>
 			<source [src]="livestream?.videoURL" >
 		</video>
 	</div>
 </div>
-
 
 <div class="container" id="session" *ngIf="livestream?.isActive" >
 	<div class="stop" (click)="openDialog()" *ngIf="isHost">
@@ -33,7 +48,6 @@
 					</div>
 				</div>	
 			</div>
-
 			<div class="toolbar" *ngIf="db.me">
 				<div class="chatInput">	
 					<input type="text" #message placeholder="Say somthing..." maxlength="120" value="">
@@ -43,18 +57,23 @@
 				</div>
 	
 				<div class="likeDislike">
-					<div class="like" (click)="like($event)">
+					<div class="like" (click)="like($event)" *ngIf="!isHost">
 						<mat-icon class="likeIcon">{{likeState}}</mat-icon>
 					</div>
-					<div class="dislike" (click)="dislike($event)">
+					<div class="dislike" (click)="dislike($event)" *ngIf="!isHost">
 						<mat-icon>{{dislikeState}}</mat-icon>
+					</div>
+					
+					<div *ngIf="isHost" class="muteUnmute" (click)="muteAudio()" >
+						<mat-icon>{{micState}}</mat-icon>
+					</div>
+					<div *ngIf="isHost" class="muteUnmute" (click)="muteVideo()" >
+						<mat-icon>{{camState}}</mat-icon>
 					</div>
 					<div *ngIf="isHost"> <mat-icon (click)="toggleCamera()">switch_camera</mat-icon> </div>
 					
 				</div>
 			</div>
-			
-
 		</div>
 		
 		

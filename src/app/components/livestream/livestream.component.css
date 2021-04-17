@@ -19,14 +19,14 @@
     flex-direction: column;
     /* justify-content: space-around; */
     align-items: center;
-    padding: 2rem 0rem;
+    /* padding: 2rem 0rem; */
 
 }
 .recordedVideoContainer{
     background-color: rgb(41, 41, 41);
     width: 100%;
-    max-width: 100%;
-    height: auto;
+    /* max-width: 100%; */
+    /* height: 100%; */
     justify-self: center;
     align-self: center;
     margin: auto;
@@ -34,14 +34,43 @@
     justify-content: center;
     align-items: center;
     /* padding: 2rem; */
+    position: relative;
+
+}
+.recordedVideoOptions{
+    position: absolute;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    /* background-color: green; */
+    justify-content: space-evenly;
+    align-items: center;
+    min-width:60%;
+    max-width: 100%;
+
+}
+.recordedVideoOptions mat-icon{
+    margin: 0;
+}
+.recordedVideoOptions .like{
+    /* margin-right: 5px; */
 }
 .leave{
     background-color: #AC717B;
-    padding: 1rem;
+    padding: 0.7rem 0.9rem;
     font-size: 1.5rem;
     border-radius: 0.6rem;
     color: white;
     cursor: pointer;
+    /* margin-right: 2rem; */
+   
+    /* z-index: 50; */
+    opacity: 0.4;
+}
+.leave:hover{
+    opacity: 1;
+    transition: 0.5s;
+    
 }
 .stop{
     background-color: #AC717B;
@@ -315,9 +344,35 @@ mat-dialog-actions{
     cursor: pointer;
     transition: 0.5s;
 }
-
+.recordedVideoContainer{
+    /* width: 100%; */
+    /* height: 100%; */
+    /* height: 85%; */
+    max-height: 100%;
+}
 video{
+    min-width: 60%;
     max-width: 100%;
     height: auto;
-  
+    /* min-height: 60%; */
+
+    max-height: 100%;
+    /* height: 90%;
+    width: 90%; */
 }
+
+
+/* @media only screen and (orientation: landscape) {
+    video{
+        height: 100%;
+        width: auto;
+    }   
+}
+@media only screen and (orientation: portrait ) {
+    video{
+        width: 100%;
+        height: auto;
+    }
+    
+    
+} */
