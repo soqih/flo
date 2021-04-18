@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./top-navbar.component.css']
 })
 export class TopNavbarComponent implements OnInit {
+  public selection: string = 'users';
 
   constructor(public authService: AuthService,
     public db: DB, public dialog: MatDialog
@@ -62,11 +63,11 @@ export class TopNavbarComponent implements OnInit {
   users = new Fuse(Array.from(this.db.usersCollection, ([key, value]) => value), this.usersoptions);
   livestreams = new Fuse(Array.from(this.db.livestreamsCollection, ([key, value]) => value), this.livestreamoptions);
 
-  usersArray = Array.from(this.db.usersCollection, ([key, value]) => value);
-  livestreamsArray = Array.from(this.db.livestreamsCollection, ([key, value]) => value);
+  // usersArray = Array.from(this.db.usersCollection, ([key, value]) => value);
+  // livestreamsArray = Array.from(this.db.livestreamsCollection, ([key, value]) => value);
 
 
-  mixArray = [...this.usersArray, ...this.livestreamsArray]
+  // mixArray = [...this.usersArray, ...this.livestreamsArray]
   // mix = new Fuse(this.mixArray, this.options)
 
   searchFilter:string = "user";
@@ -76,15 +77,13 @@ export class TopNavbarComponent implements OnInit {
   items = [];
   search(pattern: any): void {
     if(this.searchFilter==="user"){
-      this.items = this.users.search(pattern.target.value).slice(0, 15).map(({ item }) => item)
+      this.items = this.users.search(pattern).slice(0, 15).map(({ item }) => item)
     }
     else if(this.searchFilter==="livestream"){
-      this.items = this.livestreams.search(pattern.target.value).slice(0, 15).map(({ item }) => item)
+      this.items = this.livestreams.search(pattern).slice(0, 15).map(({ item }) => item)
+  
     }
-    else{
-      // this.items = this.mix.search(pattern.target.value).slice(0, 15).map(({ item }) => item)
-
-    }
+    
     // return this.fuse.search(pattern.target.value)
   }
 
@@ -100,20 +99,18 @@ export class TopNavbarComponent implements OnInit {
 
       });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
+      // console.log(result)
     })
   }
   setFilter(){
-    console.log(this.usersIsChecked, this.LivestreamsIsChecked)
-    if(this.usersIsChecked){
+    console.log(this.selection)
+    if(this.selection === "users"){
       this.searchFilter = "user"
     }
-    if(this.LivestreamsIsChecked){
+    if(this.selection === "livestreams"){
       this.searchFilter = "livestream"
     }
-    if(this.usersIsChecked && this.LivestreamsIsChecked){
-      this.searchFilter = "mix"
-    }
+
 
 
   }

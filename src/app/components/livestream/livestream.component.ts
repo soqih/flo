@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 
 export class LivestreamComponent implements OnInit, OnDestroy {
+/// hjclghjolfdkgpdk vdvdvdvd
   saveisChecked = true;
   // @ViewChild("msg") msg: ElementRef;
   counter: number = 0;
@@ -46,8 +47,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   likeState: string;
   dislikeState: string;
 
-  isVideoMuted: boolean;
-  isAudioMuted: boolean;
+ 
   micState: string = "mic"
   camState: string = "videocam"
   @ViewChild('stopDialog') stopDialog: TemplateRef<any>;
@@ -80,6 +80,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
       this.host = this.db.getUser(this.livestream?.host)
       this.isHost = this.db.me?.uid == this.host?.uid;
       this.joinSession();
+
     } else {
       console.warn('not active');
       // this.publisherVideoElement = 
@@ -93,7 +94,13 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     //     this.createSession(this.sessionName).then(() => { this.joinSession() })
     //   }
     // })
+    setTimeout(this.screenshot, 10000);
   }
+  screenshot()  {
+    console.log("Taking screenshot")
+
+}
+
   openDialog() {
     let dialogRef = this.dialog.open(this.stopDialog,
       {
@@ -105,9 +112,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
       console.log(result)
     })
   }
-
   // Token retrieved from OpenVidu Server
-
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.width = event.target.innerWidth
@@ -165,8 +170,15 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
         // When the HTML video has been appended to DOM...
         this.subscriber.on('videoElementCreated', (event: VideoElementEvent) => {
-          event.element.muted = true; // Chrome's autoplay policies are simple: 1- Muted autoplay is always allowed ...etc, for more check https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+          event.element.muted = false; // Chrome's autoplay policies are simple: 1- Muted autoplay is always allowed ...etc, for more check https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
           event.element.controls = true;
+          this.publisherVideoElement = event.element;
+
+          if (window.screen.width > window.screen.height) {
+            this.publisherVideoElement.height = window.innerHeight;
+          } else {
+            this.publisherVideoElement.width = window.innerWidth;
+          }
 
           // Add a new HTML element for the user's name and nickname over its video
           // this.appendUserData(event.element, subscriber.stream.connection);
@@ -184,6 +196,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
           }, 500);
         }
       });
+
+      // this.session.on('')
+      // this.session.onParticipantJoined()
 
       // --- 4) Connect to the session passing the retrieved token and some more data from
       //        the client (in this case a JSON with the nickname chosen by the user) ---
@@ -214,9 +229,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
               insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
               mirror: true,       	// Whether to mirror your local video or not
             });
-            this.isVideoMuted = false;
-            this.isAudioMuted = false;
-
+          
             // --- 7) Specify the actions when events take place in our publisher ---
 
             // When our HTML video has been added to DOM...
@@ -238,18 +251,21 @@ export class LivestreamComponent implements OnInit, OnDestroy {
             this.session.publish(this.publisher).then(() => { this.recording(); });
 
           } else {
-            this.isVideoMuted = false;
-            this.isAudioMuted = false;
+            this.db.updateLivestream(this.lid,{views:firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)})
+            
             console.warn('You don\'t have permissions to publish');
           }
         })
-        .catch(error => {
+        .catch(error => {    
           console.warn('There was an error connecting to the session:', error.code, error.message);
+          this.joinSession();
         });
     });
 
     return false;
   }
+
+
 
   leaveSession() {
     if (!this.saveisChecked) {
@@ -468,6 +484,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     }));
   }
 
+  
+
+
   toggleCamera() {
     this.OV.getDevices().then(devices => {
       var pp: PublisherProperties;
@@ -591,6 +610,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   }
   muteAudio() {
+    if(!this.publisher){
+      return;
+    }
     if (this.micState === "mic") {
       this.micState = "mic_off"
       this.publisher.publishAudio(false);
@@ -602,6 +624,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     }
   }
   muteVideo() {
+    if(!this.publisher){
+      return;
+    }
     if (this.camState === "videocam") {
       this.camState = "videocam_off"
       this.publisher.publishVideo(false);

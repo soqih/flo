@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { Router } from "@angular/router";
-import { notification, User } from 'src/app/interfaces/User';
+import { notification, notificationType, User } from 'src/app/interfaces/User';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { Livestream } from 'src/app/interfaces/livestream';
@@ -72,11 +72,14 @@ export class DB {
         obj[arrayName] = firebase.firestore.FieldValue.arrayRemove(newElemnt)
         this.updateMyData(obj)
     }
-    saveLivestream(livestream: Livestream) {
-        this.afs.collection('livestreams').add(livestream).then((l) => {
-            l.update({ 'lid': l.id })
-            this.updateMyData({
-                livestreams: firebase.firestore.FieldValue.arrayUnion(l.id)
+    saveLivestream(livestream: Livestream): Promise<string> {
+        return new Promise<string>((resolve) => {
+            this.afs.collection('livestreams').add(livestream).then((l) => {
+
+                l.update({ 'lid': l.id })
+                this.updateMyData({
+                    livestreams: firebase.firestore.FieldValue.arrayUnion(l.id)
+                }).then(() => { resolve(l.id) })
             })
         })
     }
@@ -84,21 +87,32 @@ export class DB {
         return this.afs.doc<User>(`livestreams/${lid}`).update(updatedData);
     }
 
-    async deleteLivestream(lid: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            this.afs.doc<User>(`livestreams/${lid}`).delete();
-            this.updateMyData({
-                livestreams: firebase.firestore.FieldValue.arrayRemove(lid)
-            });
-            resolve(true);
+    deleteLivestream(lid: string) {
+        this.afs.doc<User>(`livestreams/${lid}`).delete();
+        this.updateMyData({
+            livestreams: firebase.firestore.FieldValue.arrayRemove(lid)
+        });
+        this.updateMyData({ notifications: this.me.notifications.filter((n) => n.lid != lid) });
+        this.me.followersUsers.forEach((follower) => {
+            this.updateUser(follower, { notifications: this.getUser(follower).notifications.filter((n) => n.lid != lid) })
         })
     }
-
-
     myNotifications(): notification[] {
         return this.me.notifications;
     }
     myUnseenNotifications(): notification[] {
         return this.me?.notifications.filter((n) => !n.hasSeen)
+    }
+    sendNotification(receiver: string, sender: string, type: notificationType, lid?: string) {
+        var notification: notification = {
+            date: new Date().getTime(),
+            uid: sender,
+            type: type,
+            hasSeen: false,
+        }
+        if (lid) {
+            notification.lid = lid;
+        }
+        this.updateUser(receiver, { notifications: firebase.firestore.FieldValue.arrayUnion(notification) })
     }
 }

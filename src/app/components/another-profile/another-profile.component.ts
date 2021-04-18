@@ -65,17 +65,12 @@ export class AnotherProfileComponent implements OnInit {
         followingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid)
       })
       //
-      if (this.followedMeBefore(this.anotherUser.notifications, this.db.me.uid)) {
-        this.db.updateUser(this.anotherUser.uid, {
-          followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
-        }).then(() => { this.anotherUser = this.db.getUser(this.params); })
-        return;
+      if (!this.followedMeBefore(this.anotherUser.notifications, this.db.me.uid)) {
+        this.db.sendNotification(this.anotherUser.uid,this.db.me?.uid,notificationType.FOLLOW)
       }
 
-      var notification: notification = { uid: this.db.me?.uid, date: new Date().getTime(), hasSeen: false, type: notificationType.FOLLOW };
       this.db.updateUser(this.anotherUser.uid, {
         followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
-        notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me?.uid, isItLike: false, date: new Date().getTime() })
       }).then(() => { this.anotherUser = this.db.getUser(this.params); })
 
 
@@ -104,9 +99,17 @@ export class AnotherProfileComponent implements OnInit {
   }
 
   getMyLivestreams(): Livestream[] {
+    var livestream
     var livestreams = [];
     this.anotherUser.livestreams?.forEach((lid) => {
-      livestreams.push(this.db.getLivestream(lid))
+      livestream = this.db.getLivestream(lid)
+      if(livestream?.isPrivate ){
+        if(this.db.me.followingUsers?.includes(livestream.host)){
+          livestreams.push(livestream)
+        }
+      }else{
+        livestreams.push(livestream)
+      } 
     })
     return livestreams.sort((a, b) => b.date - a.date);
   }

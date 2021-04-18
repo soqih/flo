@@ -13,6 +13,7 @@ import { DBTestComponent } from './dbtest/dbtest.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { TrendComponent } from './components/trend/trend.component';
+import { LivestreamGuard } from './guards/livestream.guard';
 
 const routes: Routes = [
   { path: '', component: RegistrationComponent },
@@ -21,7 +22,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'u/:username', component: AnotherProfileComponent },
   { path: 'start', component: InitLiveComponent },
-  { path: 'session/:lid', component: LivestreamComponent },
+  { path: 'session/:lid', component: LivestreamComponent, canActivate: [LivestreamGuard] },
   { path: 'db', component: DBTestComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerfiyEmailComponent },

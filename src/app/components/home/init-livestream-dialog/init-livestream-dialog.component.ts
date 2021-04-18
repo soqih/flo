@@ -4,7 +4,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { DB } from 'src/app/services/database/DB';
 import { Livestream } from '../../../interfaces/livestream';
 import { LivestreamComponent } from '../../livestream/livestream.component';
-import {ErrorStateMatcher} from '@angular/material/core';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { notificationType } from 'src/app/interfaces/User';
+import { Router } from '@angular/router';
 
 interface User {
   selected: boolean;
@@ -20,7 +22,7 @@ interface User {
 export class InitLivestreamDialogComponent implements OnInit {
   privacyisChecked = false;
   saveisChecked = false;
-  
+
   // myForm: FormGroup;
 
   // usersList: string[] = ['User1', 'User2', 'User3', 'User4'];
@@ -31,11 +33,11 @@ export class InitLivestreamDialogComponent implements OnInit {
     { selected: false, value: 'user-3', viewValue: "user3" },
   ]
 
-  constructor(private fb: FormBuilder, public db: DB,/* private OV: LivestreamComponent*/) { }
+  constructor(private fb: FormBuilder, public db: DB, public router: Router) { }
 
-   title = new FormControl('', [
-      Validators.required,
-    ]);
+  title = new FormControl('', [
+    Validators.required,
+  ]);
 
   ngOnInit(): void {
     //  console.log(this.userform.value)
@@ -52,25 +54,38 @@ export class InitLivestreamDialogComponent implements OnInit {
   }
 
   startLivestream(title) {
-    console.log(title,this.privacyisChecked,this.saveisChecked);
-   // this.OV.createSession(undefined).then((sessionID: string) => {
-      var livestream: Livestream = {
-        lid: null,
-        title: title,
-        views: 0,
-        likes: [],
-        dislikes: [],
-        isActive: true,
-        isPrivate: this.privacyisChecked,
-        saveStream: this.saveisChecked,
-        host: this.db.me.uid,
-        photoURL: this.db.me.photoURL,
-        date:new Date().getTime(),
+    console.log(title, this.privacyisChecked, this.saveisChecked);
+    // this.OV.createSession(undefined).then((sessionID: string) => {
+    var livestream: Livestream = {
+      lid: null,
+      title: title,
+      views: [],
+      likes: [],
+      dislikes: [],
+      isActive: true,
+      isPrivate: this.privacyisChecked,
+      saveStream: this.saveisChecked,
+      host: this.db.me.uid,
+      photoURL: this.db.me.photoURL,
+      date: new Date().getTime(),
       //  sessionID:sessionID
-      }
-      this.db.saveLivestream(livestream);
-  //  })
+    }
+    this.db.saveLivestream(livestream).then((lid) => {
+      this.db.me.followersUsers.forEach((follower) => {
+        this.db.sendNotification(follower, this.db.me.uid, notificationType.INVITE, lid)
+      
+      })
+      this.router.navigate(['/session/'+lid])
+    })
 
+
+    //  })
+
+    // navgateTo(url: string, event: Event) {
+    //   event.stopPropagation();
+    //   this.router.navigate([url])
+    // }  
+    // this.router.navigate([url])
   }
 
 

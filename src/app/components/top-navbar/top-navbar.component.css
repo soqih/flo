@@ -78,30 +78,42 @@
 }
 
 .searchMenu {
-        display: block;
-        position: relative;
-      background-color: rgb(192, 192, 192);
-      justify-content: left;
-      align-items: center;
-      top: 0.5em;
-      left: 6em;
+      display: flex;
+      flex-direction: column;
+      /* position: relative; */
+      /* background-color: rgb(192, 192, 192); */
+      /* background-color: RED; */
+      justify-content: center;
+      align-items: flex-start;
+      /* top: 0.5em; */
+      /* left: 6em; */
       height: fit-content;
-      width: 90%;
-      padding: 0;
+      width: 100%;
       margin: 0;
       z-index: 10;
-      overflow: hidden;
-      /* border: 0.1em solid black; */
+      /* border-bottom: 2px solid #EFA297; */
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
+      /* overflow: hidden; */
+      /* border: 0.1em solid black; */
+}
+
+.items {
+    /* background-color: green; */
+    width: 100%;
+    border-bottom: 1px solid gainsboro;
 }
 
 .searchItem {
     /* position: fixed; */
     display: flex;
+    width: 100%;
     flex-direction: row;
     background-color: white;
-    justify-content: left;
+    justify-content: flex-start;
     align-items: center;
+    /* justify-content: left; */
+    /* align-items: center; */
     /* top: 10em; */
     /* height: auto; */
     padding: 0.5rem;
@@ -125,7 +137,7 @@ a {
         font-size: 1.5em;
 }
 
-mat-checkbox{
+mat-radio-button{
     /* background-color: red; */
     width: fit-content;
     margin-right: 1rem;
@@ -142,6 +154,8 @@ mat-checkbox{
 .checkbox{
     /* background-color: red; */
     margin-bottom: 0.7rem;
+    display: flex;
+    flex-direction: column;
 }
 #ok{
     width: 100%;

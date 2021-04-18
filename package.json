@@ -27,6 +27,7 @@
     "croppie": "^2.6.5",
     "firebase": "^8.2.7",
     "fuse.js": "^6.4.6",
+    "html2canvas": "*",
     "jquery": "^3.6.0",
     "openvidu-angular": "^2.17.0",
     "rxjs": "~6.6.0",

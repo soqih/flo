@@ -60,3 +60,26 @@ a img {
     border-radius: 50%;
     border: 1px solid whitesmoke;
 }
+
+button{
+    /* width: 10%; */
+    /* height: 1rem; */
+    padding: 5px 20px;
+    margin-left: 10px;
+    /* margin: 0.5rem 0.5rem; */
+    /* font-weight: 600; */
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    outline: none;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.join{
+    color:white;
+    background-color: #D58895;
+    border: none;
+}
+.join:hover{
+    background-color: gray;
+    color: white;
+}

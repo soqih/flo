@@ -1,9 +1,9 @@
 export interface Livestream {
     lid: string;
     title: string;
-    views: number;
-    likes: any[]; // change it to string (uid)
-    dislikes: any[]; // change it to string (uid)
+    views: string[];
+    likes: string[]; // change it to string (uid)
+    dislikes: string[]; // change it to string (uid)
     date?: number;
     isActive: boolean;
     isPrivate: boolean;

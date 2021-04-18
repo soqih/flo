@@ -1,12 +1,12 @@
 <div class="notificationContainer">
     <div class="notification">
-        <mat-icon color="primary">{{notification.type === "like" ?'thumb_up':'person'}}</mat-icon>{{user.displayName + text}}
+        <mat-icon color="primary">{{icon}}</mat-icon>{{user.displayName + text}} <button class="join" *ngIf="isInvitation" [routerLink]="['/session/'+notification.lid]" >join</button>
     </div>
     <!-- notificationType.LIKE -->
     <div class="user">
         <a>
-            <img [src]="user.photoURL"
-                onError="this.onerror=null;this.src='/assets/images/logo.svg';" alt="Profile Photo">
+            <img [src]="user?.photoURL?user.photoURL:'/assets/images/logo.svg'" [routerLink]="'/u/'+user?.uid"
+                 alt="Profile Photo">
             <div class="name">
                 <span>{{user.displayName}}</span>
                 <span class="username">@{{user.username}}</span>

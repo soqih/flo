@@ -7,15 +7,15 @@
         </div>
         <div class="input-container">
             <img  class="inputImage" src="/assets/images/search.svg" alt="">
-            <input #searchField type=" search" name="" class="input" placeholder="Search" (keyup)="search($event)">
+            <input #searchField type=" search" name="" class="input" placeholder="Search" (keyup)="search(searchField.value)">
             <!-- <h1>test</h1> -->
             <img class="inputImage filter" src="/assets/images/filter.svg" alt="" (click)="openDialog()">
         </div>
     </div>
 </div>
-<ng-container>
+<!-- <ng-container> -->
     <div class="searchMenu">
-        <div *ngFor="let item of items">
+        <div class="items" *ngFor="let item of items">
              <div class="searchItem" *ngIf="searchFilter == 'user'">
                 <img class="searchImg" src="{{item.photoURL}}"
                     onError="this.onerror=null;this.src='/assets/images/logo.svg';">
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-</ng-container>
+<!-- </ng-container> -->
 
 
 <ng-template #filterDialog>
@@ -41,17 +41,23 @@
 
         <div class="checkbox">
             <mat-label>Search for?</mat-label>
-                <section class="">
+                <!-- <section class="">
                     <mat-checkbox [(ngModel)]="usersIsChecked" #users class="">Users</mat-checkbox>
                     <mat-checkbox [(ngModel)]="LivestreamsIsChecked" #livestreams class="">Livestreams</mat-checkbox>
-                </section>
+                </section> -->
+                <mat-radio-group [(ngModel)]="selection" aria-label="Select an option">
+                    <mat-radio-button checked value="users">Users</mat-radio-button>
+                    <mat-radio-button value="livestreams">Livestreams</mat-radio-button>
+                </mat-radio-group>
+
         </div>
 
         <mat-dialog-actions align="end">
             <button id="ok" mat-stroked-button mat-dialog-close mat-dialog-close
-            (click)="setFilter(); searchField.value=''; search($event)">OK</button>
+            (click)="setFilter();search(searchField.value)">OK</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
         </mat-dialog-actions>
+
     </div>
 </ng-template>
 <!-- <ng-container>

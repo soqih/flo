@@ -65,7 +65,7 @@ export class StreamCardComponent implements OnInit {
     this.title = this.livestream.title;
     // }
     // this.title = this.livestream.title;
-    this.views = this.livestream.views;
+    this.views = this.livestream.views.length;     
     this.likes = this.livestream.likes.length;
     this.dislikes = this.livestream.dislikes.length;
     this.userlink = this.db.me?.uid == this.user.uid ? '/profile' : '/u/' + this.user.uid;
@@ -128,10 +128,11 @@ export class StreamCardComponent implements OnInit {
       }
     });
     if (flag) {
-      var n: notification = { uid: this.db.me.uid, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid, type: notificationType.LIKE }
-      this.db.updateUser(this.user.uid, {
-        notifications: firebase.firestore.FieldValue.arrayUnion(n)
-      })
+      this.db.sendNotification(this.user.uid, this.db.me.uid, notificationType.LIKE, this.livestream.lid)
+      // var n: notification = { uid: this.db.me.uid, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid, type: notificationType.LIKE }
+      // this.db.updateUser(this.user.uid, {
+      //   notifications: firebase.firestore.FieldValue.arrayUnion(n)
+      // })
     }
     // var x: notification = { uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid }
   }
