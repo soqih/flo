@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistrationComponent } from './components/registration/registration.component';
@@ -78,7 +78,7 @@ import { NoContentComponent } from './components/no-content/no-content.component
     AngularFireStorageModule,
     AngularFirestoreModule,
   ],
-  providers: [AuthService,/* { provide: BUCKET, useValue: 'my-bucket-name' }*/],
+  providers: [AuthService,/* { provide: BUCKET, useValue: 'my-bucket-name' }*/  Title],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

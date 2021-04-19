@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Livestream } from 'src/app/interfaces/livestream';
 import { User } from 'src/app/interfaces/User';
@@ -27,7 +28,9 @@ import { DB } from 'src/app/services/database/DB';
 export class HomeComponent implements OnInit {
 
   // livestreamsList: Livestream[] = this.MyLivestreams;
-  constructor(private route: Router, public authService: AuthService, public db: DB) { }
+  constructor(private route: Router, public authService: AuthService, public db: DB, private titleService:Title) { 
+    this.titleService.setTitle("Home | Flo");
+  }
   ngOnInit(): void {
   }
 

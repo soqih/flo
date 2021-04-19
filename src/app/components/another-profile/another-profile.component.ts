@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import firebase from 'firebase';
 import { Router } from "@angular/router";
 import { Livestream } from 'src/app/interfaces/livestream';
+import { Title } from '@angular/platform-browser';
 
 
 
@@ -32,12 +33,13 @@ export class AnotherProfileComponent implements OnInit {
     public db: DB,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    public router: Router,
+    public router: Router,private titleService:Title
   ) {
     this.params = this.route.snapshot.params['username'];
     this.anotherUser = this.db.getUser(this.params);
     this.livestreamsList = this.getMyLivestreams();
-
+    
+    this.titleService.setTitle(this.anotherUser.username + " | flo");
   }
 
   // check if this page is the logged-in users' page
@@ -48,6 +50,8 @@ export class AnotherProfileComponent implements OnInit {
     //   this.router.navigate(['/profile']);
     //   // this.router.
     // }
+
+    
   }
 
   reloadComponent() {

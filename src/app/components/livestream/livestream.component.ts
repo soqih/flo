@@ -11,6 +11,7 @@ import firebase from 'firebase';
 import { User } from 'src/app/interfaces/User';
 import { BlockedDialogComponent } from '../blocked-dialog/blocked-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-livestream',
@@ -59,6 +60,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     private router: Router,
     private fireStorage: AngularFireStorage,
     public db: DB,
+    private titleService:Title,
     public dialog: MatDialog,) { }
 
   OV: OpenVidu;
@@ -95,6 +97,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     //   }
     // })
     setTimeout(this.screenshot, 10000);
+
+    this.titleService.setTitle(this.livestream.title + " | Flo");
+
   }
   screenshot()  {
     console.log("Taking screenshot")

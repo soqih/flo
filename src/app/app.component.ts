@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from './services/auth/auth.service';
 import { DB } from './services/database/DB';
 @Component({
@@ -9,8 +10,8 @@ import { DB } from './services/database/DB';
 })
 
 export class AppComponent {
-
-  constructor(public dialog: MatDialog, public db: DB, public auth: AuthService) { }
+  
+  constructor(public dialog: MatDialog, public db: DB, public auth: AuthService, ) { }
 
   ngOnInit() {
   }

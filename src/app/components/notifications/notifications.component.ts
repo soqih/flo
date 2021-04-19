@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { notification, User } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
 
@@ -9,7 +10,9 @@ import { DB } from 'src/app/services/database/DB';
 })
 export class NotificationsComponent implements OnInit {
 
-  constructor(public db: DB) { }
+  constructor(public db: DB, private titleService:Title) { 
+    this.titleService.setTitle("Notifications | flo");
+  }
   get notifications(): notification[] {
     return this.db.me.notifications?.sort((a, b) => b.date - a.date);
   }

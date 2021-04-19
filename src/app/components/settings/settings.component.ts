@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { DB } from 'src/app/services/database/DB';
 import { BlockedDialogComponent } from '../blocked-dialog/blocked-dialog.component';
@@ -11,7 +12,9 @@ import { BlockedDialogComponent } from '../blocked-dialog/blocked-dialog.compone
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(public authService: AuthService, public db: DB, public dialog: MatDialog) { }
+  constructor(public authService: AuthService, public db: DB, public dialog: MatDialog, private titleService:Title) {
+    this.titleService.setTitle("Settings | Flo");
+   }
 
   ngOnInit(): void {
   }

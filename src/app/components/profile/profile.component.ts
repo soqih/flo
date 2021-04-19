@@ -6,6 +6,7 @@ import { FollowDialogComponent } from '../follow-dialog/follow-dialog.component'
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { Livestream } from 'src/app/interfaces/livestream';
 import { Router } from "@angular/router";
+import { Title } from '@angular/platform-browser';
 
 // interface Livestream {
 //   name: string;
@@ -27,8 +28,9 @@ export class ProfileComponent implements OnInit {
 
   livestreamsList: Livestream[] = this.getMyLivestreams();
 
-  constructor(public db: DB, public dialog: MatDialog, public router: Router,
-  ) { }
+  constructor(public db: DB, public dialog: MatDialog, public router: Router, private titleService:Title
+  ) {
+   }
 
   ngOnInit(): void {
 
@@ -39,6 +41,8 @@ export class ProfileComponent implements OnInit {
     //   this.username = '@' + this.db.me.username;
     //   this.bio = this.db.me.bio;
     // }
+    this.titleService.setTitle(this.db.me.username + " | Flo");
+
   }
 
   openDialogEdit() {
