@@ -53,7 +53,7 @@ export class InitLivestreamDialogComponent implements OnInit {
     // });
   }
 
-  startLivestream(title) {
+  startLivestream(title, privacy?, willBeSaved?) {
     console.log(title, this.privacyisChecked, this.saveisChecked);
     // this.OV.createSession(undefined).then((sessionID: string) => {
     var livestream: Livestream = {

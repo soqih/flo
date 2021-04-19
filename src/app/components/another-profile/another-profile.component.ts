@@ -103,8 +103,9 @@ export class AnotherProfileComponent implements OnInit {
     var livestreams = [];
     this.anotherUser.livestreams?.forEach((lid) => {
       livestream = this.db.getLivestream(lid)
+     
       if(livestream?.isPrivate ){
-        if(this.db.me.followingUsers?.includes(livestream.host)){
+        if(this.db.me?.followingUsers?.includes(livestream.host)){
           livestreams.push(livestream)
         }
       }else{

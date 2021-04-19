@@ -81,7 +81,6 @@ export class TopNavbarComponent implements OnInit {
     }
     else if(this.searchFilter==="livestream"){
       this.items = this.livestreams.search(pattern).slice(0, 15).map(({ item }) => item)
-  
     }
     
     // return this.fuse.search(pattern.target.value)

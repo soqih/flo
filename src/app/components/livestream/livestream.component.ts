@@ -258,7 +258,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         })
         .catch(error => {    
           console.warn('There was an error connecting to the session:', error.code, error.message);
-          this.joinSession();
+          // this.joinSession();
         });
     });
 

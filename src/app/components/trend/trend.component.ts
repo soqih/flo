@@ -35,8 +35,11 @@ export class TrendComponent implements OnInit {
   get myLivestreams(): Livestream[] {  
     var livestreams:Livestream[] = [];
     this.db.livestreamsCollection.forEach((livestream) => {
+      if(!this.db.me){
+        return;
+      }
       if(livestream?.isPrivate ){
-        if(this.db.me.followingUsers?.includes(livestream.host)){
+        if(this.db.me?.followingUsers?.includes(livestream.host)){
           livestreams.push(livestream)
         }
       }else{

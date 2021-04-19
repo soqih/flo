@@ -53,7 +53,7 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  openDialogList(e, type, arr) {
+  openDialogList( type, arr) {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
         data: { 'type': type, 'arr': arr, 'db': this.db },

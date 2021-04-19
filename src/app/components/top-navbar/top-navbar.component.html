@@ -3,7 +3,7 @@
         <div class="welcome">
             <a>{{ this.db.me?.displayName || 'Welcome' }}</a>
             <!-- <a *ngIf="!signed">Sign in</a> -->
-            <img routerLink="/profile" class="profile" src="/assets/images/profile.svg" alt="">
+            <img *ngIf="this.db.me" routerLink="/profile" class="profile" src="/assets/images/profile.svg" alt="">
         </div>
         <div class="input-container">
             <img  class="inputImage" src="/assets/images/search.svg" alt="">

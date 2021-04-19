@@ -5,6 +5,6 @@
         <app-stream-card  *ngFor="let livestream of myLivestreams" [livestream]="livestream">
         </app-stream-card>
         <img *ngIf="!myLivestreams" style="margin-top: 5rem;"  src="./assets/images/logo.svg">
-        <app-no-content *ngIf="myLivestreams.length == 0" [where]="'anotherProfile'"></app-no-content>
+        <app-no-content *ngIf="myLivestreams.length == 0" [where]="'trend'"></app-no-content>
     </div>
     <app-tool-bar [where]="'trend'"></app-tool-bar>
