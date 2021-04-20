@@ -33,6 +33,7 @@ button{
 .forgot{
     cursor: pointer;
     color: #D58895;
+    margin-bottom: 10px;
 }
 .forgot:hover{
     font-size: 1rem;

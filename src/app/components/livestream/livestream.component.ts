@@ -20,9 +20,7 @@ import { Title } from '@angular/platform-browser';
 })
 
 export class LivestreamComponent implements OnInit, OnDestroy {
-  /// hjclghjolfdkgpdk vdvdvdvd
   saveisChecked = true;
-  // @ViewChild("msg") msg: ElementRef;
   counter: number = 0;
   OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
   OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -36,7 +34,6 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   width: number;
   height: number;
   isFrontCamera = true;
-  /*@ViewChild('vid') */
   publisherVideoElement: HTMLVideoElement;
   @ViewChild('chatContainer') chatContainer: ElementRef;
   publisher: Publisher;
@@ -44,16 +41,12 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   liked: boolean;
   disliked: boolean;
-
   likeState: string;
   dislikeState: string;
-
-
   micState: string = "mic"
   camState: string = "videocam"
   @ViewChild('stopDialog') stopDialog: TemplateRef<any>;
   subscriber: Subscriber;
-
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,

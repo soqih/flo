@@ -47,6 +47,7 @@ export class RegistrationComponent implements OnInit {
       {
         data: { type },
         width: '400px',
+        
       });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)

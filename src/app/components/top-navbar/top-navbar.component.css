@@ -3,6 +3,8 @@
 }
 .nav {
     background-color: #efa297;
+    padding: 10px;
+    /* padding-top: 20px; */
     /* position: sticky; */
     /* overflow: hidden; */
     top: 0;
@@ -22,12 +24,14 @@
     width:100%;
     justify-content: space-between;
     align-items: center;
+    margin: 10px;
+    /* background-color: blue; */
 }
 
 
 /* sign in (temp style) */
 .welcome a {
-    margin: 1rem 0rem;
+    /* margin: 1rem 0rem; */
     margin-left: 2rem;
     font-size: 1.5rem;
     cursor: pointer;
@@ -62,7 +66,7 @@
   width: 90%;
   padding: 1rem;
   border-radius: 0.3rem;
-  margin-bottom: 0.25em;
+  /* margin-bottom: 0.25em; */
   
 }
 .inputImage{
