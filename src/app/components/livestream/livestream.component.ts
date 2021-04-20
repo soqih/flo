@@ -20,7 +20,7 @@ import { Title } from '@angular/platform-browser';
 })
 
 export class LivestreamComponent implements OnInit, OnDestroy {
-/// hjclghjolfdkgpdk vdvdvdvd
+  /// hjclghjolfdkgpdk vdvdvdvd
   saveisChecked = true;
   // @ViewChild("msg") msg: ElementRef;
   counter: number = 0;
@@ -48,7 +48,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   likeState: string;
   dislikeState: string;
 
- 
+
   micState: string = "mic"
   camState: string = "videocam"
   @ViewChild('stopDialog') stopDialog: TemplateRef<any>;
@@ -60,7 +60,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     private router: Router,
     private fireStorage: AngularFireStorage,
     public db: DB,
-    private titleService:Title,
+    private titleService: Title,
     public dialog: MatDialog,) { }
 
   OV: OpenVidu;
@@ -101,10 +101,10 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     this.titleService.setTitle(this.livestream.title + " | Flo");
 
   }
-  screenshot()  {
+  screenshot() {
     console.log("Taking screenshot")
 
-}
+  }
 
   openDialog() {
     let dialogRef = this.dialog.open(this.stopDialog,
@@ -116,6 +116,12 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
     })
+  }
+  @HostListener("window:beforeunload", ["$event"])
+   unloadHandler(event: Event) {
+    
+    this.session.disconnect();
+    event.returnValue = false;
   }
   // Token retrieved from OpenVidu Server
   @HostListener('window:resize', ['$event'])
@@ -234,7 +240,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
               insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
               mirror: true,       	// Whether to mirror your local video or not
             });
-          
+
             // --- 7) Specify the actions when events take place in our publisher ---
 
             // When our HTML video has been added to DOM...
@@ -256,12 +262,14 @@ export class LivestreamComponent implements OnInit, OnDestroy {
             this.session.publish(this.publisher).then(() => { this.recording(); });
 
           } else {
-            this.db.updateLivestream(this.lid,{views:firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)})
-            
+            if (this.db.me) {
+              this.db.updateLivestream(this.lid, { views: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid) })
+            }
+
             console.warn('You don\'t have permissions to publish');
           }
         })
-        .catch(error => {    
+        .catch(error => {
           console.warn('There was an error connecting to the session:', error.code, error.message);
           // this.joinSession();
         });
@@ -275,13 +283,14 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   leaveSession() {
     if (!this.saveisChecked) {
       // delete livestream
-      
+
     }
     // this.stopRecording()
     // --- 9) Leave the session by calling 'disconnect' method over the Session object ---
     // if (this.isHost) {
     //   this.removeSisson();
     // }
+    this.session?.off('reconnecting');
     this.session?.disconnect();
     this.session = null;
 
@@ -489,7 +498,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     }));
   }
 
-  
+
 
 
   toggleCamera() {
@@ -497,7 +506,6 @@ export class LivestreamComponent implements OnInit, OnDestroy {
       var pp: PublisherProperties;
       // Getting only the video devices
       var videoDevices = devices.filter(device => device.kind === 'videoinput');
-      alert(JSON.stringify(videoDevices));
       var frontCam = videoDevices.find((d) => d.label.includes('front'));
       var BackCam = videoDevices.find((d) => d.label.includes('back'));
       if (frontCam && BackCam) {
@@ -615,7 +623,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   }
   muteAudio() {
-    if(!this.publisher){
+    if (!this.publisher) {
       return;
     }
     if (this.micState === "mic") {
@@ -629,7 +637,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     }
   }
   muteVideo() {
-    if(!this.publisher){
+    if (!this.publisher) {
       return;
     }
     if (this.camState === "videocam") {
