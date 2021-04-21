@@ -50,7 +50,7 @@
 			<div class="toolbar" *ngIf="db.me">
 				<div class="chatInput">	
 					<input type="text" #message placeholder="Say somthing..." maxlength="120" value="">
-					<button class="sendButton" [disabled]="message.value == ''" (click)="sendMessage(message.value);message.value=''">
+					<button class="sendButton" [disabled]="message.value === ''" (click)="sendMessage(message.value);message.value=''">
 					<mat-icon class="send" >send</mat-icon>
 					</button>
 				</div>
