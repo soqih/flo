@@ -4,6 +4,7 @@ import { RegistrationDialogComponent } from './registration-dialog/registration-
 import { DB } from '../../services/database/DB';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ActivatedRoute } from "@angular/router";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-registration',
@@ -17,7 +18,10 @@ export class RegistrationComponent implements OnInit {
     public db: DB,
     public authService: AuthService,
     private route: ActivatedRoute,
-  ) { }
+    private titleService:Title
+  ) {
+    this.titleService.setTitle("Flo | Where the media flows");
+   }
 
   ngOnInit(): void {
     setInterval(() => {

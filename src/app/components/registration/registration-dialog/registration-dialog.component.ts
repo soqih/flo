@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -12,7 +12,7 @@ import { User } from 'src/app/interfaces/User';
 })
 export class RegistrationDialogComponent implements OnInit {
   user: User
-
+  @ViewChild ('signin') signin : ElementRef;
   get correctSignUp() {
     if (!this.Name.value || !this.userName.value || !this.email.value || !this.password.value || !this.password2.value) {
       return false;
@@ -59,6 +59,15 @@ export class RegistrationDialogComponent implements OnInit {
   checkMatch() {
     // console.log("bla")
     // this.checkPasswordMatch(null)
+
+  }
+
+  enterClicked(e){
+    if (e.keyCode === 13) {
+      console.log("enter clicked")
+      this.signin.nativeElement.click()
+    }
+    
 
   }
   // checkPasswordMatch(a,b) {
