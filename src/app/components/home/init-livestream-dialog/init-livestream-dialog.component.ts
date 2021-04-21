@@ -21,7 +21,7 @@ interface User {
 })
 export class InitLivestreamDialogComponent implements OnInit {
   privacyisChecked = false;
-  saveisChecked = false;
+  saveisChecked = true;
 
   // myForm: FormGroup;
 
