@@ -421,6 +421,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
 
   sendMessage(message) {
+    if(!message){
+      return;
+    }
     var so: SignalOptions = { type: 'chat', data: JSON.stringify({ message: message, username: this.db.me.username, photoURL: this.db.me.photoURL }) }
     this.session.signal(so)
     console.log(this.connected);
