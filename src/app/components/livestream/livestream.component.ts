@@ -22,7 +22,7 @@ import { Title } from '@angular/platform-browser';
 export class LivestreamComponent implements OnInit, OnDestroy {
   saveisChecked = true;
   counter: number = 0;
-  OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
+  OPENVIDU_SERVER_URL = 'https://' + "25.106.254.127" + ':4443';
   OPENVIDU_SERVER_SECRET = 'MY_SECRET';
   isHost: boolean;
   recorder: LocalRecorder;
