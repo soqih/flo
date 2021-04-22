@@ -39,13 +39,18 @@ export class HomeComponent implements OnInit {
     var livestream;
     var livestreams = [];
     var user: User;
-
+    // add following streams to the array
     this.db.me?.followingUsers?.forEach((uid) => {
       user = this.db.getUser(uid);
       user?.livestreams.forEach((lid) => {
         livestream = this.db.getLivestream(lid)
         livestreams.push(livestream)
       });
+    })
+    // add me streams to the array
+    this.db.me?.livestreams?.forEach((lid)=>{
+      livestream = this.db.getLivestream(lid)
+      livestreams.push(livestream)
     })
 
     return livestreams.sort((a, b) => b.date - a.date);

@@ -115,7 +115,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
    unloadHandler(event: Event) {
     
     this.session.disconnect();
-    event.returnValue = false;
+    event.returnValue = true;
   }
   // Token retrieved from OpenVidu Server
   @HostListener('window:resize', ['$event'])
