@@ -4,31 +4,31 @@
 
         <mat-form-field hintLabel="must be unique">
             <mat-label>User name</mat-label>
-            <input   #username matInput type="text" name="" id="username" class="input" [formControl]="userName" maxlength="20">
+            <input required   #username matInput type="text" name="" id="username" class="input" [formControl]="userName" maxlength="20">
         </mat-form-field>
 
 
         <mat-form-field hintLabel="your displayed name">
             <mat-label>Name</mat-label>
-            <input #name matInput type="text" name="" id="name" class="input" [formControl]="Name" maxlength="30">
+            <input required #name matInput type="text" name="" id="name" class="input" [formControl]="Name" maxlength="30">
         </mat-form-field>
 
 
         <mat-form-field hintLabel="ex@example.com">
             <mat-label>Email</mat-label>
-            <input #userEmail matInput type="email" name="" id="email" class="input" [formControl]="email">
+            <input required #userEmail matInput type="email" name="" id="email" class="input" [formControl]="email">
             <mat-error >Not a valid email</mat-error>
         </mat-form-field>
 
         <mat-form-field hintLabel="should be more than 6 characters">
             <mat-label>Password</mat-label>
-            <input  #userPwd matInput type="password" name="" id="password" class="input" [formControl]="password">
+            <input required  #userPwd matInput type="password" name="" id="password" class="input" [formControl]="password">
             <mat-error >Not a valid password</mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Confirm password</mat-label>
-            <input  #userPwdConf matInput type="password" name="" id="passwordConfirm" class="input" [formControl]="password2">
+            <input required #userPwdConf matInput type="password" name="" id="passwordConfirm" class="input" [formControl]="password2">
             <mat-error >not match</mat-error>
         </mat-form-field>
 
@@ -48,7 +48,7 @@
     <mat-dialog-content>
         <mat-form-field hintLabel="ex@example.com">
             <mat-label>Email</mat-label>
-            <input  matInput type="email" name="" id="email" class=" input" [formControl]="email" #userName >
+            <input (keyup)="enterClicked($event)"  matInput type="email" name="" id="email" class=" input" [formControl]="email" #userName >
             <mat-error >Not a valid email</mat-error>
         </mat-form-field>
         <mat-form-field hintLabel="should be more than 6 characters">
@@ -57,7 +57,7 @@
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
-        <button (click)="signIn(userName.value,userPassword.value)" id="signIn" mat-stroked-button mat-dialog-close>Sign
+        <button #signin  (click)="signIn(userName.value,userPassword.value)" id="signIn" mat-stroked-button mat-dialog-close>Sign
             in</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
         

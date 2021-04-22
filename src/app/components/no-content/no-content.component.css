@@ -1,11 +1,12 @@
 .container{
     /* background-color: red; */
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     /* height: fit-content; */
     justify-content: center;
     align-items: center;
+    /* padding: 10px; */
 }
 .videoIcon{
     /* background-color: goldenrod; */
