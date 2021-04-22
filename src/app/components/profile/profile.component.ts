@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/interfaces/User';
+import {Location} from '@angular/common';
 import { DB } from 'src/app/services/database/DB';
 import { MatDialog } from '@angular/material/dialog';
 import { FollowDialogComponent } from '../follow-dialog/follow-dialog.component';
@@ -28,9 +28,13 @@ export class ProfileComponent implements OnInit {
 
   livestreamsList: Livestream[] = this.getMyLivestreams();
 
-  constructor(public db: DB, public dialog: MatDialog, public router: Router, private titleService:Title
+  constructor(public db: DB,
+    public dialog: MatDialog,
+    public router: Router,
+    private titleService: Title,
+    private location: Location,
   ) {
-   }
+  }
 
   ngOnInit(): void {
 
@@ -43,6 +47,9 @@ export class ProfileComponent implements OnInit {
     // }
     this.titleService.setTitle(this.db.me.username + " | Flo");
 
+  }
+  BackToLastPage() {
+    this.location.back();
   }
 
   openDialogEdit() {
@@ -57,7 +64,7 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  openDialogList( type, arr) {
+  openDialogList(type, arr) {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
         data: { 'type': type, 'arr': arr, 'db': this.db },
@@ -73,11 +80,11 @@ export class ProfileComponent implements OnInit {
     this.db.me.livestreams?.forEach((lid) => {
       livestreams.push(this.db.getLivestream(lid))
     })
-    return  livestreams.sort((a,b) => b.date - a.date);
+    return livestreams.sort((a, b) => b.date - a.date);
   }
-  deleteLivestream(lid){
+  deleteLivestream(lid) {
     this.db.deleteLivestream(lid)
-    this.livestreamsList = this.livestreamsList.filter((l)=>l.lid !=lid)
+    this.livestreamsList = this.livestreamsList.filter((l) => l.lid != lid)
   }
 
   reloadComponent() {

@@ -4,7 +4,7 @@ import { DB } from 'src/app/services/database/DB';
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { FollowDialogComponent } from '../follow-dialog/follow-dialog.component';
-import { Observable } from 'rxjs';
+import {Location} from '@angular/common';
 import firebase from 'firebase';
 import { Router } from "@angular/router";
 import { Livestream } from 'src/app/interfaces/livestream';
@@ -33,7 +33,9 @@ export class AnotherProfileComponent implements OnInit {
     public db: DB,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    public router: Router,private titleService:Title
+    public router: Router,
+    private titleService:Title,
+    private location: Location,
   ) {
     this.params = this.route.snapshot.params['username'];
     this.anotherUser = this.db.getUser(this.params);
@@ -41,15 +43,17 @@ export class AnotherProfileComponent implements OnInit {
     
     this.titleService.setTitle(this.anotherUser.username + " | flo");
   }
-
+  BackToLastPage(){
+    this.location.back();
+  }
   // check if this page is the logged-in users' page
   // and check if its another user and is blocking the logged-in user
 
   ngOnInit(): void {
-    // if (this.params == this.db.me?.uid) {
-    //   this.router.navigate(['/profile']);
-    //   // this.router.
-    // }
+    if (this.params == this.db.me?.uid) {
+      this.router.navigate(['/profile']);
+      // this.router.
+    }
 
     
   }
