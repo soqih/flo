@@ -37,7 +37,8 @@
 	<div id="video-container">
 		<div class="chatContainer">
 			<div #chatContainer class="chat">
-				<div class="messageContainer" *ngFor="let data of chat.slice().reverse()">
+				<!-- .slice().reverse() -->
+				<div #mes class="messageContainer" *ngFor="let data of chat.slice().reverse()">
 						<img class="senderAvatar" [src]="data.photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';" alt="Sender Image">
 					<div class="messageContentRightSide">
 						<div class="sender">@{{data.username}}</div>

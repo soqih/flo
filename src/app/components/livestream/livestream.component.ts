@@ -36,6 +36,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   isFrontCamera = true;
   publisherVideoElement: HTMLVideoElement;
   @ViewChild('chatContainer') chatContainer: ElementRef;
+  // @ViewChild('mes') mes: ElementRef;
   publisher: Publisher;
   connected: boolean;
 
@@ -424,9 +425,12 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     if(!message){
       return;
     }
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
     var so: SignalOptions = { type: 'chat', data: JSON.stringify({ message: message, username: this.db.me.username, photoURL: this.db.me.photoURL }) }
     this.session.signal(so)
     console.log(this.connected);
+    this.chatContainer.nativeElement.scrollBy(0, 100000);
+
   }
 
   recording() {
