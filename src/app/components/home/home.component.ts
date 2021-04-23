@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
       user?.livestreams.forEach((lid) => {
         livestream = this.db.getLivestream(lid)
         livestreams.push(livestream)
-      });
+      }); 
     })
     // add me streams to the array
     this.db.me?.livestreams?.forEach((lid)=>{

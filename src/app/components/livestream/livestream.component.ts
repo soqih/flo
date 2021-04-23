@@ -112,8 +112,8 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     })
   }
   @HostListener("window:beforeunload", ["$event"])
-   unloadHandler(event: Event) {
-    
+  unloadHandler(event: Event) {
+
     this.session.disconnect();
     event.returnValue = true;
   }
@@ -212,7 +212,6 @@ export class LivestreamComponent implements OnInit, OnDestroy {
           this.connected = true;
           // --- 5) Set page layout for active call ---
 
-          $('#session-title').text(this.sessionName);
 
 
           // Here we check somehow if the user has 'PUBLISHER' role before
@@ -275,20 +274,14 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
 
   leaveSession() {
-    if (!this.saveisChecked) {
-      // delete livestream
 
-    }
-    // this.stopRecording()
-    // --- 9) Leave the session by calling 'disconnect' method over the Session object ---
-    // if (this.isHost) {
-    //   this.removeSisson();
-    // }
-    this.session?.off('reconnecting');
-    this.session?.disconnect();
-    this.session = null;
-
-    this.router.navigate(['home'])
+    this.stopRecording().then(() => {
+     //Leave the session by calling 'disconnect' method over the Session object ---
+      this.session?.disconnect();
+      this.session = null;
+      this.router.navigate(['home'])
+    })
+ 
 
   }
 
@@ -301,19 +294,17 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   //   /* APPLICATION BROWSER METHODS */
 
   getToken(callback) {
-    // if (this.isHost) {
     this.createSession(this.sessionName).then((sessionId) => {
       this.createToken(sessionId).then((token) => {
         callback(token)
       })
     });
-    //   return;
-    // }
-    // this.createToken(this.sessionName).then((token) => {
-    //   callback(token);
-    // })
   }
-
+  /**
+   * 
+   * @param sessionId 
+   * @returns 
+   */
   createSession(sessionId): Promise<string> {
     return new Promise((resolve, reject) => {
       const body = JSON.stringify({ customSessionId: sessionId });
@@ -422,10 +413,10 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
 
   sendMessage(message) {
-    if(!message){
+    if (!message) {
       return;
     }
-      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
     var so: SignalOptions = { type: 'chat', data: JSON.stringify({ message: message, username: this.db.me.username, photoURL: this.db.me.photoURL }) }
     this.session.signal(so)
     console.log(this.connected);
@@ -439,21 +430,18 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
   }
 
-  stopRecording() {
-    console.warn('leaveaing stream ...')
-    console.log(this.saveisChecked)
+  stopRecording(): Promise<void> {
     if (this.recorder?.state === LocalRecorderState.RECORDING && this.saveisChecked) {
-      this.recorder.stop().then(() => {
+      return this.recorder.stop().then(() => {
         this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
           task.ref.getDownloadURL().then((url) => {
-            this.db.updateLivestream(this.livestream.lid, { isActive: false, videoURL: url })
+            this.db.updateLivestream(this.livestream.lid, { isActive: false, videoURL: url });
           })
         })
-        this.leaveSession()
       })
     } else {
-      this.db.deleteLivestream(this.lid)
-      this.leaveSession()
+      this.db.deleteLivestream(this.lid);
+      return this.recorder.stop();
     }
   }
 
