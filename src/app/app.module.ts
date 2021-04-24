@@ -35,8 +35,9 @@ import { NotificationCardComponent } from './components/notifications/notificati
 import { BlockedDialogComponent } from './components/blocked-dialog/blocked-dialog.component';
 import { TrendComponent } from './components/trend/trend.component';
 import { UnsignedUserViewComponent } from './components/unsigned-user-view/unsigned-user-view.component';
-import {AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
+import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 import { NoContentComponent } from './components/no-content/no-content.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,15 @@ import { NoContentComponent } from './components/no-content/no-content.component
     AngularFireAnalyticsModule,
     AngularFireStorageModule,
     AngularFirestoreModule,
+    ServiceWorkerModule.register('./ngsw-worker.js', {
+
+      // 'ngsw-worker.js'
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      // registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerImmediately',
+    }),
   ],
   providers: [AuthService,/* { provide: BUCKET, useValue: 'my-bucket-name' }*/  Title],
   bootstrap: [AppComponent]
