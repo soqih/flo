@@ -34,21 +34,18 @@ export class TrendComponent implements OnInit {
    }
   ngOnInit(): void {
   }
-  
 
-  get myLivestreams(): Livestream[] {  
+
+  get myLivestreams(): Livestream[] {
     var livestreams:Livestream[] = [];
     this.db.livestreamsCollection.forEach((livestream) => {
-      if(!this.db.me){
-        return;
-      }
       if(livestream?.isPrivate ){
         if(this.db.me?.followingUsers?.includes(livestream.host)){
           livestreams.push(livestream)
         }
       }else{
         livestreams.push(livestream)
-      } 
+      }
     });
     //sort
     livestreams = livestreams.sort((a,b)=>b.views.length - a.views.length)
