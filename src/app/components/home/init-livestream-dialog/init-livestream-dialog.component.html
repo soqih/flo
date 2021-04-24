@@ -25,7 +25,7 @@
 
     <mat-dialog-actions align="center">
         <button [disabled]="title1.value ==''" id="start" mat-stroked-button mat-dialog-close mat-dialog-close
-            (click)="startLivestream(title1.value)">Start</button>
+            (click)="startLivestream(title1.value, privacyisChecked)">Start</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
     </mat-dialog-actions>
 

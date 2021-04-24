@@ -8,7 +8,6 @@ export interface Livestream {
     isActive: boolean;
     isPrivate: boolean;
     allowedFollowers?: string[];
-    saveStream: boolean;
     host: string;
     photoURL: string;
     videoURL?: string;

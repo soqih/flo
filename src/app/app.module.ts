@@ -12,7 +12,6 @@ import { TopNavbarComponent } from './components/top-navbar/top-navbar.component
 import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { StreamCardComponent } from './components/stream-card/stream-card.component';
-import { InitLiveComponent } from './components/init-live/init-live.component';
 /*  openVidu  */
 import { OpenviduSessionModule } from 'openvidu-angular';
 import { LivestreamComponent } from './components/livestream/livestream.component';
@@ -49,7 +48,6 @@ import { NoContentComponent } from './components/no-content/no-content.component
     ToolBarComponent,
     ProfileComponent,
     StreamCardComponent,
-    InitLiveComponent,
     LivestreamComponent,
     DBTestComponent,
     ForgotPasswordComponent,

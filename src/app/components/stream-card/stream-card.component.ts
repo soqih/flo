@@ -50,7 +50,6 @@ export class StreamCardComponent implements OnInit {
 
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
 
-
   constructor(public db: DB, public router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {

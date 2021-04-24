@@ -44,13 +44,17 @@ export class HomeComponent implements OnInit {
       user = this.db.getUser(uid);
       user?.livestreams.forEach((lid) => {
         livestream = this.db.getLivestream(lid)
-        livestreams.push(livestream)
-      }); 
+        if(livestream){
+           livestreams.push(livestream)
+        }
+      });
     })
     // add me streams to the array
     this.db.me?.livestreams?.forEach((lid)=>{
       livestream = this.db.getLivestream(lid)
-      livestreams.push(livestream)
+      if(livestream){
+        livestreams.push(livestream)
+     }
     })
 
     return livestreams.sort((a, b) => b.date - a.date);

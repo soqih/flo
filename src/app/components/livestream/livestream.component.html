@@ -55,19 +55,18 @@
 					<mat-icon class="send" >send</mat-icon>
 					</button>
 				</div>
-	
 				<div class="likeDislike">
-					<div class="like" (click)="like($event)" *ngIf="!isHost">
+					<div class="like" (click)="like()" *ngIf="!isHost">
 						<mat-icon class="likeIcon">{{likeState}}</mat-icon>
 					</div>
-					<div class="dislike" (click)="dislike($event)" *ngIf="!isHost">
+					<div class="dislike" (click)="dislike()" *ngIf="!isHost">
 						<mat-icon>{{dislikeState}}</mat-icon>
 					</div>
 					
-					<div *ngIf="isHost && publisher" class="muteUnmute" (click)="muteAudio()" >
+					<div *ngIf="isHost && publisher" class="muteUnmute" (click)="ToggleAudio()" >
 						<mat-icon>{{micState}}</mat-icon>
 					</div>
-					<div *ngIf="isHost && publisher" class="muteUnmute" (click)="muteVideo()" >
+					<div *ngIf="isHost && publisher" class="muteUnmute" (click)="ToggleVideo()" >
 						<mat-icon>{{camState}}</mat-icon>
 					</div>
 					<div *ngIf="isHost && publisher"> <mat-icon (click)="toggleCamera()">switch_camera</mat-icon> </div>

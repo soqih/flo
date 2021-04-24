@@ -9,7 +9,6 @@ import { DB } from 'src/app/services/database/DB';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import firebase from 'firebase';
 import { User } from 'src/app/interfaces/User';
-import { BlockedDialogComponent } from '../blocked-dialog/blocked-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 
@@ -22,24 +21,18 @@ import { Title } from '@angular/platform-browser';
 export class LivestreamComponent implements OnInit, OnDestroy {
   saveisChecked = true;
   counter: number = 0;
-  OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
+  OPENVIDU_SERVER_URL = 'https://' + "25.106.254.127" + ':4443';
   OPENVIDU_SERVER_SECRET = 'MY_SECRET';
   isHost: boolean;
   recorder: LocalRecorder;
-  toggle: boolean = true;
   chat: string[] = [];
   lid: string;
   livestream: Livestream;
-  resolution: string;
-  width: number;
-  height: number;
   isFrontCamera = true;
   publisherVideoElement: HTMLVideoElement;
   @ViewChild('chatContainer') chatContainer: ElementRef;
-  // @ViewChild('mes') mes: ElementRef;
   publisher: Publisher;
   connected: boolean;
-
   liked: boolean;
   disliked: boolean;
   likeState: string;
@@ -60,96 +53,94 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   OV: OpenVidu;
   session: Session;
   host: User;
-  sessionName: string;	// Name of the video session the user will connect to
+  sessionName: string;
   token: string;
 
   ngOnInit() {
     this.lid = this.route.snapshot.params['lid'];
     this.livestream = this.db.getLivestream(this.lid)
+    this.titleService.setTitle(this.livestream.title + " | Flo");
+    // Check if stream is private
+    if (this.livestream.isPrivate) {
+      // If user is not logged in, redirect
+      if (!this.db.me) {
+        this.router.navigate(['home']);
+        // If user is not a follower, redirect
+      } else if (!this.db.me?.followingUsers?.includes(this.livestream.host)) {
+        this.router.navigate(['home']);
+      }
+    }
     this.liked = this.livestream.likes?.includes(this.db.me?.uid) || false
     this.disliked = this.livestream.dislikes?.includes(this.db.me?.uid) || false
     this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
     this.dislikeState = this.disliked ? 'thumb_down' : 'thumb_down_off_alt';
     if (this.livestream?.isActive) {
-      // this.isHost = this.db.getLivestream('B5aWNM3gkbHnyxMcULYq').host == this.db.me?.uid;
       this.sessionName = this.livestream?.lid || 'livestream Not Found';
       this.host = this.db.getUser(this.livestream?.host)
       this.isHost = this.db.me?.uid == this.host?.uid;
       this.joinSession();
-
-    } else {
-      console.warn('not active');
-      // this.publisherVideoElement = 
-      // $('video-container').append()
-
     }
-    // this.isSessionExists(this.sessionName).then((exists) => {
-    //   if (exists) {
-    //     this.joinSession();
-    //   } else {
-    //     this.createSession(this.sessionName).then(() => { this.joinSession() })
-    //   }
-    // })
-    setTimeout(this.screenshot, 10000);
 
-    this.titleService.setTitle(this.livestream.title + " | Flo");
+    setTimeout(this.screenshot, 10000);
 
   }
   screenshot() {
     console.log("Taking screenshot")
-
   }
 
+  // Open 'save stream' dialog when user clicks stop livestream
   openDialog() {
     let dialogRef = this.dialog.open(this.stopDialog,
       {
         width: '350px',
         height: '300px',
-
       });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
     })
   }
+
+  // Gracefully leave session
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event) {
-
     this.session.disconnect();
     event.returnValue = true;
   }
+
+
   // Token retrieved from OpenVidu Server
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.width = event.target.innerWidth
     if (!this.publisherVideoElement) {
       return;
     }
     if (window.screen.width > window.screen.height) {
       this.publisherVideoElement.height = event.target.innerHeight;
       this.publisherVideoElement.width = (4.0 / 3.0) * this.publisherVideoElement.height;
-
     } else {
       this.publisherVideoElement.width = event.target.innerWidth;
       this.publisherVideoElement.height = 0.75 * this.publisherVideoElement.width;
     }
-    // console.log("height: " + event.target.innerHeight);
-    // console.log("width: " + event.target.innerWidth);
-
   }
 
-  /* OPENVIDU METHODS */
-  isMyOwnConnection(connectionId: string): boolean {
-    return connectionId == this.session.connection.connectionId
-  }
+  // /**
+  //  *  method that check if the livestream is yours
+  //  * @param connectionId string represent the connection id
+  //  * @returns true if the connection id is equal to my own connection, false otherwise
+  //  */
+  //   isMyOwnConnection(connectionId: string): boolean {
+  //     return connectionId == this.session.connection.connectionId
+  //   }
+
+  
   joinSession() {
     this.getToken((token: string) => {
       this.token = token;
 
       // --- 1) Get an OpenVidu object ---
-
       this.OV = new OpenVidu();
-      // --- 2) Init a session ---
 
+      // --- 2) Init a session ---
       this.session = this.OV.initSession();
 
       //chat // here add to chat
@@ -159,15 +150,13 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         console.log(data)
       })
 
-
       // --- 3) Specify the actions when events take place in the session ---
-
       // On every new Stream received...
       this.session.on('streamCreated', (event: StreamEvent) => {
         const streamConnectionID = event.stream.connection.connectionId;
         // Subscribe to the Stream to receive it
         // HTML video will be appended to element with 'video-container' id
-        if (this.isMyOwnConnection(streamConnectionID)) {
+        if (streamConnectionID == this.session.connection.connectionId) {
           return;
         }
         console.warn(streamConnectionID, this.session.connection.connectionId)
@@ -188,9 +177,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
           // Add a new HTML element for the user's name and nickname over its video
           // this.appendUserData(event.element, subscriber.stream.connection);
         });
-
       });
-
       // On every Stream destroyed...
       this.session.on('streamDestroyed', (event: StreamEvent) => {
         // const streamConnectionID = event.stream.connection.connectionId;
@@ -201,7 +188,6 @@ export class LivestreamComponent implements OnInit, OnDestroy {
           }, 500);
         }
       });
-
       // this.session.on('')
       // this.session.onParticipantJoined()
 
@@ -213,7 +199,6 @@ export class LivestreamComponent implements OnInit, OnDestroy {
           // --- 5) Set page layout for active call ---
 
 
-
           // Here we check somehow if the user has 'PUBLISHER' role before
           // trying to publish its stream. Even if someone modified the client's code and
           // published the stream, it wouldn't work if the token sent in Session.connect
@@ -221,7 +206,6 @@ export class LivestreamComponent implements OnInit, OnDestroy {
           if (this.isHost) {
 
             // --- 6) Get your own camera stream ---
-
             this.publisher = this.OV.initPublisher('video-container', {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: undefined, // The source of video. If undefined default webcam
@@ -235,7 +219,6 @@ export class LivestreamComponent implements OnInit, OnDestroy {
             });
 
             // --- 7) Specify the actions when events take place in our publisher ---
-
             // When our HTML video has been added to DOM...
             this.publisher.on('videoElementCreated', (event: VideoElementEvent) => {
               event.element.muted = true;// Mute local video
@@ -246,28 +229,21 @@ export class LivestreamComponent implements OnInit, OnDestroy {
               } else {
                 this.publisherVideoElement.width = window.innerWidth;
               }
-
-              // event.element.controls = true;
             });
 
             // --- 8) Publish your stream ---
-
-            this.session.publish(this.publisher).then(() => { this.recording(); });
-
+            this.session.publish(this.publisher).then(() => { this.startRecording(); });
           } else {
             if (this.db.me) {
               this.db.updateLivestream(this.lid, { views: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid) })
             }
-
             console.warn('You don\'t have permissions to publish');
           }
         })
         .catch(error => {
           console.warn('There was an error connecting to the session:', error.code, error.message);
-          // this.joinSession();
         });
     });
-
     return false;
   }
 
@@ -286,12 +262,11 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   }
 
   /* APPLICATION BROWSER METHODS */
+
   ngOnDestroy() { // Gracefully leave session
     this.leaveSession();
   }
 
-
-  //   /* APPLICATION BROWSER METHODS */
 
   getToken(callback) {
     this.createSession(this.sessionName).then((sessionId) => {
@@ -301,9 +276,10 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     });
   }
   /**
+   * create new session with the given session Id
    * 
    * @param sessionId 
-   * @returns 
+   * @returns session id of the created session
    */
   createSession(sessionId): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -344,7 +320,10 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         });
     });
   }
-
+  /**create token for the given session id to connect to it
+   * 
+   * @returns token
+   */
   createToken(sessionId): Promise<string> {
     return new Promise((resolve, reject) => {
       const body = JSON.stringify({ role: 'PUBLISHER' });
@@ -369,50 +348,12 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     });
   }
 
-  /*
-  
-  */
-  isSessionExists(sessionId: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const options = {
-        headers: new HttpHeaders({
-          Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET)
-        }),
-      };
-      return this.httpClient
-        .get(this.OPENVIDU_SERVER_URL + '/openvidu/api/sessions/' + sessionId, options)
-        .pipe(
-          catchError((error) => {
-            if (error.status == 404) {
-              resolve(false)
-            } else {
-              console.warn('No connection to OpenVidu Server. This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
-              if (
-                window.confirm(
-                  'No connection to OpenVidu Server. This may be a certificate error at "' +
-                  this.OPENVIDU_SERVER_URL +
-                  '"\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server' +
-                  'is up and running at "' +
-                  this.OPENVIDU_SERVER_URL +
-                  '"',
-                )
-              ) {
-                location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
-              }
-            }
-            // reject(error);
-            return observableThrowError(error);
-          }),
-        )
-        .subscribe((response) => {
-          console.log(response);
-          resolve(true);
-        });
-    });
-  }
-
-
+  /**
+   * send message to chat
+   * @param message A string that represent the message
+   */
   sendMessage(message) {
+    // make sure that message is not null
     if (!message) {
       return;
     }
@@ -421,16 +362,20 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     this.session.signal(so)
     console.log(this.connected);
     this.chatContainer.nativeElement.scrollBy(0, 100000);
-
   }
 
-  recording() {
+  /**
+   * record the livestream
+   */
+  startRecording() {
     this.recorder = this.OV.initLocalRecorder(this.publisher.stream);
     this.recorder.record('video/webm;codecs=vp9')
-
   }
 
   stopRecording(): Promise<void> {
+  /**
+   * stop the recording
+   */
     if (this.recorder?.state === LocalRecorderState.RECORDING && this.saveisChecked) {
       return this.recorder.stop().then(() => {
         this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
@@ -445,59 +390,18 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  removeSisson() {
-    const options = {
-      headers: new HttpHeaders({
-        Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET)
-      }),
-    };
-    return this.httpClient
-      .delete(this.OPENVIDU_SERVER_URL + '/openvidu/api/sessions/' + this.sessionName, options)
-      .pipe(
-        catchError((error) => {
-          return observableThrowError(error);
-        }),
-      )
-
-  }
-  shareScreen() {
-    var sessionScreen = this.OV.initSession();
-    this.getToken(((token) => {
-      sessionScreen.connect(token).then(() => {
-        var publisher = this.OV.initPublisher("video-container", { videoSource: "screen" });
-
-        publisher.once('accessAllowed', (event) => {
-          publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
-            console.log('User pressed the "Stop sharing" button');
-          });
-          sessionScreen.publish(publisher);
-
-        });
-
-        publisher.once('accessDenied', (event) => {
-          console.warn('ScreenShare: Access Denied');
-        });
-
-      }).catch((error => {
-        console.warn('There was an error connecting to the session:', error.code, error.message);
-
-      }));
-    }));
-  }
-
-
-
-
+  /**
+   * Switch between front and back camera of the host
+   */
   toggleCamera() {
     this.OV.getDevices().then(devices => {
-      var pp: PublisherProperties;
+      var publisherProperties: PublisherProperties;
       // Getting only the video devices
       var videoDevices = devices.filter(device => device.kind === 'videoinput');
       var frontCam = videoDevices.find((d) => d.label.includes('front'));
       var BackCam = videoDevices.find((d) => d.label.includes('back'));
       if (frontCam && BackCam) {
-        pp = {
+        publisherProperties = {
           videoSource: this.isFrontCamera ? BackCam.deviceId : frontCam.deviceId,
           publishAudio: true,
           publishVideo: true,
@@ -505,45 +409,37 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         }
       } else {
         this.counter = (this.counter + 1) % videoDevices.length;
-        pp = {
+        publisherProperties = {
           videoSource: videoDevices[this.counter].deviceId,
           publishAudio: true,
           publishVideo: true,
-          mirror: false,// Setting mirror enable if front camera is selected
+          mirror: false, // Setting mirror enable if front camera is selected
         }
       }
 
-
-
-
       if (videoDevices && videoDevices.length > 1) {
-
         // Creating a new publisher with specific videoSource
         // In mobile devices the default and first camera is the front one
-
-
-        var newPublisher = this.OV.initPublisher('video-container', pp);
-
+        var newPublisher = this.OV.initPublisher('video-container', publisherProperties);
         // Changing isFrontCamera value
         this.isFrontCamera = !this.isFrontCamera;
-
         // Unpublishing the old publisher
         this.session.unpublish(this.publisher);
-
         // Assigning the new publisher to our global variable 'publisher'
         this.publisher = newPublisher;
-
         // Publishing the new publisher
         this.session.publish(this.publisher);
       }
     });
   }
-  like(event: Event) {
-    event.stopPropagation();
+
+  /**
+   * like the livestream
+   */
+  like() {
     if (this.db?.me == undefined) {
       return
     }
-
     if (this.liked) {
       this.liked = false;
       this.likeState = "thumb_up_off_alt";
@@ -578,11 +474,12 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid })
       })
     }
-    // var x: notification = { uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid }
   }
 
-  dislike(event: Event) {
-    event.stopPropagation();
+  /**
+   * dislike the livestream
+   */
+  dislike() {
     if (this.db?.me == undefined) {
       return
     }
@@ -610,7 +507,10 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     })
 
   }
-  muteAudio() {
+  /**
+   * Toggle the mute status of host audio
+   */
+  ToggleAudio() {
     if (!this.publisher) {
       return;
     }
@@ -621,10 +521,13 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     else {
       this.micState = "mic"
       this.publisher.publishAudio(true);
-
     }
   }
-  muteVideo() {
+
+  /**
+   * Enable or disable the host video
+   */
+  ToggleVideo() {
     if (!this.publisher) {
       return;
     }
@@ -635,9 +538,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     else {
       this.camState = "videocam"
       this.publisher.publishVideo(true);
-
     }
-
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
@@ -9,8 +10,11 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class ForgotPasswordComponent implements OnInit {
 
   constructor(
-    public authService: AuthService
-  ) { }
+    public authService: AuthService,
+    private titleService:Title
+  ) { 
+    this.titleService.setTitle("Forgot Password | Flo");
+  }
 
   ngOnInit(): void {
   }
