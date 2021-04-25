@@ -6,6 +6,7 @@ import { LivestreamComponent } from '../../livestream/livestream.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { notificationType } from 'src/app/interfaces/User';
 import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
 
 interface User {
   selected: boolean;
@@ -22,14 +23,16 @@ export class InitLivestreamDialogComponent implements OnInit {
   privacyisChecked = false;
   saveisChecked = true;
 
-  constructor(private fb: FormBuilder, public db: DB, public router: Router) { }
+  constructor(private fb: FormBuilder, public db: DB, public router: Router, private dialogRef: MatDialogRef<InitLivestreamDialogComponent>) { }
   title = new FormControl('', [
     Validators.required,
   ]);
 
   ngOnInit(): void {
   }
-
+  closeDialog(){
+    this.dialogRef.close();
+  }
   /**
    * initiate livestream entity
    * @param title string value that represents the title of the livestream

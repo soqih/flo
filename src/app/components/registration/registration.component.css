@@ -8,7 +8,9 @@
 .leftPart{
     flex-grow: 2;
     width: 60%;
-    background:url('https://soqih.github.io/flo/assets/images/background.svg') no-repeat center center/cover;
+    /* background:url('https://soqih.github.io/flo/assets/images/background.svg') no-repeat center center/cover; */
+    background: linear-gradient(0deg, rgba(239, 162, 151, 1) 0%, rgba(239, 162, 151, 1) 17%, rgba(213, 136, 149, 1) 100%);
+
     display:flex;
     justify-content: center;
     align-items: center;

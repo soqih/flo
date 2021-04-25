@@ -4,7 +4,7 @@
         <h1 mat-dialog-title>Start a Livestream</h1>
 
         <mat-form-field class="title" color="accent">
-            <input #title1 matInput placeholder="Title" [formControl]="title" maxlength="20">
+            <input #title1 matInput placeholder="Title" [formControl]="title" maxlength="20" (keyup.enter)="startLivestream(title1.value, privacyisChecked); closeDialog()">
             <mat-error *ngIf="title.hasError('required')">
                 Title is <strong>required</strong>
             </mat-error>

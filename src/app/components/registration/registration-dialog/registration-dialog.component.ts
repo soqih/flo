@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { User } from 'src/app/interfaces/User';
@@ -25,7 +25,7 @@ export class RegistrationDialogComponent implements OnInit {
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { type: string },
-    public authService: AuthService) { }
+    public authService: AuthService, private dialogRef: MatDialogRef<RegistrationDialogComponent>) { }
   email = new FormControl('', [Validators.email]);
   userName = new FormControl('',[Validators.required]);
   Name = new FormControl('',[Validators.required]);
@@ -34,6 +34,9 @@ export class RegistrationDialogComponent implements OnInit {
   isSignup: boolean = this.data.type == 'signup';
   ngOnInit(): void {
 
+  }
+  closeDialog(){
+    this.dialogRef.close();
   }
   getErrorMessage() {
     return [this.email.hasError('email') ? 'Not a valid email' : '', this.password.hasError('minlength') ? 'Not a valid password' : ''];
@@ -62,14 +65,7 @@ export class RegistrationDialogComponent implements OnInit {
 
   }
 
-  enterClicked(e){
-    if (e.keyCode === 13) {
-      console.log("enter clicked")
-      this.signin.nativeElement.click()
-    }
-    
-
-  }
+  
   // checkPasswordMatch(a,b) {
   //   return a === b
   // }

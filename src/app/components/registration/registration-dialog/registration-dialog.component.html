@@ -28,7 +28,7 @@
 
         <mat-form-field>
             <mat-label>Confirm password</mat-label>
-            <input required #userPwdConf matInput type="password" name="" id="passwordConfirm" class="input" [formControl]="password2">
+            <input required #userPwdConf matInput type="password" name="" id="passwordConfirm" class="input" [formControl]="password2" (keyup.enter)="signUp(userEmail.value,username.value,name.value,userPwd.value); closeDialog()">
             <mat-error >not match</mat-error>
         </mat-form-field>
 
@@ -36,7 +36,7 @@
     </mat-dialog-content>
 
     <mat-dialog-actions align="center">
-        <button [disabled]="!correctSignUp" (click)="signUp(userEmail.value,username.value,name.value,userPwd.value)" id="signUp" mat-stroked-button mat-dialog-close mat-dialog-close="false">Sign
+        <button [disabled]="!correctSignUp" (click)="signUp(userEmail.value,username.value,name.value,userPwd.value)" id="signUp" mat-stroked-button mat-dialog-close >Sign
             up</button>
         <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close="true">cancel</button>
 
@@ -48,12 +48,12 @@
     <mat-dialog-content>
         <mat-form-field hintLabel="ex@example.com">
             <mat-label>Email</mat-label>
-            <input (keyup)="enterClicked($event)"  matInput type="email" name="" id="email" class=" input" [formControl]="email" #userName >
+            <input matInput type="email" name="" id="email" class=" input" [formControl]="email" #userName >
             <mat-error >Not a valid email</mat-error>
         </mat-form-field>
         <mat-form-field hintLabel="should be more than 6 characters">
             <mat-label>Password</mat-label>
-            <input matInput type="password" name="" id="password" class="input" #userPassword >
+            <input matInput type="password" name="" id="password" class="input" #userPassword  (keyup.enter)="signIn(userName.value,userPassword.value); closeDialog()">
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
