@@ -7,7 +7,7 @@
             <hr>
             <mat-label *ngFor="let follower of arr" [value]="follower">
                 <div class="user">
-                    <a href="/u/{{db.getUser(follower)?.uid}}" *ngIf="db.getUser(follower) != undefined">
+                    <a [routerLink]="'/u/'+db.getUser(follower)?.uid" *ngIf="db.getUser(follower) != undefined">
                         <img src="{{db.getUser(follower)?.photoURL}}"
                             onError="this.onerror=null;this.src='./assets/images/logo.svg';" alt="Photo"
                             *ngIf="db.getUser(follower) != undefined">
@@ -35,7 +35,7 @@
             <hr>
             <mat-label *ngFor="let following of arr" [value]="following">
                 <div class="user">
-                    <a href="/u/{{db.getUser(following)?.uid}}" *ngIf="db.getUser(following) != undefined">
+                    <a  [routerLink]="'/u/'+db.getUser(following)?.uid" *ngIf="db.getUser(following) != undefined">
                         <img src="{{db.getUser(following)?.photoURL}}"
                             onError="this.onerror=null;this.src='./assets/images/logo.svg';" alt="User Avatar"
                             *ngIf="db.getUser(following) != undefined">
