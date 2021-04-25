@@ -4,7 +4,7 @@ import { DB } from 'src/app/services/database/DB';
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { FollowDialogComponent } from '../follow-dialog/follow-dialog.component';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import firebase from 'firebase';
 import { Router } from "@angular/router";
 import { Livestream } from 'src/app/interfaces/livestream';
@@ -34,28 +34,28 @@ export class AnotherProfileComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     public router: Router,
-    private titleService:Title,
+    private titleService: Title,
     private location: Location,
   ) {
-    this.params = this.route.snapshot.params['username'];
-    this.anotherUser = this.db.getUser(this.params);
-    this.livestreamsList = this.getMyLivestreams();
-    
+    this.route.params.subscribe((params) => {
+      this.params = params['username'];
+      if ( this.params== this.db.me?.uid) {
+        this.router.navigate(['/profile']);
+      }
+      this.anotherUser = this.db.getUser(this.params);
+      this.livestreamsList = this.getMyLivestreams();
+    });
+
+
     this.titleService.setTitle(this.anotherUser.username + " | flo");
   }
-  BackToLastPage(){
+  BackToLastPage() {
     this.location.back();
   }
   // check if this page is the logged-in users' page
   // and check if its another user and is blocking the logged-in user
 
   ngOnInit(): void {
-    if (this.params == this.db.me?.uid) {
-      this.router.navigate(['/profile']);
-      // this.router.
-    }
-
-    
   }
 
   reloadComponent() {
@@ -74,7 +74,7 @@ export class AnotherProfileComponent implements OnInit {
       })
       //
       if (!this.followedMeBefore(this.anotherUser.notifications, this.db.me.uid)) {
-        this.db.sendNotification(this.anotherUser.uid,this.db.me?.uid,notificationType.FOLLOW)
+        this.db.sendNotification(this.anotherUser.uid, this.db.me?.uid, notificationType.FOLLOW)
       }
 
       this.db.updateUser(this.anotherUser.uid, {
@@ -111,14 +111,14 @@ export class AnotherProfileComponent implements OnInit {
     var livestreams = [];
     this.anotherUser.livestreams?.forEach((lid) => {
       livestream = this.db.getLivestream(lid)
-     
-      if(livestream?.isPrivate ){
-        if(this.db.me?.followingUsers?.includes(livestream.host)){
+
+      if (livestream?.isPrivate) {
+        if (this.db.me?.followingUsers?.includes(livestream.host)) {
           livestreams.push(livestream)
         }
-      }else{
+      } else {
         livestreams.push(livestream)
-      } 
+      }
     })
     return livestreams.sort((a, b) => b.date - a.date);
   }
@@ -169,7 +169,7 @@ export class AnotherProfileComponent implements OnInit {
     // }
 
     for (var i = 0; i < notifications.length; i++) {
-      if (notifications[i].uid === uid && notifications[i].type  === notificationType.FOLLOW && now - notifications[i].date < threeDaysInMs) {
+      if (notifications[i].uid === uid && notifications[i].type === notificationType.FOLLOW && now - notifications[i].date < threeDaysInMs) {
         return true;
       }
     }
