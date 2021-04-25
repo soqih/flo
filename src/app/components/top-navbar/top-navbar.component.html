@@ -3,13 +3,13 @@
         <div class="welcome">
             <a>{{ this.db.me?.displayName || 'Welcome' }}</a>
             <!-- <a *ngIf="!signed">Sign in</a> -->
-            <img *ngIf="this.db.me" routerLink="/profile" class="profile" src="/assets/images/profile.svg" alt="">
+            <img *ngIf="this.db.me" routerLink="/profile" class="profile" src="./assets/images/profile.svg" alt="">
         </div>
         <div class="input-container">
-            <img  class="inputImage" src="/assets/images/search.svg" alt="">
+            <img  class="inputImage" src="./assets/images/search.svg" alt="">
             <input #searchField type=" search" name="" class="input" placeholder="Search" (keyup)="search(searchField.value)">
             <!-- <h1>test</h1> -->
-            <img class="inputImage filter" src="/assets/images/filter.svg" alt="" (click)="openDialog()">
+            <img class="inputImage filter" src="./assets/images/filter.svg" alt="" (click)="openDialog()">
         </div>
     </div>
 </div>
@@ -18,14 +18,14 @@
         <div class="items" *ngFor="let item of items">
              <div class="searchItem" *ngIf="searchFilter == 'user'">
                 <img class="searchImg" src="{{item.photoURL}}"
-                    onError="this.onerror=null;this.src='/assets/images/logo.svg';">
+                    onError="this.onerror=null;this.src='./assets/images/logo.svg';">
                 <a [routerLink]="'/u/'+item.uid">
                     <pre>{{item.displayName}}<br><small>@{{ item.username }}</small></pre>
                 </a>
             </div>
             <div class="searchItem" *ngIf="searchFilter == 'livestream'">
                 <img class="searchImg" src="{{item.photoURL}}"
-                    onError="this.onerror=null;this.src='/assets/images/logo.svg';">
+                    onError="this.onerror=null;this.src='./assets/images/logo.svg';">
                 <a [routerLink]="'/session/'+item.lid">
                     <pre>{{item.title}}<br></pre>
                 </a>

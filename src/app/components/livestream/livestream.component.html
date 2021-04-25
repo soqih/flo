@@ -39,7 +39,7 @@
 			<div #chatContainer class="chat">
 				<!-- .slice().reverse() -->
 				<div #mes class="messageContainer" *ngFor="let data of chat.slice().reverse()">
-						<img class="senderAvatar" [src]="data.photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';" alt="Sender Image">
+						<img class="senderAvatar" [src]="data.photoURL" onError="this.onerror=null;this.src='./assets/images/logoWhite.svg';" alt="Sender Image">
 					<div class="messageContentRightSide">
 						<div class="sender">@{{data.username}}</div>
 						<div class="message" #msg id="ms">

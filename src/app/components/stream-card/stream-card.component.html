@@ -1,22 +1,4 @@
-<!-- <div class="card">
-    <div class="names">
-        <span class="name">Name</span>
-        <span class="username">username</span>
-    </div>
 
-    <img class="avatar" src="/assets/images/profile.svg" alt="">
-    <div class="title">vcvc</div>
-    <div class="views"><img src="/assets/images/eye.svg" alt="">50</div>
-    <div class="liking">
-        <div class="likes"> <img src="/assets/images/like.svg" alt=""> 50</div>
-        <div class="dislikes"><img src="/assets/images/dislike.svg" alt=""> 50</div>
-    </div>
-
-
-</div> -->
-
-<!-- " -->
-<!-- *ngIf="this.livestream.isPrivate" -->
 <div class="card" >
     <div class="live" *ngIf="this.livestream.isActive">
         Live
@@ -45,7 +27,7 @@
         <!-- </mat-card-header> -->
     
         <!-- Livestream photo (square need full size )   OR    Avtar photo (circle) ?  ((SIZE!!))-->
-        <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';"
+        <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='./assets/images/logoWhite.svg';"
             (click)="navgateTo(livestreamURL,$event)">
     
     

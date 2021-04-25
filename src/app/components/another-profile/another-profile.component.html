@@ -1,11 +1,11 @@
 <div *ngIf="!this.anotherUser.blockingUsers?.includes(this.db.me?.uid); else blocked">
     <div class="topPart">
         <div class="topOptions">
-            <img (click)="BackToLastPage()" class="arrow" src="/assets/images/arrow.svg" alt="">
+            <img (click)="BackToLastPage()" class="arrow" src="./assets/images/arrow.svg" alt="">
         </div>
         <div class="topInfo">
             <div class="avatar"> <img class="avatar" [src]="anotherUser?.photoURL"
-                    onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';" alt="Profile Photo"></div>
+                    onError="this.onerror=null;this.src='./assets/images/logoWhite.svg';" alt="Profile Photo"></div>
             <div class="name">
                 {{anotherUser?.displayName || "User not found"}}
             </div>
@@ -43,10 +43,10 @@
 <ng-template #blocked>
     <div class="topPart">
         <div class="topOptions">
-            <img (click)="BackToLastPage()" class="arrow" src="/assets/images/arrow.svg" alt="">
+            <img (click)="BackToLastPage()" class="arrow" src="./assets/images/arrow.svg" alt="">
         </div>
         <div class="topInfo">
-            <div class="avatar"> <img class="avatar" src="/assets/images/logoWhite.svg" alt="Profile Photo"></div>
+            <div class="avatar"> <img class="avatar" src="./assets/images/logoWhite.svg" alt="Profile Photo"></div>
             <div class="name">
                 {{anotherUser?.displayName || "User not found"}}
             </div>

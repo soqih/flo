@@ -1,6 +1,6 @@
 <div class="topPart">
     <div class="topOptions">
-        <img (click)="BackToLastPage()" class="arrow topOption" src="/assets/images/arrow.svg" alt="">
+        <img (click)="BackToLastPage()" class="arrow topOption" src="./assets/images/arrow.svg" alt="">
         <span class="topOption">My Account</span>
         <span class="edit topOption" (click)="openDialogEdit()">Edit</span>
        
@@ -8,7 +8,7 @@
 
     <div class="topInfo">
         <div class="avatar"> <img class="avatar" [src]="db.me.photoURL"
-                onError="this.onerror=null;this.src='/assets/images/logoWhite.svg';" alt="Profile Photo"></div>
+                onError="this.onerror=null;this.src='./assets/images/logoWhite.svg';" alt="Profile Photo"></div>
         <div class="name">
             {{db.me.displayName}}
         </div>
