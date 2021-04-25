@@ -19,7 +19,7 @@
 		
 		
 
-		<video *ngIf="!livestream?.isActive" style="z-index: 10;" controls autoplay>
+		<video id='vid' *ngIf="!livestream?.isActive" style="z-index: 10;" controls autoplay>
 			<source [src]="livestream?.videoURL" >
 		</video>
 	</div>
@@ -89,7 +89,7 @@
 			
 			<mat-dialog-actions align="end">
 				<button id="stop" mat-stroked-button mat-dialog-close mat-dialog-close
-					(click)="stopRecording()">Stop
+					(click)="leaveSession()">Stop
 				</button>
 				<button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
 			</mat-dialog-actions>

@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalRecorder, Subscriber, OpenVidu, Publisher, Device, Session, SignalEvent, SignalOptions, StreamEvent, VideoElementEvent, PublisherProperties, LocalRecorderState } from 'openvidu-angular';
 import { throwError as observableThrowError } from 'rxjs';
@@ -18,7 +18,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./livestream.component.css'],
 })
 
-export class LivestreamComponent implements OnInit, OnDestroy {
+export class LivestreamComponent implements OnInit,AfterViewInit {
   saveisChecked = true;
   counter: number = 0;
   OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
@@ -49,6 +49,18 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     public db: DB,
     private titleService: Title,
     public dialog: MatDialog,) { }
+  ngAfterViewInit(): void {
+    if(!this.livestream.isActive){
+      this.publisherVideoElement = <HTMLVideoElement>document.getElementById('vid');
+      if (window.screen.width > window.screen.height) {
+        this.publisherVideoElement.height = window.innerHeight;
+        this.publisherVideoElement.width = (4.0 / 3.0) * this.publisherVideoElement.height;
+      } else {
+        this.publisherVideoElement.width = window.innerWidth;
+        this.publisherVideoElement.height = 0.75 * this.publisherVideoElement.width;
+      }
+    }
+  }
 
   OV: OpenVidu;
   session: Session;
@@ -84,7 +96,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
     setTimeout(this.screenshot, 10000);
 
   }
-  
+
   screenshot() {
     console.log("Taking screenshot")
   }
@@ -97,7 +109,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         height: '300px',
       });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
+      
     })
   }
 
@@ -133,7 +145,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   //     return connectionId == this.session.connection.connectionId
   //   }
 
-  
+
   joinSession() {
     this.getToken((token: string) => {
       this.token = token;
@@ -184,9 +196,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
         // const streamConnectionID = event.stream.connection.connectionId;
         // Delete the HTML element with the user's name and nickname
         if (!this.isHost) {
-          setTimeout(() => {
             this.leaveSession()
-          }, 500);
         }
       });
       // this.session.on('')
@@ -251,21 +261,18 @@ export class LivestreamComponent implements OnInit, OnDestroy {
 
 
   leaveSession() {
-
-    this.stopRecording().then(() => {
-     //Leave the session by calling 'disconnect' method over the Session object ---
+    if (this.isHost && this.livestream.isActive) {
+      this.stopRecording().then(() => {
+        //Leave the session by calling 'disconnect' method over the Session object ---
+        this.session?.disconnect();
+        this.session = null;
+        this.router.navigate(['home'])
+      })
+    }else{
       this.session?.disconnect();
       this.session = null;
       this.router.navigate(['home'])
-    })
- 
-
-  }
-
-  /* APPLICATION BROWSER METHODS */
-
-  ngOnDestroy() { // Gracefully leave session
-    this.leaveSession();
+    }
   }
 
 
@@ -374,9 +381,9 @@ export class LivestreamComponent implements OnInit, OnDestroy {
   }
 
   stopRecording(): Promise<void> {
-  /**
-   * stop the recording
-   */
+    /**
+     * stop the recording
+     */
     if (this.recorder?.state === LocalRecorderState.RECORDING && this.saveisChecked) {
       return this.recorder.stop().then(() => {
         this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
@@ -387,7 +394,7 @@ export class LivestreamComponent implements OnInit, OnDestroy {
       })
     } else {
       this.db.deleteLivestream(this.lid);
-      return this.recorder.stop();
+      return new Promise((resolve) => { resolve() });
     }
   }
 
