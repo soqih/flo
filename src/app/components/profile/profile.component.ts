@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { DB } from 'src/app/services/database/DB';
 import { MatDialog } from '@angular/material/dialog';
 import { FollowDialogComponent } from '../follow-dialog/follow-dialog.component';
@@ -76,9 +76,16 @@ export class ProfileComponent implements OnInit {
   }
 
   getMyLivestreams(): Livestream[] {
+    var livestream;
     var livestreams = [];
     this.db.me.livestreams?.forEach((lid) => {
-      livestreams.push(this.db.getLivestream(lid))
+      livestream = this.db.getLivestream(lid);
+      if (livestream) {
+        livestreams.push(livestream)
+      } else {
+        console.log(lid + 'is not found')
+      }
+
     })
     return livestreams.sort((a, b) => b.date - a.date);
   }
