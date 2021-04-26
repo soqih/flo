@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from 'src/app/interfaces/User';
 
 @Component({
@@ -13,12 +13,15 @@ export class FollowDialogComponent implements OnInit {
   @Input() followingList: User[];
   @Input() followersList: User[];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { type: {} }) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { type: {} }, private dialogRef: MatDialogRef<FollowDialogComponent>) { }
   isFollowers: boolean = this.data['type'] == 'followers';
   arr: [] = this.data['arr'];
   db = this.data['db']
 
   ngOnInit(): void {
+  }
+  closeDialog(){
+    this.dialogRef.close();
   }
 
 }

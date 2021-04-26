@@ -46,6 +46,8 @@ span {
     background: #F0A397;
     border-radius: 50%;
     margin-bottom: 1rem;
+    object-fit: cover;
+
 }
 
 .name {
