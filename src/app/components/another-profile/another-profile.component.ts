@@ -117,7 +117,11 @@ export class AnotherProfileComponent implements OnInit {
           livestreams.push(livestream)
         }
       } else {
-        livestreams.push(livestream)
+        if(livestream){
+          livestreams.push(livestream)
+        }else{
+          console.log('lid: ',lid)
+        }
       }
     })
     return livestreams.sort((a, b) => b.date - a.date);
@@ -160,14 +164,8 @@ export class AnotherProfileComponent implements OnInit {
       return;
     }
     const now = new Date().getTime();
-    // 1 day in ms = 86400000
     const threeDaysInMs = 86400000 * 1;
-
     console.log(now)
-    // if (notifications.filter((n) => n.uid === uid && n.isItLike === false).some((n) => now - n.date < threeDaysInMs)) {
-    //   return true;
-    // }
-
     for (var i = 0; i < notifications.length; i++) {
       if (notifications[i].uid === uid && notifications[i].type === notificationType.FOLLOW && now - notifications[i].date < threeDaysInMs) {
         return true;
