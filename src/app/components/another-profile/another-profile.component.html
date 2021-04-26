@@ -14,7 +14,7 @@
                 @{{anotherUser?.username || "User not found"}}
             </div>
             <div class="bio">
-                {{bio}}
+                {{anotherUser?.bio || "User not found"}}
             </div>
             <div class="follow">
                 <div class="following" (click)="openDialog($event,'following', anotherUser?.followingUsers)">

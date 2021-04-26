@@ -27,6 +27,8 @@
         </div>
     </div>
 </div>
+<app-no-content *ngIf="livestreamsList.length == 0" [where]="'myProfile'"></app-no-content>
+
 <div class="content">
     <!-- <app-stream-card *ngFor="let livestream of livestreamsList" [title]="livestream.title" [name]="db.me.displayName"
         [username]="db.me.username" [views]="livestream.views" [likes]="livestream.likes"
@@ -36,7 +38,6 @@
     <app-stream-card (deleteEvent)="deleteLivestream($event)" *ngFor="let livestream of livestreamsList" [livestream]="livestream" [inProfile]="true">
     </app-stream-card>
     <!-- <img *ngIf="livestreamsList.length == 0" style="margin: auto; margin-top: 5rem;"  src="./assets/images/logo.svg"> -->
-<app-no-content *ngIf="livestreamsList.length == 0" [where]="'myProfile'"></app-no-content>
 
     <!-- <app-stream-card [title]="title" [name]="name" [username]="username" [likes]="likes" [dislikes]="dislikes">
     </app-stream-card>
