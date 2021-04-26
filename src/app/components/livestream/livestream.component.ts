@@ -8,7 +8,7 @@ import { Livestream } from 'src/app/interfaces/livestream';
 import { DB } from 'src/app/services/database/DB';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import firebase from 'firebase';
-import { User } from 'src/app/interfaces/User';
+import { notificationType, User } from 'src/app/interfaces/User';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 
@@ -479,7 +479,7 @@ export class LivestreamComponent implements OnInit,AfterViewInit {
     });
     if (flag) {
       this.db.updateUser(this.host.uid, {
-        notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid })
+        notifications: firebase.firestore.FieldValue.arrayUnion({ uid: this.db.me.uid, type: notificationType.LIKE, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid })
       })
     }
   }

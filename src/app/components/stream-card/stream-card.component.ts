@@ -133,7 +133,6 @@ export class StreamCardComponent implements OnInit {
       //   notifications: firebase.firestore.FieldValue.arrayUnion(n)
       // })
     }
-    // var x: notification = { uid: this.db.me.uid, isItLike: true, date: new Date().getTime(), hasSeen: false, lid: this.livestream.lid }
   }
 
   dislike(event: Event) {

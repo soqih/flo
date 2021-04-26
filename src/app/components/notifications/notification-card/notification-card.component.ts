@@ -31,8 +31,8 @@ export class NotificationCardComponent implements OnInit {
     } else if (this.notification?.type === notificationType.FOLLOW) {
       console.log(this.notification?.type)
       this.text = ' followed you';
-      this.icon = 'person_add'
-    } else {
+      this.icon = 'person_add';
+    } else if (this.notification?.type === notificationType.INVITE) {
       this.text = ' started a new livestream ' + title;
       this.icon = 'notifications_active';
     }
