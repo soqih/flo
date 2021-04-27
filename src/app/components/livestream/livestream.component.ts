@@ -18,10 +18,10 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./livestream.component.css'],
 })
 
-export class LivestreamComponent implements OnInit,AfterViewInit {
+export class LivestreamComponent implements OnInit, AfterViewInit {
   saveisChecked = true;
   counter: number = 0;
-  OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
+  OPENVIDU_SERVER_URL = 'https://flo.ddnsfree.com:4443';
   OPENVIDU_SERVER_SECRET = 'MY_SECRET';
   isHost: boolean;
   recorder: LocalRecorder;
@@ -50,7 +50,7 @@ export class LivestreamComponent implements OnInit,AfterViewInit {
     private titleService: Title,
     public dialog: MatDialog,) { }
   ngAfterViewInit(): void {
-    if(!this.livestream.isActive){
+    if (!this.livestream.isActive) {
       this.publisherVideoElement = <HTMLVideoElement>document.getElementById('vid');
       if (window.screen.width > window.screen.height) {
         this.publisherVideoElement.height = window.innerHeight;
@@ -109,7 +109,7 @@ export class LivestreamComponent implements OnInit,AfterViewInit {
         height: '300px',
       });
     dialogRef.afterClosed().subscribe(result => {
-      
+
     })
   }
 
@@ -196,7 +196,7 @@ export class LivestreamComponent implements OnInit,AfterViewInit {
         // const streamConnectionID = event.stream.connection.connectionId;
         // Delete the HTML element with the user's name and nickname
         if (!this.isHost) {
-            this.leaveSession()
+          this.leaveSession()
         }
       });
       // this.session.on('')
@@ -268,7 +268,7 @@ export class LivestreamComponent implements OnInit,AfterViewInit {
         this.session = null;
         this.router.navigate(['home'])
       })
-    }else{
+    } else {
       this.session?.disconnect();
       this.session = null;
       this.router.navigate(['home'])
