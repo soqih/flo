@@ -4,25 +4,27 @@
 
         <mat-form-field hintLabel="must be unique">
             <mat-label>User name</mat-label>
-            <input required   #username matInput type="text" name="" id="username" class="input" [formControl]="userName" maxlength="20">
+            <input required   #username matInput type="text" name="" id="username" class="input" [formControl]="userName" maxlength="20" (keyup)="foundUsername()">
+            <mat-error>{{getErrorMessage("username")}}</mat-error>
         </mat-form-field>
 
 
         <mat-form-field hintLabel="your displayed name">
             <mat-label>Name</mat-label>
             <input required #name matInput type="text" name="" id="name" class="input" [formControl]="Name" maxlength="30">
+            <mat-error >Not a valid name</mat-error>
         </mat-form-field>
 
 
         <mat-form-field hintLabel="ex@example.com">
             <mat-label>Email</mat-label>
-            <input required #userEmail matInput type="email" name="" id="email" class="input" [formControl]="email">
-            <mat-error >Not a valid email</mat-error>
+            <input required #userEmail matInput type="email" name="" id="email" class="input" [formControl]="email" (keyup)="foundEmail()">
+            <mat-error >{{getErrorMessage("email")}}</mat-error>
         </mat-form-field>
 
         <mat-form-field hintLabel="should be more than 6 characters">
             <mat-label>Password</mat-label>
-            <input required  #userPwd matInput type="password" name="" id="password" class="input" [formControl]="password">
+            <input required  #userPwd matInput type="password" name="" id="password" class="input" [formControl]="password" (keyup)="checkPasswordMatch()">
             <mat-error >Not a valid password</mat-error>
         </mat-form-field>
 

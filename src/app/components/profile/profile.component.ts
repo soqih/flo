@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FollowDialogComponent } from '../follow-dialog/follow-dialog.component';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { Livestream } from 'src/app/interfaces/livestream';
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Title } from '@angular/platform-browser';
 
 // interface Livestream {
@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
     public router: Router,
     private titleService: Title,
     private location: Location,
+    private route: ActivatedRoute,
   ) {
   }
 
@@ -45,7 +46,13 @@ export class ProfileComponent implements OnInit {
     //   this.username = '@' + this.db.me.username;
     //   this.bio = this.db.me.bio;
     // }
+    if(this.route.snapshot.routeConfig.path.includes("edit")){
+      this.openDialogEdit()
+    }
+      // console.log('yes')
+    // console.log(this.route.snapshot.routeConfig.path)
     this.titleService.setTitle(this.db.me.username + " | Flo");
+
 
   }
   BackToLastPage() {

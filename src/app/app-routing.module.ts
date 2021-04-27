@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'r/:type', component: RegistrationComponent },
+  { path: 'profile/edit', component: ProfileComponent, canActivate: [AuthGuard] },
   {path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: '**', redirectTo: '' }
 

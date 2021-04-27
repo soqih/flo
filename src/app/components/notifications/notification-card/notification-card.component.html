@@ -1,4 +1,4 @@
-<div class="notificationContainer">
+<div class="notificationContainer" *ngIf="this.user">
     <div class="notification">
         <mat-icon color="primary">{{icon}}</mat-icon>{{user.displayName + text}} <button class="join" *ngIf="isInvitation" [routerLink]="['/session/'+notification.lid]" >join</button>
     </div>

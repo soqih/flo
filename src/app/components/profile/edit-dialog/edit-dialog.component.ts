@@ -15,14 +15,14 @@ export class EditDialogComponent implements OnInit {
   basePath = '/profileImages';                       //  <<<<<<<
   downloadableURL = '';                      //  <<<<<<<
   task: AngularFireUploadTask;               //  <<<<<<<
-
+  file;
 
   constructor(public db: DB, private fireStorage: AngularFireStorage) { }
 
   ngOnInit(): void {
   }
 
-  editProfile(name, bio) {
+  async editProfile(name, bio) {
     // data.name coming from profile component,check that somthing is chnaged
     if (this.db.me.displayName !== name) {
       this.db.updateMyData({ 'displayName': name })
@@ -32,26 +32,10 @@ export class EditDialogComponent implements OnInit {
       this.db.updateMyData({ 'bio': bio })
       console.log("update Bio")
     }
-  }
 
-  // to prevent user from submit without updating somthing
-  changed(s) {
-    this.haveUpdated = true;
-    console.log(s)
-  }
-
-
-
-
-
-
-  async onFileChanged(event) {
-    this.haveUpdated = true;
-
-    const file = event.target.files[0];
-    if (file) {
+    if (this.file) {
       const filePath = `${this.basePath}/${this.db.me.username}`;  // path at which image will be stored in the firebase storage
-      this.task = this.fireStorage.upload(filePath, file);    // upload task
+      this.task = this.fireStorage.upload(filePath, this.file);    // upload task
       // this.db.updateMyData({ 'photoURL': filePath });
       // this.progress = this.snapTask.percentageChanges();
 
@@ -62,9 +46,20 @@ export class EditDialogComponent implements OnInit {
       });  // <<< url is found here
 
     } else {
-      alert('No images selected');
+      // alert('No images selected');
       this.downloadableURL = '';
     }
+  }
+
+  // to prevent user from submit without updating somthing
+  changed(s) {
+    this.haveUpdated = true;
+    console.log(s)
+  }
+
+   onFileChanged(event) {
+    this.haveUpdated = true;
+    this.file = event.target.files[0];
   }
 
 
