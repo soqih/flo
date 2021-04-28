@@ -69,8 +69,9 @@
 					<div *ngIf="isHost && publisher" class="muteUnmute" (click)="ToggleVideo()" >
 						<mat-icon>{{camState}}</mat-icon>
 					</div>
-					<div *ngIf="isHost && publisher"> <mat-icon (click)="toggleCamera()">switch_camera</mat-icon> </div>
-					
+					<div *ngIf="isHost && publisher" (click)="toggleCamera()">
+						 <mat-icon>switch_camera</mat-icon>
+					</div>
 				</div>
 			</div>
 		</div>

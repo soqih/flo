@@ -200,7 +200,7 @@ background-color: transparent;
     /* background-color: red; */
     width:60%
 
-/* width: 100%; */
+/* width/: 100%; */
 }
 .send{
     /* background-color: red; */
@@ -256,6 +256,9 @@ mat-icon {
     margin-right: 5px;
     color: #474D54;
 
+}
+div mat-icon  {
+    cursor: pointer;
 }
 
 button mat-icon{

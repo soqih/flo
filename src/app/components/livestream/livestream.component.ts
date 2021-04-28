@@ -21,7 +21,7 @@ import { Title } from '@angular/platform-browser';
 export class LivestreamComponent implements OnInit, AfterViewInit {
   saveisChecked = true;
   counter: number = 0;
-  OPENVIDU_SERVER_URL = 'https://floopenviduserver.ddns.net';
+  OPENVIDU_SERVER_URL = 'https://flo.ddnsfree.com';
   OPENVIDU_SERVER_SECRET = 'mysecret';
   isHost: boolean;
   recorder: LocalRecorder;
@@ -72,16 +72,6 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
     this.lid = this.route.snapshot.params['lid'];
     this.livestream = this.db.getLivestream(this.lid)
     this.titleService.setTitle(this.livestream.title + " | Flo");
-    // Check if stream is private
-    if (this.livestream.isPrivate) {
-      // If user is not logged in, redirect
-      if (!this.db.me) {
-        this.router.navigate(['home']);
-        // If user is not a follower, redirect
-      } else if (!this.db.me?.followingUsers?.includes(this.livestream.host)) {
-        this.router.navigate(['home']);
-      }
-    }
     this.liked = this.livestream.likes?.includes(this.db.me?.uid) || false
     this.disliked = this.livestream.dislikes?.includes(this.db.me?.uid) || false
     this.likeState = this.liked ? 'thumb_up' : 'thumb_up_off_alt';
@@ -93,8 +83,22 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       this.joinSession();
     }
 
-    setTimeout(this.screenshot, 10000);
+    // Check if stream is private
+    if (this.livestream.isPrivate && !this.isHost) {
+      // If user is not logged in, redirect
+      if (!this.db.me) {
+        this.router.navigate(['home']);
+        // If user is not a follower, redirect
+      } else if (!this.db.me?.followingUsers?.includes(this.livestream.host)) {
+        this.router.navigate(['home']);
+      }
+    }
 
+    // let myVid = <HTMLVideoElement> document.getElementById('local-video-undefined')
+    //   myVid.onloadstart = function () {
+    //     myVid.play()
+    // }
+    // setTimeout(this.screenshot, 10000);
   }
 
   screenshot() {
@@ -178,7 +182,10 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         // When the HTML video has been appended to DOM...
         this.subscriber.on('videoElementCreated', (event: VideoElementEvent) => {
           event.element.muted = false; // Chrome's autoplay policies are simple: 1- Muted autoplay is always allowed ...etc, for more check https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
-          event.element.controls = true;
+          // event.element.controls = true;
+          // event.element.autoplay=true;
+          event.element.play();
+          event.element.playsInline = true;
           this.publisherVideoElement = event.element;
 
           if (window.screen.width > window.screen.height) {
@@ -193,8 +200,11 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       });
       // On every Stream destroyed...
       this.session.on('streamDestroyed', (event: StreamEvent) => {
+        
         // const streamConnectionID = event.stream.connection.connectionId;
         // Delete the HTML element with the user's name and nickname
+       
+
         if (!this.isHost) {
           this.leaveSession()
         }
@@ -424,7 +434,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
           mirror: false, // Setting mirror enable if front camera is selected
         }
       }
-
+      
       if (videoDevices && videoDevices.length > 1) {
         // Creating a new publisher with specific videoSource
         // In mobile devices the default and first camera is the front one
@@ -432,6 +442,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         // Changing isFrontCamera value
         this.isFrontCamera = !this.isFrontCamera;
         // Unpublishing the old publisher
+        // flag = true
         this.session.unpublish(this.publisher);
         // Assigning the new publisher to our global variable 'publisher'
         this.publisher = newPublisher;
