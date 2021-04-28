@@ -87,6 +87,7 @@ export class DB {
     }
 
     deleteLivestream(lid: string) {
+        this.storage.storage.ref(`vid/vid${lid}`).delete();
         this.afs.doc<User>(`livestreams/${lid}`).delete();
         this.updateMyData({
             livestreams: firebase.firestore.FieldValue.arrayRemove(lid)
