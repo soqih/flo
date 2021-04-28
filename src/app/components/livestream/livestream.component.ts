@@ -21,8 +21,8 @@ import { Title } from '@angular/platform-browser';
 export class LivestreamComponent implements OnInit, AfterViewInit {
   saveisChecked = true;
   counter: number = 0;
-  OPENVIDU_SERVER_URL = 'https://flo.ddnsfree.com:4443';
-  OPENVIDU_SERVER_SECRET = 'MY_SECRET';
+  OPENVIDU_SERVER_URL = 'https://floopenviduserver.ddns.net';
+  OPENVIDU_SERVER_SECRET = 'mysecret';
   isHost: boolean;
   recorder: LocalRecorder;
   chat: string[] = [];
