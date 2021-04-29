@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './services/auth/auth.service';
 import { DB } from './services/database/DB';
+import { PwaService } from './services/pwa.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

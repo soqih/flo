@@ -24,17 +24,17 @@ export class ToolBarComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.route.snapshot.routeConfig.component.name)
-    if (this.route.snapshot.routeConfig.component.name === "HomeComponent"){
+    if (this.route.snapshot.routeConfig.path.includes("home")){
       this.home = "homeClicked"
     }
-    if (this.route.snapshot.routeConfig.component.name ==="TrendComponent"){
+    if (this.route.snapshot.routeConfig.path.includes("trend")){
         this.trend = "trendClicked"
     }
-    if(this.route.snapshot.routeConfig.component.name === "NotificationsComponent"){
+    if(this.route.snapshot.routeConfig.path.includes("notifications")){
       this.notification = "notificationClicked"
     }
 
-    if(this.route.snapshot.routeConfig.component.name === "SettingsComponent"){
+    if(this.route.snapshot.routeConfig.path.includes("settings")){
       this.settings = "settingsClicked"
     }
 
