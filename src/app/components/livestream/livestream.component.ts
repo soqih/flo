@@ -60,6 +60,8 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.publisherVideoElement.height = 0.75 * this.publisherVideoElement.width;
       }
     }
+    // Take screenshot every 5 minutes
+    setInterval(() => this.screenshot(), 300000)
   }
 
   OV: OpenVidu;
@@ -82,7 +84,6 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       this.isHost = this.db.me?.uid == this.host?.uid;
       this.joinSession();
     }
-
     // Check if stream is private
     if (this.livestream.isPrivate && !this.isHost) {
       // If user is not logged in, redirect
@@ -93,16 +94,20 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.router.navigate(['home']);
       }
     }
-
-    // let myVid = <HTMLVideoElement> document.getElementById('local-video-undefined')
-    //   myVid.onloadstart = function () {
-    //     myVid.play()
-    // }
-    // setTimeout(this.screenshot, 10000);
   }
 
   screenshot() {
-    console.log("Taking screenshot")
+    let vid = <HTMLVideoElement>document.getElementById('local-video-undefined')
+    if (!this.isHost || !vid) {
+      return
+    }
+    let canvas = document.createElement('canvas')
+    canvas.width = vid.videoWidth
+    canvas.height = vid.videoHeight
+    let ctx = canvas.getContext('2d')
+    ctx.drawImage(vid, 0, 0, canvas.width, canvas.height)
+    let dataURI = canvas.toDataURL('imgae/jpeg')
+    this.db.updateLivestream(this.lid, { photoURL: dataURI })
   }
 
   // Open 'save stream' dialog when user clicks stop livestream
@@ -200,10 +205,10 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       });
       // On every Stream destroyed...
       this.session.on('streamDestroyed', (event: StreamEvent) => {
-        
+
         // const streamConnectionID = event.stream.connection.connectionId;
         // Delete the HTML element with the user's name and nickname
-       
+
 
         if (!this.isHost) {
           this.leaveSession()
@@ -254,6 +259,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
             // --- 8) Publish your stream ---
             this.session.publish(this.publisher).then(() => { this.startRecording(); });
+            setTimeout(() => this.screenshot(), 5000)
           } else {
             if (this.db.me) {
               this.db.updateLivestream(this.lid, { views: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid) })
@@ -434,7 +440,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
           mirror: false, // Setting mirror enable if front camera is selected
         }
       }
-      
+
       if (videoDevices && videoDevices.length > 1) {
         // Creating a new publisher with specific videoSource
         // In mobile devices the default and first camera is the front one
