@@ -2,7 +2,7 @@
     height: fit-content;
     /* height: 10rem; */
     background: rgb(239, 162, 151);
-    background: linear-gradient(0deg, rgba(239, 162, 151, 1) 0%, rgba(239, 162, 151, 1) 17%, rgba(213, 136, 149, 1) 100%);
+    background: linear-gradient(90deg, rgba(239, 162, 151, 1) 0%, rgba(239, 162, 151, 1) 17%, rgba(213, 136, 149, 1) 100%);
     padding-bottom: 1rem;
 }
 
@@ -25,7 +25,7 @@
     justify-content: space-between;
     padding: 3rem 20rem 1rem;
     font-size: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.6rem;
 }
 
 span {
@@ -41,12 +41,13 @@ span {
 }
 
 .avatar {
-    height: 8rem;
-    width: 8rem;
+    height: 10rem;
+    width: 10rem;
     background: #F0A397;
     border-radius: 50%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     object-fit: cover;
+    border: 5px solid #bd7883;
 
 }
 

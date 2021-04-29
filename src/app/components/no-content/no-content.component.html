@@ -1,17 +1,19 @@
 <div class="container">
     <div class="videoIcon">
         <mat-icon>videocam_off</mat-icon>
-
     </div>
     <div class="anotherProfile" *ngIf="this.where === 'anotherProfile'">
         This user have no livestreams yet
     </div>
+    
     <div class="myProfile" *ngIf="this.where === 'myProfile'">
         You don't have livestreams yet
     </div>
+
     <div class="home" *ngIf="this.where === 'home'">
         There is no livestreams to watch, follow more users
     </div>
+
     <div class="trend" *ngIf="this.where === 'trend'">
         There is no livestreams to watch
     </div>

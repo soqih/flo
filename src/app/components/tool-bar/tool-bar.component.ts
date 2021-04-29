@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { InitLivestreamDialogComponent } from '../home/init-livestream-dialog/init-livestream-dialog.component';
 //import { User } from 'src/app/interfaces/User';
 import { DB } from 'src/app/services/database/DB';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tool-bar',
@@ -11,7 +12,7 @@ import { DB } from 'src/app/services/database/DB';
 })
 export class ToolBarComponent implements OnInit {
 
-  constructor(public db: DB, public dialog: MatDialog) { }
+  constructor(public db: DB, public dialog: MatDialog, private route: ActivatedRoute,) { }
   clicked: string = "home";
   home = "home";
   trend = "trend";
@@ -22,15 +23,30 @@ export class ToolBarComponent implements OnInit {
   @Input() where: string;
 
   ngOnInit(): void {
-    if (this.where === "home")
+    console.log(this.route.snapshot.routeConfig.component.name)
+    if (this.route.snapshot.routeConfig.component.name === "HomeComponent"){
       this.home = "homeClicked"
-    else if (this.where === "trend")
-      this.trend = "trendClicked"
-
-    else if (this.where === "notification")
+    }
+    if (this.route.snapshot.routeConfig.component.name ==="TrendComponent"){
+        this.trend = "trendClicked"
+    }
+    if(this.route.snapshot.routeConfig.component.name === "NotificationsComponent"){
       this.notification = "notificationClicked"
-    else if (this.where === "settings")
+    }
+
+    if(this.route.snapshot.routeConfig.component.name === "SettingsComponent"){
       this.settings = "settingsClicked"
+    }
+
+    // if (this.where === "home")
+    //   this.home = "homeClicked"
+    // else if (this.where === "trend")
+    //   this.trend = "trendClicked"
+
+    // else if (this.where === "notification")
+    //   this.notification = "notificationClicked"
+    // else if (this.where === "settings")
+    //   this.settings = "settingsClicked"
 
     console.log(this.where)
   }

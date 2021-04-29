@@ -1,10 +1,14 @@
+<div class="container">
+
+
 <div class="nav">
     <div class="navContainer">
         <div class="welcome">
-            <a>{{ this.db.me?.displayName || 'Welcome' }}</a>
+            <span class="welcomeMessage"> Welcome {{  this.db.me?.displayName }}</span >
             <!-- <a *ngIf="!signed">Sign in</a> -->
             <img *ngIf="this.db.me" routerLink="/profile" class="profile" src="./assets/images/profile.svg" alt="">
         </div>
+
         <div class="input-container">
             <img  class="inputImage" src="./assets/images/search.svg" alt="">
             <input #searchField type=" search" name="" class="input" placeholder="Search" (keyup)="search(searchField.value)">
@@ -55,11 +59,12 @@
         <mat-dialog-actions align="end">
             <button id="ok" mat-stroked-button mat-dialog-close mat-dialog-close
             (click)="setFilter();search(searchField.value)">OK</button>
-        <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
+            <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
         </mat-dialog-actions>
 
     </div>
 </ng-template>
+</div>
 <!-- <ng-container>
     <div class="searchMenu" *ngFor="let user of items">
         <img class="searchImg" src="{{user.photoURL}}" onError="this.onerror=null;this.src='/assets/images/logo.svg';">

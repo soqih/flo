@@ -1,23 +1,37 @@
 .container{
     /* background-color: red; */
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     flex-direction: column;
     /* height: fit-content; */
     justify-content: center;
     align-items: center;
     /* padding: 10px; */
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+    z-index: -10;
 }
 .videoIcon{
     /* background-color: goldenrod; */
-    width: 10rem;
+    /* width: 10rem; */
+    width: max(20vw, 5rem);
 }
 mat-icon{
     /* width: 10rem; */
-    font-size: 10rem;
+    /* font-size: 10rem; */
+    font-size: max(20vw, 5rem);
+
     color: gray;
 }
-.anotherProfile, .myProfile, .home{
+.anotherProfile, .myProfile, .home, .trend{
     /* font-weight: 500; */
-    font-size: 1.3rem;
+    font-size: 1rem;
+    /* font-size: 3vw; */
+    font-size: max(1rem, 2vw);
+
+    text-align: center;
+    line-height: 1.5rem;
+    padding: 10px;
+
 }

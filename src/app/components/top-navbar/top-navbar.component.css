@@ -1,5 +1,8 @@
-    img{
+img{
     outline: none;
+}
+.container{
+
 }
 .nav {
     background-color: #efa297;
@@ -30,14 +33,15 @@
 
 
 /* sign in (temp style) */
-.welcome a {
+.welcomeMessage {
     /* margin: 1rem 0rem; */
     margin-left: 2rem;
     font-size: 1.5rem;
-    cursor: pointer;
+    font-size: x-large;
+    /* cursor: pointer; */
 }
 .profile {
-    margin: 1rem 0rem;
+    /* margin: 1rem 0rem; */
     margin-right: 2rem;
     width:5%;
     max-width: 60px;
@@ -193,7 +197,7 @@ mat-radio-button{
     .input-container{
         height: 2rem;
     }
-    .welcome a{
+    .welcomeMessage{
         margin: 0;
         margin-left: 1rem;
         font-size: 1.3rem;

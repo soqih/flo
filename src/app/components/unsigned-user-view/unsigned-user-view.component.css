@@ -2,69 +2,34 @@
     display: flex;
     /* height: ; */
     width: 100%;
-    height: 70%;
+    height: 60vh;
     /* overflow: hidden; */
-    /* z-index: -1; */
+    z-index: -10;
     /* background-color: hotpink; */
-    padding: 1rem;
+    /* padding: 1rem; */
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     
-}
-h1 {
-color: #D98C95;
-}
-#btn1{
-    color:#D58895;
-    background-color: transparent;
-    border:solid 2px #D58895;
-}
-#btn1:hover{
-    border:solid 2px gray;
-    color: gray;
-    cursor: pointer;
-    
-}
-a{
-    text-decoration: none;
-    color: #D58895;
-    font-weight: 600;
-    font-size: 1rem;
-    margin-top: 1rem;
-}
-a:hover{
-    color:gray
-}
-.btn{
-    width: 70%;
-    height: 3rem;
-    margin: 0.5rem 0.5rem;
-    font-weight: 600;
-    font-size: 1rem;
-    border-radius: 0.3rem;
-    outline: none;
-    transition: 0.5s;
-}
-.btn:hover{
-    transition: 0.5s;
 }
 
 .text{
     color: gray;
     font-size: 3.5vh;
-    height: fit-content;
+    /* height: fit-content; */
     /* word-wrap: break-word; */
     /* background-color: red; */
-    width: 100%;
-    height: 100%;
+    /* width: 100%; */
+    /* height: 100%; */
     /* display: flex; */
     /* justify-content: center;
     align-items: center; */
     text-align: center;
+    padding: 10px;
     /* text-align-last: center; */
     line-height: 2.5rem;
     /* background-color: red; */
-    margin-top: 15%;
+    /* margin-top: 15%; */
 }
 .clickable{
     /* display: flex; */
@@ -74,12 +39,10 @@ a:hover{
 .clickable:hover{
     opacity: 0.8;
 }
-div, span{
-    /* word-wrap: break-word; */
-}
+
 
 @media (max-width: 768px) {
     .text{
-        margin-top: 55%;
+        /* margin-top: 55%; */
     }
 }
