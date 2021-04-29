@@ -14,4 +14,4 @@
     <button *ngIf="!this.authService.isLoggedIn" class="btn" id="btn1" routerLink="/r/signin">Sign In</button>
     <button *ngIf="!this.authService.isLoggedIn" class="btn" id="btn2" routerLink="/r/signup">Sign Up</button>
 </div>
-<app-tool-bar [where] = "'settings'"></app-tool-bar>
+<app-tool-bar (scrollEvent)="scroll()" [where] = "'settings'"></app-tool-bar>

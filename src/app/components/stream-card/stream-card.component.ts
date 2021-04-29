@@ -13,14 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./stream-card.component.css']
 })
 export class StreamCardComponent implements OnInit {
-  // @Input() livestream : Livestream;
-  // @Input() username: string;
-  // @Input() name: string;
-  // @Input() photoURL: string; // **!!  HTML AVATAR NOTE  !!**
-  // @Input() title: string;
-  // @Input() views: number;
-  // @Input() likes: number;
-  // @Input() dislikes: number;
+
   @Output() deleteEvent: EventEmitter<string> = new EventEmitter();
 
 
@@ -32,7 +25,8 @@ export class StreamCardComponent implements OnInit {
   name: string;
   photoURL: string; // **!!  HTML AVATAR NOTE  !!**
   title: string;
-  views: number;
+  totalViews: number;
+  currentViews: number;
   likes: number;
   dislikes: number;
 
@@ -64,7 +58,8 @@ export class StreamCardComponent implements OnInit {
     this.title = this.livestream.title;
     // }
     // this.title = this.livestream.title;
-    this.views = this.livestream.views.length;     
+    this.totalViews = this.livestream.totalViews.length;   
+    this.currentViews =   this.livestream.currentViews;   
     this.likes = this.livestream.likes.length;
     this.dislikes = this.livestream.dislikes.length;
     this.userlink = this.db.me?.uid == this.user.uid ? '/profile' : '/u/' + this.user.uid;

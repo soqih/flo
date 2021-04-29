@@ -30,4 +30,7 @@ export class SettingsComponent implements OnInit {
       console.log(result)
     })
   }
+  scroll(){
+    document.body.scrollTop = 0;
+  }
 }

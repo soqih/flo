@@ -41,13 +41,19 @@
         </mat-card-content> -->
     
         <mat-card-content class="view">
-            <div class="views">
+            
+            <div class="totalViews" *ngIf="!this.livestream.isActive">
                 <mat-icon>remove_red_eye</mat-icon>
                 <span>
-                    {{views}}
+                    {{totalViews}}
                 </span>
             </div>
-    
+            <div class="currentViews" *ngIf="this.livestream.isActive">
+                <mat-icon>person</mat-icon>
+                <span>
+                    {{currentViews}}
+                </span>
+            </div>
     
             <div class="likeDislike">
                 <div class="like" (click)="like($event)">

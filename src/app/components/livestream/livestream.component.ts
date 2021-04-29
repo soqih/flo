@@ -41,6 +41,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
   camState: string = "videocam"
   @ViewChild('stopDialog') stopDialog: TemplateRef<any>;
   subscriber: Subscriber;
+  currentViews: number;
   constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
@@ -60,6 +61,8 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.publisherVideoElement.height = 0.75 * this.publisherVideoElement.width;
       }
     }
+    this.currentViews = 1;
+
     // Take screenshot every 5 minutes
     setInterval(() => this.screenshot(), 300000)
   }
@@ -94,6 +97,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.router.navigate(['home']);
       }
     }
+
   }
 
   screenshot() {
@@ -125,7 +129,10 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
   // Gracefully leave session
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event) {
-    this.session.disconnect();
+    this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews - 1 })
+
+    // this.session.disconnect();
+    this.leaveSession();
     event.returnValue = true;
   }
 
@@ -156,6 +163,9 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
 
   joinSession() {
+    
+    this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews + 1 })
+
     this.getToken((token: string) => {
       this.token = token;
 
@@ -164,6 +174,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
       // --- 2) Init a session ---
       this.session = this.OV.initSession();
+      // this.session.signal({ type: 'currentViews', data: (1).toString() })
 
       //chat // here add to chat
       this.session.on('signal:chat', (event: SignalEvent) => {
@@ -203,6 +214,8 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
           // this.appendUserData(event.element, subscriber.stream.connection);
         });
       });
+
+
       // On every Stream destroyed...
       this.session.on('streamDestroyed', (event: StreamEvent) => {
 
@@ -214,6 +227,30 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
           this.leaveSession()
         }
       });
+      // if (this.isHost) {
+      //   this.session.on('connectionCreated', (event: StreamEvent) => {
+
+      //     this.currentViews++;
+
+      //     console.log(this.session.remoteConnections.size)
+      //   });
+      // this.session.on('connectionDestroyed', (event: StreamEvent) => {
+      //   console.warn('destroy---')
+      //   this.currentViews--;
+      //   this.session.signal({ type: 'currentViews', data: this.currentViews.toString() })
+      //   console.log(this.currentViews)
+      // });
+      // }
+
+      // if (this.isHost) {
+      //   this.session.on('signal:currentViews', (event: SignalEvent) => {
+      //     this.currentViews += Number(event.data);
+      //     console.log(this.currentViews)
+      //   })
+      // }
+
+
+      // this.session.onParticipantJoined()
       // this.session.on('')
       // this.session.onParticipantJoined()
 
@@ -272,12 +309,15 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         });
     });
     return false;
+    
   }
 
 
 
   leaveSession() {
+
     if (this.isHost && this.livestream.isActive) {
+
       this.stopRecording().then(() => {
         //Leave the session by calling 'disconnect' method over the Session object ---
         this.session?.disconnect();
@@ -285,10 +325,16 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.router.navigate(['home'])
       })
     } else {
+      this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews - 1 })
+
       this.session?.disconnect();
       this.session = null;
       this.router.navigate(['home'])
+      // this.session.signal({ type: 'currentViews', data: (-1).toString() })
     }
+
+
+
   }
 
 
@@ -409,7 +455,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         })
       })
     } else {
-      this.db.deleteLivestream(this.lid);
+      this.db.deleteLivestream(this.lid, true);
       return new Promise((resolve) => { resolve() });
     }
   }

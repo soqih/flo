@@ -7,4 +7,4 @@
         <img *ngIf="!myLivestreams" style="margin-top: 5rem;"  src="./assets/images/logo.svg">
         <app-no-content *ngIf="myLivestreams.length == 0" [where]="'trend'"></app-no-content>
     </div>
-    <app-tool-bar [where]="'trend'"></app-tool-bar>
+    <app-tool-bar (scrollEvent)="scroll()" [where]="'trend'"></app-tool-bar>

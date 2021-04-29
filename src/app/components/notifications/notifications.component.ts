@@ -19,7 +19,9 @@ export class NotificationsComponent implements OnInit {
   // get unseenNotifications(): notification[] {
   //   return this.db.me.notifications.filter((n) => !n.hasSeen)
   // }
-
+  scroll(){
+    document.body.scrollTop = 0;
+  }
   ngOnInit(): void {
     if(!this.db?.me){
       return;

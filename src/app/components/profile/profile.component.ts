@@ -8,15 +8,7 @@ import { Livestream } from 'src/app/interfaces/livestream';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Title } from '@angular/platform-browser';
 
-// interface Livestream {
-//   name: string;
-//   username: string;
-//   title: string;
-//   // avatar: string;
-//   views: number;
-//   likes: number;
-//   dislikes: number;
-// }
+
 
 @Component({
   selector: 'app-profile',

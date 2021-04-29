@@ -1,11 +1,11 @@
 <div class="notificationContainer" *ngIf="this.user">
     <div class="notification">
-        <mat-icon color="primary">{{icon}}</mat-icon>{{user.displayName + text}} <button class="join" *ngIf="isInvitation" [routerLink]="['/session/'+notification.lid]" >join</button>
+        <mat-icon>{{icon}}</mat-icon>{{user.displayName + text}} <button class="join" *ngIf="isInvitation" [routerLink]="['/session/'+notification.lid]" >join</button>
     </div>
     <!-- notificationType.LIKE -->
     <div class="user">
-        <a>
-            <img [src]="user?.photoURL?user.photoURL:'./assets/images/logo.svg'" [routerLink]="'/u/'+user?.uid"
+        <a [routerLink]="'/u/'+user?.uid">
+            <img [src]="user?.photoURL?user.photoURL:'./assets/images/logo.svg'" 
                  alt="Profile Photo">
             <div class="name">
                 <span>{{user.displayName}}</span>

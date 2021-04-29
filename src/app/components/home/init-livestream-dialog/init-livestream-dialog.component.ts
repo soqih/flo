@@ -44,7 +44,8 @@ export class InitLivestreamDialogComponent implements OnInit {
     var livestream: Livestream = {
       lid: null,
       title: title,
-      views: [],
+      totalViews: [],
+      currentViews:0,
       likes: [],
       dislikes: [],
       isActive: true,

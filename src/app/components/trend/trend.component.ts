@@ -7,16 +7,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { DB } from 'src/app/services/database/DB';
 
 
-// interface Livestream {
-//   name: string;
-//   username: string;
-//   title: string;
-//   // avatar: string;
-//   views: number;
-//   likes: number;
-//   dislikes: number;
-// }
-
 
 
 @Component({
@@ -33,9 +23,12 @@ export class TrendComponent implements OnInit {
 
    }
   ngOnInit(): void {
+
   }
 
-
+  scroll(){
+    document.body.scrollTop = 0;
+  }
   get myLivestreams(): Livestream[] {
     var livestreams:Livestream[] = [];
     this.db.livestreamsCollection.forEach((livestream) => {
@@ -48,7 +41,8 @@ export class TrendComponent implements OnInit {
       }
     });
     //sort
-    livestreams = livestreams.sort((a,b)=>b.views.length - a.views.length)
+    livestreams = livestreams.filter((l)=>l.isActive);
+    livestreams = livestreams.sort((a,b)=>b.currentViews - a.currentViews);
     return livestreams ;
   }
 }

@@ -99,7 +99,19 @@
     background-color: rgb(41, 41, 41);
 
 }
-
+.currentViewers{
+    position: absolute;
+    right: 0rem;
+    bottom: 0rem;
+    display: flex;
+    padding: 5rem 3rem;
+    justify-content: center;
+    align-items: center;
+    color: #474D54;
+}
+.currentViewers mat-icon{
+    cursor: unset;
+}
 .chatContainer{
     position: absolute;
     bottom: 0;

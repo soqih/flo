@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output , EventEmitter} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InitLivestreamDialogComponent } from '../home/init-livestream-dialog/init-livestream-dialog.component';
 //import { User } from 'src/app/interfaces/User';
@@ -10,6 +10,8 @@ import { DB } from 'src/app/services/database/DB';
   styleUrls: ['./tool-bar.component.css']
 })
 export class ToolBarComponent implements OnInit {
+
+  @Output() scrollEvent: EventEmitter<void> = new EventEmitter();
 
   constructor(public db: DB, public dialog: MatDialog) { }
   clicked: string = "home";
@@ -47,9 +49,13 @@ export class ToolBarComponent implements OnInit {
     })
   }
   itemClicked(item) {
+    if(item=== this.where){
+      // window.scrollBy(0,10000)
+      this.scrollEvent.emit()
+    }
     // console.log(item)
-    this.clicked = item
-    console.log(this.clicked)
+    // this.clicked = item
+    // console.log(this.clicked)
   }
 
 }

@@ -12,4 +12,4 @@
     <app-notification-card *ngFor="let notification of notifications" [notification]="notification" ></app-notification-card>
 
 </div>
-<app-tool-bar [where]="'notification'"></app-tool-bar>
+<app-tool-bar (scrollEvent)="scroll()" [where]="'notification'"></app-tool-bar>

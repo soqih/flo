@@ -1,7 +1,6 @@
 export interface Livestream {
     lid: string;
     title: string;
-    views: string[];
     likes: string[]; 
     dislikes: string[];
     date?: number;
@@ -11,4 +10,6 @@ export interface Livestream {
     host: string;
     photoURL: string;
     videoURL?: string;
+    currentViews: number;
+    totalViews: string[]
 }

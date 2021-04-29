@@ -15,10 +15,6 @@
 			</div>
 		</div>
 		
-
-		
-		
-
 		<video id='vid' *ngIf="!livestream?.isActive" style="z-index: 10;" controls autoplay>
 			<source [src]="livestream?.videoURL" >
 		</video>
@@ -29,13 +25,18 @@
 	<div class="stop" (click)="openDialog()" *ngIf="isHost">
 		Stop Livestream
 	</div>
-	<div routerLink="/home" class="stop" *ngIf="!isHost">
+	<div  class="stop" *ngIf="!isHost" (click)="leaveSession()">
 		Leave
 	</div>
 	
 	<!-- <button *ngIf="isHost" (click)="toggleCamera()">switch</button>	 -->
 	<div id="video-container">
+		
 		<div class="chatContainer">
+			<div class="currentViewers">
+				<mat-icon>person</mat-icon>
+				<span>{{currentViews}}</span>
+			</div>
 			<div #chatContainer class="chat">
 				<!-- .slice().reverse() -->
 				<div #mes class="messageContainer" *ngFor="let data of chat.slice().reverse()">
