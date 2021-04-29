@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1619694968441,
+  "timestamp": 1619695447009,
   "index": "https://soqih.github.io/flo/index.html",
   "assetGroups": [
     {
@@ -116,7 +116,7 @@
     "https://soqih.github.io/flo/assets/openvidu/style.css": "277d91555e4f46d029dd91b0521c7fbf266ec3ec",
     "https://soqih.github.io/flo/index.html": "a462f9faa296552c1020c7f0b604013f7fd79318",
     "https://soqih.github.io/flo/main.e6af2f34df217dbe61b3.js": "b883dfea5ea508e8536891490ff1ce0a1703a5a7",
-    "https://soqih.github.io/flo/manifest.webmanifest": "9c3e4239f8331bd6eb433ae91f614dd35a2b9c14",
+    "https://soqih.github.io/flo/manifest.webmanifest": "ceed17e0e2fd006f56f7cc9ddc61ad2b23fa592b",
     "https://soqih.github.io/flo/polyfills.9bbe631df435a5a33b36.js": "346bc0bcb0b8d7d0b59dc219ffd3072bb0274f4c",
     "https://soqih.github.io/flo/runtime.73bde6fcd8f3f50eed62.js": "4b4819dc55ef17149e734c30ef654fb28a64f31c",
     "https://soqih.github.io/flo/styles.845629d2b5887bf2559d.css": "a0bfe4319fa7a5b5ec11ec94c8bd43c53e76a719"
