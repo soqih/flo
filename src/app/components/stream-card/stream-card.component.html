@@ -1,36 +1,35 @@
-
-<div class="card" >
+<div class="card">
     <div class="live" *ngIf="this.livestream.isActive">
         Live
     </div>
     <mat-card class="example-card" *ngIf="this.livestream">
-        
+
         <!-- <img [src]="db.me.photoURL" mat-card-image> -->
-    
+
         <!-- <mat-card-header> -->
         <div class="titles">
-    
+
             <mat-card-title class="title">{{title}}</mat-card-title>
-    
+
             <div class="names">
                 <!-- <div class="name">{{name}}</div> -->
-    
+
                 <div class="username" (click)="navgateTo(userlink,$event)">@{{username}}</div>
                 <mat-icon (click)="openDialog()" *ngIf="inProfile" class="settings">delete
                 </mat-icon>
-    
+
             </div>
         </div>
         <!-- <a *ngIf="!signed">Sign in</a> -->
-    
-    
+
+
         <!-- </mat-card-header> -->
-    
+
         <!-- Livestream photo (square need full size )   OR    Avtar photo (circle) ?  ((SIZE!!))-->
         <img class="avatar" [src]="photoURL" onError="this.onerror=null;this.src='./assets/images/logoWhite.svg';"
             (click)="navgateTo(livestreamURL,$event)">
-    
-    
+
+
         <!-- <img [src]="db.me.photoURL" alt=""> -->
         <!-- <mat-icon class="mat-avatar">person</mat-icon> -->
         <!-- <mat-card-content class="content" >
@@ -39,9 +38,9 @@
                 {{title}}
             </p>
         </mat-card-content> -->
-    
+
         <mat-card-content class="view">
-            
+
             <div class="totalViews" *ngIf="!this.livestream.isActive">
                 <mat-icon>remove_red_eye</mat-icon>
                 <span>
@@ -54,7 +53,7 @@
                     {{currentViews}}
                 </span>
             </div>
-    
+
             <div class="likeDislike">
                 <div class="like" (click)="like($event)">
                     <mat-icon>{{likeState}}</mat-icon>
@@ -69,10 +68,10 @@
                     </span>
                 </div>
             </div>
-    
-    
+
+
         </mat-card-content>
-    
+
         <!-- <mat-card-actions class="actions">
             <div class="like" (click)="like()">
                 <mat-icon>{{likeState}}</mat-icon>
@@ -92,7 +91,7 @@
             
     
         </mat-card-actions> -->
-    
+
     </mat-card>
 </div>
 <ng-template #deleteDialog>
@@ -102,15 +101,15 @@
         <div class="confirmation">
             <mat-label>Do you want to delete this livestream?</mat-label>
         </div>
-        
+
         <mat-dialog-actions align="end">
 
             <button id="delete" mat-stroked-button mat-dialog-close mat-dialog-close
-            (click)="deleteLivestream(this.livestream.lid)">Delete</button>
-        <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
-        
+                (click)="deleteLivestream(this.livestream.lid)">Delete</button>
+            <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
+
         </mat-dialog-actions>
     </div>
-    
+
 
 </ng-template>

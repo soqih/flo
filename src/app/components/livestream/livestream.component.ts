@@ -21,6 +21,7 @@ import { Title } from '@angular/platform-browser';
 export class LivestreamComponent implements OnInit, AfterViewInit {
   saveisChecked = true;
   counter: number = 0;
+  trackConuter: number = 0;
   OPENVIDU_SERVER_URL = 'https://flo.ddnsfree.com';
   OPENVIDU_SERVER_SECRET = 'mysecret';
   isHost: boolean;
@@ -61,7 +62,6 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.publisherVideoElement.height = 0.75 * this.publisherVideoElement.width;
       }
     }
-    this.currentViews = 1;
 
     // Take screenshot every 5 minutes
     setInterval(() => this.screenshot(), 300000)
@@ -76,6 +76,9 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.lid = this.route.snapshot.params['lid'];
     this.livestream = this.db.getLivestream(this.lid)
+    if (!this.livestream) {
+      this.router.navigate(['home']);
+    }
     this.titleService.setTitle(this.livestream.title + " | Flo");
     this.liked = this.livestream.likes?.includes(this.db.me?.uid) || false
     this.disliked = this.livestream.dislikes?.includes(this.db.me?.uid) || false
@@ -97,6 +100,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.router.navigate(['home']);
       }
     }
+    this.currentViews = 1;
 
   }
 
@@ -129,10 +133,10 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
   // Gracefully leave session
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event) {
-    this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews - 1 })
 
     // this.session.disconnect();
-    this.leaveSession();
+    this.leaveSession(true);
+
     event.returnValue = true;
   }
 
@@ -163,8 +167,11 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
 
   joinSession() {
-    
+
     this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews + 1 })
+    if (this.db.me) {
+      this.db.updateLivestream(this.lid, { totalViews: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid) })
+    }
 
     this.getToken((token: string) => {
       this.token = token;
@@ -223,7 +230,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         // Delete the HTML element with the user's name and nickname
 
 
-        if (!this.isHost) {
+        if (!this.isHost && event.reason != 'unpublish') {
           this.leaveSession()
         }
       });
@@ -298,9 +305,6 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
             this.session.publish(this.publisher).then(() => { this.startRecording(); });
             setTimeout(() => this.screenshot(), 5000)
           } else {
-            if (this.db.me) {
-              this.db.updateLivestream(this.lid, { views: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid) })
-            }
             console.warn('You don\'t have permissions to publish');
           }
         })
@@ -309,21 +313,29 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         });
     });
     return false;
-    
+
   }
 
 
 
-  leaveSession() {
+  leaveSession(unload?: boolean) {
 
     if (this.isHost && this.livestream.isActive) {
-
+      this.db.updateLivestream(this.livestream.lid, { isActive: false });
+      if (unload) {
+        this.session?.disconnect();
+        this.session = null;
+        this.db.deleteLivestream(this.lid, true);
+        return;
+      }
       this.stopRecording().then(() => {
         //Leave the session by calling 'disconnect' method over the Session object ---
         this.session?.disconnect();
         this.session = null;
         this.router.navigate(['home'])
       })
+
+
     } else {
       this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews - 1 })
 
@@ -450,7 +462,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       return this.recorder.stop().then(() => {
         this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
           task.ref.getDownloadURL().then((url) => {
-            this.db.updateLivestream(this.livestream.lid, { isActive: false, videoURL: url });
+            this.db.updateLivestream(this.livestream.lid, { videoURL: url });
           })
         })
       })
@@ -610,6 +622,31 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       this.camState = "videocam"
       this.publisher.publishVideo(true);
     }
+  }
+  switchCam() {
+    // this.recorder.pause();
+    var publisherProperties: PublisherProperties = {
+      audioSource: false,
+      videoSource: undefined,
+    };
+    let myTrack;
+
+    this.OV.getUserMedia(publisherProperties).then((m: MediaStream) => {
+      this.trackConuter = (this.trackConuter + 1) % m.getVideoTracks().length;
+      myTrack = m.getVideoTracks()[this.trackConuter];
+      this.publisher.replaceTrack(myTrack)
+        .then(() => {
+          console.log('New track is being published')
+          setTimeout(() => {
+            // this.recorder.resume()
+
+          }, 1000);
+        }
+        )
+        .catch(error => console.error('Error replacing track' + error));
+    })
+
+
   }
 
 }

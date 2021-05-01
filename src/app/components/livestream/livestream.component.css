@@ -291,6 +291,7 @@ mat-icon:hover{
     display: flex;
     background-color:transparent;
     border: 1px solid #AC717B;
+    z-index: 10;
 }
 .toolbar:hover{
     background-color:#D88B95;

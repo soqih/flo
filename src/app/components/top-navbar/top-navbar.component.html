@@ -1,26 +1,27 @@
 <div class="container">
 
 
-<div class="nav">
-    <div class="navContainer">
-        <div class="welcome">
-            <span class="welcomeMessage"> Welcome {{  this.db.me?.displayName }}</span >
-            <!-- <a *ngIf="!signed">Sign in</a> -->
-            <img *ngIf="this.db.me" routerLink="/profile" class="profile" src="./assets/images/profile.svg" alt="">
-        </div>
+    <div class="nav">
+        <div class="navContainer">
+            <div class="welcome">
+                <span class="welcomeMessage">{{ this.db.me?.displayName }}</span>
+                <!-- <a *ngIf="!signed">Sign in</a> -->
+                <img *ngIf="this.db.me" routerLink="/profile" class="profile" src="./assets/images/profile.svg" alt="">
+            </div>
 
-        <div class="input-container">
-            <img  class="inputImage" src="./assets/images/search.svg" alt="">
-            <input #searchField type=" search" name="" class="input" placeholder="Search" (keyup)="search(searchField.value)">
-            <!-- <h1>test</h1> -->
-            <img class="inputImage filter" src="./assets/images/filter.svg" alt="" (click)="openDialog()">
+            <div class="input-container">
+                <img class="inputImage" src="./assets/images/search.svg" alt="">
+                <input #searchField type=" search" name="" class="input" placeholder="Search"
+                    (keyup)="search(searchField.value)">
+                <!-- <h1>test</h1> -->
+                <img class="inputImage filter" src="./assets/images/filter.svg" alt="" (click)="openDialog()">
+            </div>
         </div>
     </div>
-</div>
-<!-- <ng-container> -->
+    <!-- <ng-container> -->
     <div class="searchMenu">
         <div class="items" *ngFor="let item of items">
-             <div class="searchItem" *ngIf="searchFilter == 'user'">
+            <div class="searchItem" *ngIf="searchFilter == 'user'">
                 <img class="searchImg" src="{{item.photoURL}}"
                     onError="this.onerror=null;this.src='./assets/images/logo.svg';">
                 <a [routerLink]="'/u/'+item.uid">
@@ -36,15 +37,15 @@
             </div>
         </div>
     </div>
-<!-- </ng-container> -->
+    <!-- </ng-container> -->
 
 
-<ng-template #filterDialog>
-    <div class="dialog">
-        <h1 matDialogTitle>Filter</h1>
+    <ng-template #filterDialog>
+        <div class="dialog">
+            <h1 matDialogTitle>Filter</h1>
 
-        <div class="checkbox">
-            <mat-label>Search for?</mat-label>
+            <div class="checkbox">
+                <mat-label>Search for?</mat-label>
                 <!-- <section class="">
                     <mat-checkbox [(ngModel)]="usersIsChecked" #users class="">Users</mat-checkbox>
                     <mat-checkbox [(ngModel)]="LivestreamsIsChecked" #livestreams class="">Livestreams</mat-checkbox>
@@ -54,16 +55,16 @@
                     <mat-radio-button value="livestreams">Livestreams</mat-radio-button>
                 </mat-radio-group>
 
+            </div>
+
+            <mat-dialog-actions align="end">
+                <button id="ok" mat-stroked-button mat-dialog-close mat-dialog-close
+                    (click)="setFilter();search(searchField.value)">OK</button>
+                <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
+            </mat-dialog-actions>
+
         </div>
-
-        <mat-dialog-actions align="end">
-            <button id="ok" mat-stroked-button mat-dialog-close mat-dialog-close
-            (click)="setFilter();search(searchField.value)">OK</button>
-            <button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
-        </mat-dialog-actions>
-
-    </div>
-</ng-template>
+    </ng-template>
 </div>
 <!-- <ng-container>
     <div class="searchMenu" *ngFor="let user of items">

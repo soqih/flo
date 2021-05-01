@@ -77,6 +77,10 @@
     cursor: pointer;
 }
 
+.mat-badge-content {
+    background: #EFA297;
+    color: white;
+}
 
 @media (max-width: 768px) {
     .navButtonText{
