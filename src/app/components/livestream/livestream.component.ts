@@ -463,13 +463,17 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
    */
   startRecording() {
     this.recorder = this.OV.initLocalRecorder(this.publisher.stream);
-    this.recorder.record('video/webm;codecs=vp9')
+    this.recorder.record('video/webm;codecs=vp9').then(()=>{
+      console.warn(this.recorder.state)
+    })
   }
 
   stopRecording(): Promise<void> {
     /**
      * stop the recording
      */
+    // alert(this.recorder?.state)
+    console.warn(this.recorder.state)
     if (this.recorder?.state === LocalRecorderState.RECORDING && this.saveisChecked) {
       return this.recorder.stop().then(() => {
         this.fireStorage.upload('/vid/vid' + this.livestream.lid, this.recorder.getBlob()).then((task) => {
@@ -524,10 +528,9 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         // Assigning the new publisher to our global variable 'publisher'
         this.publisher = newPublisher;
         // Publishing the new publisher
-        this.session.publish(this.publisher);
-        // this.recorder.stop().then(()=>{
-          this.recorder = this.OV.initLocalRecorder(this.publisher.stream);
-        // })
+        this.session.publish(this.publisher).then(()=>{
+          this.startRecording();
+        })
       }
     });
   }
