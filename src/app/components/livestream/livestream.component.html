@@ -22,7 +22,7 @@
 </div>
 
 <div class="container" id="session" *ngIf="livestream?.isActive">
-	<div class="stop" (click)="openDialog()" *ngIf="isHost">
+	<div class="stop" (click)="openStopDialog()" *ngIf="isHost">
 		Stop Livestream
 	</div>
 	<div class="stop" *ngIf="!isHost" (click)="leaveSession()">
@@ -53,27 +53,27 @@
 			</div>
 			<div class="toolbar" *ngIf="db.me">
 				<div class="chatInput">
-					<input type="text" #message placeholder="Say somthing..." maxlength="120" value=""
+					<input type="text" #message placeholder="Say somthing..." (focusout)="onResize()" maxlength="120" value=""
 						(keyup.enter)="sendMessage(message.value);message.value=''">
 					<button class="sendButton" (click)="sendMessage(message.value);message.value=''">
 						<mat-icon class="send">send</mat-icon>
 					</button>
 				</div>
 				<div class="likeDislike">
-					<div class="like" (click)="like()" *ngIf="!isHost">
+					<div class="like" role="button" (click)="like()" *ngIf="!isHost">
 						<mat-icon class="likeIcon">{{likeState}}</mat-icon>
 					</div>
-					<div class="dislike" (click)="dislike()" *ngIf="!isHost">
+					<div class="dislike" role="button" (click)="dislike()" *ngIf="!isHost">
 						<mat-icon>{{dislikeState}}</mat-icon>
 					</div>
 
-					<div *ngIf="isHost && publisher" class="muteUnmute" (click)="ToggleAudio()">
+					<div *ngIf="isHost && publisher" class="muteUnmute" role="button" (click)="ToggleAudio()">
 						<mat-icon>{{micState}}</mat-icon>
 					</div>
-					<div *ngIf="isHost && publisher" class="muteUnmute" (click)="ToggleVideo()">
+					<div *ngIf="isHost && publisher" class="muteUnmute" role="button" (click)="ToggleVideo()">
 						<mat-icon>{{camState}}</mat-icon>
 					</div>
-					<div *ngIf="isHost && publisher" (click)="toggleCamera()">
+					<div *ngIf="isHost && publisher" role="button" (click)="openSwitchDialog()">
 						<mat-icon>switch_camera</mat-icon>
 					</div>
 				</div>
@@ -99,4 +99,21 @@
 			</mat-dialog-actions>
 		</div>
 	</ng-template>
+
+	<ng-template #switchDialog>
+		<div class="dialog">
+			<h1 matDialogTitle>Switch Camera</h1>
+
+			<div class="save">
+				<mat-label>By switching your camera, you will lose the previous recording and start a new one</mat-label>
+			</div>
+
+			<mat-dialog-actions align="end">
+				<button id="stop" mat-stroked-button mat-dialog-close mat-dialog-close (click)="toggleCamera()">OK
+				</button>
+				<button id="cancel" mat-stroked-button mat-dialog-close mat-dialog-close>Cancel</button>
+			</mat-dialog-actions>
+		</div>
+	</ng-template>
+
 </div>

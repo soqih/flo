@@ -19,6 +19,7 @@ import { Title } from '@angular/platform-browser';
 })
 
 export class LivestreamComponent implements OnInit, AfterViewInit {
+  
   saveisChecked = true;
   counter: number = 0;
   trackConuter: number = 0;
@@ -41,6 +42,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
   micState: string = "mic"
   camState: string = "videocam"
   @ViewChild('stopDialog') stopDialog: TemplateRef<any>;
+  @ViewChild('switchDialog') switchDialog: TemplateRef<any>;
   subscriber: Subscriber;
   currentViews: number;
   constructor(
@@ -65,6 +67,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
     // Take screenshot every 5 minutes
     setInterval(() => this.screenshot(), 300000)
+    // setInterval(() => console.warn(this), 2000)
   }
 
   OV: OpenVidu;
@@ -101,6 +104,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       }
     }
     this.currentViews = 1;
+    console.warn(this)
 
   }
 
@@ -119,7 +123,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
   }
 
   // Open 'save stream' dialog when user clicks stop livestream
-  openDialog() {
+  openStopDialog() {
     let dialogRef = this.dialog.open(this.stopDialog,
       {
         width: '350px',
@@ -129,7 +133,16 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
     })
   }
+  openSwitchDialog() {
+    let dialogRef = this.dialog.open(this.switchDialog,
+      {
+        width: '350px',
+        height: '300px',
+      });
+    dialogRef.afterClosed().subscribe(result => {
 
+    })
+  }
   // Gracefully leave session
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event) {
@@ -193,6 +206,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       // --- 3) Specify the actions when events take place in the session ---
       // On every new Stream received...
       this.session.on('streamCreated', (event: StreamEvent) => {
+        // console.warn('session created ')
         const streamConnectionID = event.stream.connection.connectionId;
         // Subscribe to the Stream to receive it
         // HTML video will be appended to element with 'video-container' id
@@ -225,7 +239,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
       // On every Stream destroyed...
       this.session.on('streamDestroyed', (event: StreamEvent) => {
-
+        console.warn("session destroyed")
         // const streamConnectionID = event.stream.connection.connectionId;
         // Delete the HTML element with the user's name and nickname
 
@@ -257,9 +271,6 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       // }
 
 
-      // this.session.onParticipantJoined()
-      // this.session.on('')
-      // this.session.onParticipantJoined()
 
       // --- 4) Connect to the session passing the retrieved token and some more data from
       //        the client (in this case a JSON with the nickname chosen by the user) ---
@@ -319,10 +330,11 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
 
   leaveSession(unload?: boolean) {
-
+    console.warn('leave triggerd')
     if (this.isHost && this.livestream.isActive) {
       this.db.updateLivestream(this.livestream.lid, { isActive: false });
       if (unload) {
+        console.warn('unload leave')
         this.session?.disconnect();
         this.session = null;
         this.db.deleteLivestream(this.lid, true);
@@ -476,26 +488,27 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
    * Switch between front and back camera of the host
    */
   toggleCamera() {
-    this.OV.getDevices().then(devices => {
+    this.OV.getDevices().then(devices => { 
       var publisherProperties: PublisherProperties;
       // Getting only the video devices
+      
       var videoDevices = devices.filter(device => device.kind === 'videoinput');
       var frontCam = videoDevices.find((d) => d.label.includes('front'));
       var BackCam = videoDevices.find((d) => d.label.includes('back'));
       if (frontCam && BackCam) {
         publisherProperties = {
           videoSource: this.isFrontCamera ? BackCam.deviceId : frontCam.deviceId,
-          publishAudio: true,
-          publishVideo: true,
+          publishAudio: this.micState === 'mic' ? true : false,
+          publishVideo: this.camState === 'videocam' ? true : false,
           mirror: !this.isFrontCamera // Setting mirror enable if front camera is selected
         }
       } else {
         this.counter = (this.counter + 1) % videoDevices.length;
         publisherProperties = {
           videoSource: videoDevices[this.counter].deviceId,
-          publishAudio: true,
-          publishVideo: true,
-          mirror: false, // Setting mirror enable if front camera is selected
+          publishAudio: this.micState === 'mic' ? true : false,
+          publishVideo: this.camState === 'videocam' ? true : false,
+          mirror: false,
         }
       }
 
@@ -512,6 +525,9 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.publisher = newPublisher;
         // Publishing the new publisher
         this.session.publish(this.publisher);
+        // this.recorder.stop().then(()=>{
+          this.recorder = this.OV.initLocalRecorder(this.publisher.stream);
+        // })
       }
     });
   }
@@ -623,30 +639,6 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       this.publisher.publishVideo(true);
     }
   }
-  switchCam() {
-    // this.recorder.pause();
-    var publisherProperties: PublisherProperties = {
-      audioSource: false,
-      videoSource: undefined,
-    };
-    let myTrack;
-
-    this.OV.getUserMedia(publisherProperties).then((m: MediaStream) => {
-      this.trackConuter = (this.trackConuter + 1) % m.getVideoTracks().length;
-      myTrack = m.getVideoTracks()[this.trackConuter];
-      this.publisher.replaceTrack(myTrack)
-        .then(() => {
-          console.log('New track is being published')
-          setTimeout(() => {
-            // this.recorder.resume()
-
-          }, 1000);
-        }
-        )
-        .catch(error => console.error('Error replacing track' + error));
-    })
-
-
-  }
+  
 
 }
