@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
     let dialogRef = this.dialog.open(EditDialogComponent,
       {
         width: '400px',
-        height: '500px',
+        // height: '500px',
 
       });
     dialogRef.afterClosed().subscribe(result => {

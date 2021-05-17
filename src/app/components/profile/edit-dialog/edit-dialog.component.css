@@ -41,3 +41,8 @@ mat-form-field{
       margin-top: 5px;
       outline: none
   }
+  .privacy{
+      display: flex;
+      flex-direction: column;
+    /* margin-bottom: 15px; */
+  }

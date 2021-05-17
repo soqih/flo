@@ -21,7 +21,9 @@ export interface User {
     followersUsers: string[];
     blockingUsers: string[];
     blockedFromUsers: string[];
+    pendingFollowers?:string[];
     bio?: string;
     livestreams: string[]; //livestream id
     notifications: notification[];
+    isPrivate?:boolean;
 }

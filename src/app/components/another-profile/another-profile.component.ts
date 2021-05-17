@@ -58,43 +58,40 @@ export class AnotherProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  reloadComponent() {
-    let currentUrl = this.router.url;
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate([currentUrl]);
-  }
-
   followUnfollow() {
-    // console.log(this.youAreFollower)
     if (!this.db.me.followingUsers?.includes(this.anotherUser.uid)) {
-      console.log("following")
-      this.db.updateMyData({
-        followingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid)
-      })
-      //
-      if (!this.followedMeBefore(this.anotherUser.notifications, this.db.me.uid)) {
-        this.db.sendNotification(this.anotherUser.uid, this.db.me?.uid, notificationType.FOLLOW)
-      }
-
-      this.db.updateUser(this.anotherUser.uid, {
-        followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
-      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
-
+    this.follow();
 
     } else {
-      console.log("unfollowing")
-      this.db.updateMyData({
-        followingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
-      })
-      this.db.updateUser(this.anotherUser.uid, {
-        followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+      this.unfollow();
     }
-    // this.reloadComponent();
 
   }
 
+  follow(){
+    this.db.updateMyData({
+      followingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid)
+    })
+    //
+    if (!this.followedMeBefore(this.anotherUser.notifications, this.db.me.uid)) {
+      this.db.sendNotification(this.anotherUser.uid, this.db.me?.uid, notificationType.FOLLOW)
+    }
+
+    this.db.updateUser(this.anotherUser.uid, {
+      followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
+    }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+
+  }
+  
+  unfollow(){
+    this.db.updateMyData({
+      followingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
+    })
+    this.db.updateUser(this.anotherUser.uid, {
+      followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+    }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+  }
+  
   openDialog(e, type, arr) {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
@@ -102,7 +99,6 @@ export class AnotherProfileComponent implements OnInit {
         width: '400px', height: '75vh'
       });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
     })
   }
 
@@ -129,25 +125,10 @@ export class AnotherProfileComponent implements OnInit {
 
   blockUnblock() {
     if (!this.isBlocked()) {
-      this.db.updateMyData({
-        blockingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid),
-        // remove blocked user from your followings
-        followingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid),
-      })
-      this.db.updateUser(this.anotherUser.uid, {
-        blockedFromUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid)
-      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
-      // remove you from user followers
-      this.db.updateUser(this.anotherUser.uid, {
-        followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+      this.block();
     } else {
-      this.db.updateMyData({
-        blockingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
-      })
-      this.db.updateUser(this.anotherUser.uid, {
-        blockedFromUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+      this.unblock()
+     
     }
   }
 
@@ -155,8 +136,31 @@ export class AnotherProfileComponent implements OnInit {
     return this.db.me.blockingUsers?.includes(this.anotherUser.uid);
   }
 
+  block(){
+    this.db.updateMyData({
+      blockingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid),
+      // remove blocked user from your followings
+      followingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid),
+      followersUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
+    })
+    this.db.updateUser(this.anotherUser.uid, {
+      blockedFromUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
+      followingUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid),
+      followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+    }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+    // remove you from user followers
+  }
+  
+  unblock(){
+    this.db.updateMyData({
+      blockingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
+    })
+    this.db.updateUser(this.anotherUser.uid, {
+      blockedFromUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
+    }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+  }
+  
   isBlockedMe() {
-    console.log(this.db.me.blockedFromUsers?.includes(this.anotherUser.uid))
     return this.anotherUser.blockingUsers?.includes(this.db.me.uid);
   }
   followedMeBefore(notifications: notification[], uid: string): boolean {

@@ -25,34 +25,6 @@ export class AuthService {
     public db: DB,
   ) {
 
-    /* Saving user data in localstorage when 
-    logged in and setting up null when logged out */
-
-    // this.afAuth.authState.subscribe(user => {
-    //   if (user) {
-    //     this.userData = user;
-    //     localStorage.setItem('user', JSON.stringify(this.userData));
-    //     JSON.parse(localStorage.getItem('user'));
-    //   } else {
-    //     localStorage.setItem('user', null);
-    //     JSON.parse(localStorage.getItem('user'));
-    //   }
-    // })
-    /*
-    
-        this.afAuth.authState.subscribe(user => {
-              if (user) {
-                this.userData = user;
-                localStorage.setItem('user', JSON.stringify(this.userData));
-                JSON.parse(localStorage.getItem('user'));
-              } else {
-                localStorage.setItem('user', null);
-                JSON.parse(localStorage.getItem('user'));
-              }
-            })
-          }
-      
-    */
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.authUser = user;
@@ -92,7 +64,7 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
-        this.SendVerificationMail();
+        // this.SendVerificationMail();
         this.createUser(result.user, signUpFormData);
         // this.router.navigate(['home'])
       }
@@ -104,12 +76,12 @@ export class AuthService {
   }
 
   // Send email verfificaiton when new user sign up
-  SendVerificationMail() {
-    // return this.afAuth.currentUser.then(u => u.sendEmailVerification())
-    //   .then(() => {
-    //     this.router.navigate(['verify-email-address']);
-    //   })
-  }
+  // SendVerificationMail() {
+  //   return this.afAuth.currentUser.then(u => u.sendEmailVerification())
+  //     .then(() => {
+  //       this.router.navigate(['verify-email-address']);
+  //     })
+  // }
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
@@ -162,8 +134,10 @@ export class AuthService {
       followersUsers: [],
       blockingUsers: [],
       blockedFromUsers: [],
+      pendingFollowers:[],
       livestreams: [],
       notifications: [],
+      isPrivate:false,
     }
     return userRef.set(userData, {
       merge: true

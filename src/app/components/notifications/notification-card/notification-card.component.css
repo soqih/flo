@@ -34,6 +34,7 @@ img {
     margin-right: 15px;
     /* border: 1px solid #F0A397;
     border-radius: 50%; */
+    object-fit: cover;
 }
 a {
     text-decoration: none;

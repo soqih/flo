@@ -44,3 +44,6 @@ mat-dialog-content{
     margin-top: 3px;
 
 }
+img{
+    object-fit: cover;
+}
