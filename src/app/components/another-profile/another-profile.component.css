@@ -64,6 +64,12 @@ span {
     font-weight: 700;
     color: white;
     margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.name span {
+    margin-right: 5px
 }
 
 .username {

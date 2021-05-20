@@ -21,14 +21,8 @@ export class AnotherProfileComponent implements OnInit {
   params: string;
   anotherUser: User;
   user: User;
-  name: string = "none";
-  username: string = "@none";
-  bio: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, tempora!";
-  numFollowing: number = 0;
-  numFollowers: number = 0;
   livestreamsList: Livestream[];
-  image: string = "<img ... />"
-
+  followState: string = "Follow"
   constructor(
     public db: DB,
     private route: ActivatedRoute,
@@ -39,7 +33,7 @@ export class AnotherProfileComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
       this.params = params['username'];
-      if ( this.params== this.db.me?.uid) {
+      if (this.params == this.db.me?.uid) {
         this.router.navigate(['/profile']);
       }
       this.anotherUser = this.db.getUser(this.params);
@@ -56,11 +50,16 @@ export class AnotherProfileComponent implements OnInit {
   // and check if its another user and is blocking the logged-in user
 
   ngOnInit(): void {
+    if (this.db.me.followingUsers?.includes(this.anotherUser.uid))
+      this.followState = "Unfollow";
+    else if (this.anotherUser.pendingFollowers?.includes(this.db.me.uid))
+      this.followState = "Pending";
+
   }
 
   followUnfollow() {
     if (!this.db.me.followingUsers?.includes(this.anotherUser.uid)) {
-    this.follow();
+      this.follow();
 
     } else {
       this.unfollow();
@@ -68,34 +67,49 @@ export class AnotherProfileComponent implements OnInit {
 
   }
 
-  follow(){
-    this.db.updateMyData({
-      followingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid)
-    })
-    //
-    if (!this.followedMeBefore(this.anotherUser.notifications, this.db.me.uid)) {
-      this.db.sendNotification(this.anotherUser.uid, this.db.me?.uid, notificationType.FOLLOW)
+  follow() {
+    if (!this.anotherUser.isPrivate) {
+      this.db.updateMyData({
+        followingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid)
+      })
+      //
+      this.db.updateUser(this.anotherUser.uid, {
+        followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
+      }).then(() => {
+        this.anotherUser = this.db.getUser(this.params);
+        this.followState = "Unfollow";
+      })
+
+      if (!this.followedMeBefore(this.anotherUser.notifications, this.db.me.uid)) {
+        this.db.sendNotification(this.anotherUser.uid, this.db.me?.uid, notificationType.FOLLOW)
+      }
     }
-
-    this.db.updateUser(this.anotherUser.uid, {
-      followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
-    }).then(() => { this.anotherUser = this.db.getUser(this.params); })
-
+    else {
+      this.db.updateUser(this.anotherUser.uid, {
+        pendingFollowers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
+      }).then(() => {
+        this.anotherUser = this.db.getUser(this.params);
+        this.followState = "Pending";
+      })
+    }
   }
-  
-  unfollow(){
+
+  unfollow() {
     this.db.updateMyData({
       followingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
     })
     this.db.updateUser(this.anotherUser.uid, {
       followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-    }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+    }).then(() => {
+      this.anotherUser = this.db.getUser(this.params);
+      this.followState = "Follow";
+    })
   }
-  
+
   openDialog(e, type, arr) {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
-        data: { 'type': type, 'arr': arr, 'db': this.db },
+        data: { 'type': type, 'arr': arr },
         width: '400px', height: '75vh'
       });
     dialogRef.afterClosed().subscribe(result => {
@@ -113,10 +127,10 @@ export class AnotherProfileComponent implements OnInit {
           livestreams.push(livestream)
         }
       } else {
-        if(livestream){
+        if (livestream) {
           livestreams.push(livestream)
-        }else{
-          console.log('lid: ',lid)
+        } else {
+          console.log('lid: ', lid)
         }
       }
     })
@@ -128,7 +142,7 @@ export class AnotherProfileComponent implements OnInit {
       this.block();
     } else {
       this.unblock()
-     
+
     }
   }
 
@@ -136,7 +150,7 @@ export class AnotherProfileComponent implements OnInit {
     return this.db.me.blockingUsers?.includes(this.anotherUser.uid);
   }
 
-  block(){
+  block() {
     this.db.updateMyData({
       blockingUsers: firebase.firestore.FieldValue.arrayUnion(this.anotherUser.uid),
       // remove blocked user from your followings
@@ -150,8 +164,8 @@ export class AnotherProfileComponent implements OnInit {
     }).then(() => { this.anotherUser = this.db.getUser(this.params); })
     // remove you from user followers
   }
-  
-  unblock(){
+
+  unblock() {
     this.db.updateMyData({
       blockingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
     })
@@ -159,10 +173,11 @@ export class AnotherProfileComponent implements OnInit {
       blockedFromUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
     }).then(() => { this.anotherUser = this.db.getUser(this.params); })
   }
-  
+
   isBlockedMe() {
     return this.anotherUser.blockingUsers?.includes(this.db.me.uid);
   }
+  
   followedMeBefore(notifications: notification[], uid: string): boolean {
     if (!notifications) {
       return;

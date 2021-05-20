@@ -11,7 +11,26 @@ a {
     border-bottom: 1px solid #9A9A9A;
     padding: 0.5rem;
     /* background-color: blue; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
+}
+.pendingActions{
+    display: flex;
+    /* flex-direction: column; */
+
+}
+.pendingActions mat-icon {
+    margin-right: 10px;
+    /* margin-bottom: 10px; */
+    color: #EFA297;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+.pendingActions mat-icon:hover {
+    color: #D58895;
+    transition: 0.5s;
 }
 img {
     height: 4em;

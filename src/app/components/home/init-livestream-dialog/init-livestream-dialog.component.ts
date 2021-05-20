@@ -29,6 +29,9 @@ export class InitLivestreamDialogComponent implements OnInit {
   ]);
 
   ngOnInit(): void {
+    if(this.db.me.isPrivate){
+      this.privacyisChecked = true;
+    }
   }
   closeDialog(){
     this.dialogRef.close();

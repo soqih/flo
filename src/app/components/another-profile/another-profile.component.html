@@ -8,7 +8,8 @@
                     [src]="anotherUser?.photoURL? anotherUser?.photoURL:'./assets/images/logoWhite.svg'"
                     alt="Profile Photo"></div>
             <div class="name">
-                {{anotherUser?.displayName || "User not found"}}
+                <span>{{anotherUser?.displayName || "User not found"}}</span>
+                <mat-icon *ngIf = "this.anotherUser?.isPrivate">lock</mat-icon>
             </div>
             <div class="username">
                 @{{anotherUser?.username || "User not found"}}
@@ -24,20 +25,26 @@
             </div>
             <div *ngIf="this.db.me" class="follow">
                 <button class="btn" id="btn1" (click)="followUnfollow()" [disabled]="isBlocked()">
-                    {{db.me.followingUsers?.includes(anotherUser.uid) ?
-                    'Unfollow' : 'Follow'}} </button>
+                   {{this.followState}}  </button>
                 <button class="btn" id="btn2" (click)="blockUnblock()">{{db.me.blockingUsers?.includes(anotherUser.uid)
                     ?
                     'Unblock' : 'Block'}}</button>
             </div>
         </div>
     </div>
-    <div class="content">
-        <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]="livestream">
-        </app-stream-card>
+    <div  class="content">
+        <div *ngIf="!this.anotherUser?.isPrivate || this.anotherUser.followersUsers?.includes(this.db.me.uid);">
+            <app-stream-card *ngFor="let livestream of livestreamsList" [livestream]="livestream">
+            </app-stream-card>
+        </div>
+        <app-no-content *ngIf="this.anotherUser?.isPrivate && !this.anotherUser.followersUsers?.includes(this.db.me.uid);" [where]="'private'"></app-no-content>
+        <app-no-content *ngIf="(!this.anotherUser?.isPrivate || this.anotherUser.followersUsers?.includes(this.db.me.uid)) && livestreamsList.length == 0" [where]="'anotherProfile'"></app-no-content>
         <!-- <img *ngIf="livestreamsList.length == 0" style="margin: auto; margin-top: 5rem;"  src="./assets/images/logo.svg"> -->
-        <app-no-content *ngIf="livestreamsList.length == 0" [where]="'anotherProfile'"></app-no-content>
+        
     </div>
+    <!-- <div class="content">
+
+    </div> -->
     <app-tool-bar></app-tool-bar>
 </div>
 

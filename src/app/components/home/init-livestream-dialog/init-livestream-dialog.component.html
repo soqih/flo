@@ -12,7 +12,7 @@
 
         <div class="privacy">
             <mat-label>Livestream Privacy:</mat-label>
-            <mat-slide-toggle #privacy [(ngModel)]="privacyisChecked">Only Followers</mat-slide-toggle>
+            <mat-slide-toggle #privacy [(ngModel)]="privacyisChecked" [disabled]="this.db.me.isPrivate" >Only Followers</mat-slide-toggle>
         </div>
 <!-- 
         <div class="save">
