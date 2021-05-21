@@ -5,7 +5,7 @@
             <h3 mat-dialog-title>Followers</h3>
             <!-- <mat-label align="center">Followers</mat-label> -->
             <hr>
-            <mat-label *ngFor="let follower of arr" [value]="follower">
+            <mat-label *ngFor="let follower of penddingFollowers" [value]="follower">
                 <div class="user">
                     <a (click)="closeDialog();" [routerLink]="'/u/'+db.getUser(follower)?.uid" *ngIf="db.getUser(follower) != undefined" >
                         <img src="{{db.getUser(follower)?.photoURL}}"
@@ -17,11 +17,51 @@
                             <span class="username">@{{db.getUser(follower)?.username}}</span>
                             <span class="bio">{{db.getUser(follower)?.bio}}</span>
                         </div>
+                        
+                    </a>
+                    <div class="pendingActions">
+                        <mat-icon (click)="accept(follower)">check_circle</mat-icon>
+                        <mat-icon (click)=" reject(follower)">cancel</mat-icon>
+                    </div>
+                </div>
+
+                <br *ngIf="db.getUser(follower) != undefined">
+            </mat-label>
+
+            <mat-label *ngFor="let follower of arr" [value]="follower">
+                <div class="user">
+                    <a (click)="closeDialog();" [routerLink]="'/u/'+db.getUser(follower)?.uid" *ngIf="db.getUser(follower) != undefined" >
+                        <img src="{{db.getUser(follower)?.photoURL}}"
+                            onError="this.onerror=null;this.src='./assets/images/logo.svg';" alt="Photo"
+                            *ngIf="db.getUser(follower) != undefined">
+                        
+                        <div class="name">
+                            <span>{{db.getUser(follower)?.displayName}}</span>
+                            <span class="username">@{{db.getUser(follower)?.username}}</span>
+                            <span class="bio">{{db.getUser(follower)?.bio}}</span>
+                        </div>
                     </a>
                 </div>
 
                 <br *ngIf="db.getUser(follower) != undefined">
             </mat-label>
+            
+            <!-- <mat-label *ngFor="let follower of arr" [value]="follower">
+                <div class="user">
+                    <a (click)="closeDialog();" [routerLink]="'/u/'+db.getUser(follower)?.uid" *ngIf="db.getUser(follower) != undefined" >
+                        <img src="{{db.getUser(follower)?.photoURL}}"
+                            onError="this.onerror=null;this.src='./assets/images/logo.svg';" alt="Photo"
+                            *ngIf="db.getUser(follower) != undefined">
+                        <div class="name">
+                            <span>{{db.getUser(follower)?.displayName}}</span>
+                            <span class="username">@{{db.getUser(follower)?.username}}</span>
+                            <span class="bio">{{db.getUser(follower)?.bio}}</span>
+                        </div>
+                    </a>
+                </div>
+
+                <br *ngIf="db.getUser(follower) != undefined">
+            </mat-label> -->
         </div>
     </mat-dialog-content>
 </div>

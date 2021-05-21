@@ -27,6 +27,14 @@
     font-size: 1rem;
     margin-bottom: 0.6rem;
 }
+.blockMessage{
+    display: flex;
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
 
 span {
     color: #fff;
@@ -56,6 +64,12 @@ span {
     font-weight: 700;
     color: white;
     margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.name span {
+    margin-right: 5px
 }
 
 .username {

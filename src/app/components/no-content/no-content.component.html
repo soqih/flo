@@ -1,7 +1,12 @@
 <div class="container">
-    <div class="videoIcon">
+    <div class="videoIcon" *ngIf = "this.where != 'private'">
         <mat-icon>videocam_off</mat-icon>
     </div>
+
+    <div class="videoIcon" *ngIf = "this.where === 'private'">
+        <mat-icon>lock</mat-icon>
+    </div>
+    
     <div class="anotherProfile" *ngIf="this.where === 'anotherProfile'">
         This user have no livestreams yet
     </div>
@@ -16,6 +21,10 @@
 
     <div class="trend" *ngIf="this.where === 'trend'">
         There is no livestreams to watch
+    </div>
+    
+    <div class="anotherProfile" *ngIf="this.where === 'private'">
+        This account is private
     </div>
     
 </div>

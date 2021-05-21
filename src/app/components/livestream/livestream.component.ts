@@ -91,9 +91,31 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       this.sessionName = this.livestream?.lid || 'livestream Not Found';
       this.host = this.db.getUser(this.livestream?.host)
       this.isHost = this.db.me?.uid == this.host?.uid;
+      this.canViewStream();
+
+      
       this.joinSession();
     }
     // Check if stream is private
+    // if (this.livestream.isPrivate && !this.isHost) {
+    //   // If user is not logged in, redirect
+    //   if (!this.db.me) {
+    //     this.router.navigate(['home']);
+    //     // If user is not a follower, redirect
+    //   } else if (!this.db.me?.followingUsers?.includes(this.livestream.host)) {
+    //     this.router.navigate(['home']);
+    //   }
+    // }
+    this.currentViews = 1;
+    console.warn(this)
+
+  }
+
+  canViewStream(){
+    if(this.host.blockingUsers.includes(this.db.me?.uid)){
+      // not allowed
+      this.router.navigate(['home']);
+    }
     if (this.livestream.isPrivate && !this.isHost) {
       // If user is not logged in, redirect
       if (!this.db.me) {
@@ -103,9 +125,6 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
         this.router.navigate(['home']);
       }
     }
-    this.currentViews = 1;
-    console.warn(this)
-
   }
 
   screenshot() {

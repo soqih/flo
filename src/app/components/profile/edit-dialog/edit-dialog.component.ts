@@ -10,6 +10,7 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 })
 export class EditDialogComponent implements OnInit {
   haveUpdated: boolean = false;
+  privacyisChecked:boolean = false;
 
 
   basePath = '/profileImages';                       //  <<<<<<<
@@ -20,17 +21,24 @@ export class EditDialogComponent implements OnInit {
   constructor(public db: DB, private fireStorage: AngularFireStorage) { }
 
   ngOnInit(): void {
+    this.privacyisChecked = this.db.me.isPrivate;
   }
 
   async editProfile(name, bio) {
     // data.name coming from profile component,check that somthing is chnaged
     if (this.db.me.displayName !== name) {
-      this.db.updateMyData({ 'displayName': name })
+      this.db.updateMyData({ displayName: name })
+      
       console.log("update name")
     }
     if (this.db.me.bio !== bio) {
-      this.db.updateMyData({ 'bio': bio })
+      this.db.updateMyData({ bio: bio })
+      
       console.log("update Bio")
+    }
+    if(this.db.me.isPrivate != this.privacyisChecked){
+      this.db.updateMyData({isPrivate: this.privacyisChecked })
+      
     }
 
     if (this.file) {
@@ -52,7 +60,7 @@ export class EditDialogComponent implements OnInit {
   }
 
   // to prevent user from submit without updating somthing
-  changed(s) {
+  changed(s?) {
     this.haveUpdated = true;
     console.log(s)
   }
@@ -61,7 +69,9 @@ export class EditDialogComponent implements OnInit {
     this.haveUpdated = true;
     this.file = event.target.files[0];
   }
-
+t(){
+  console.log('ggg')
+}
 
 
 

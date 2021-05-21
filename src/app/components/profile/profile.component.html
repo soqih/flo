@@ -10,8 +10,10 @@
         <div > <img class="avatar" [src]="db.me.photoURL"
                 onError="this.onerror=null;this.src='./assets/images/logoWhite.svg';" alt="Profile Photo"></div>
         <div class="name">
-            {{db.me.displayName}}
+           <span>{{db.me.displayName}}</span> 
+           <mat-icon *ngIf = "this.db.me?.isPrivate">lock</mat-icon>
         </div>
+        
         <div class="username">
             @{{db.me.username}}
         </div>
@@ -22,7 +24,8 @@
             <!-- remove event param becuase it do nothing -->
             <div class="following" (click)="openDialogList('following', db.me?.followingUsers)">
                 {{db.me?.followingUsers?.length || 0}} Following</div>
-            <div class="followers" (click)="openDialogList('followers', db.me?.followersUsers)">
+            <div class="followers" (click)="openDialogList('followers', db.me?.followersUsers)" [matBadge]="db.me.pendingFollowers?.length"  
+            [matBadgeHidden]="db.me.pendingFollowers?.length==0">
                 {{db.me?.followersUsers?.length || 0}} Followers</div>
         </div>
     </div>

@@ -23,7 +23,10 @@
             value="{{this.data.bio}}"></textarea> -->
     </mat-form-field>
 
-
+    <div class="privacy">
+        <mat-label>Account Type:</mat-label>
+        <mat-slide-toggle  #privacy (click)="changed('changed privacy ')" [(ngModel)]="privacyisChecked">Private</mat-slide-toggle>
+    </div>
 
 
 

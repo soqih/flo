@@ -16,7 +16,10 @@
     /* justify-content: center; */
 }
 
-
+.mat-badge-content {
+    background: #EFA297;
+    color: white;
+}
 .topOptions {
     display: flex;
     height: 3rem;
@@ -61,8 +64,13 @@ span {
     font-weight: 700;
     color: white;
     margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
+.name span {
+    margin-right: 5px
+}
 .username {
     font-size: 1rem;
     font-weight: 500;

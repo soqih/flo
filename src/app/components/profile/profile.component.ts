@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
     let dialogRef = this.dialog.open(EditDialogComponent,
       {
         width: '400px',
-        height: '500px',
+        // height: '500px',
 
       });
     dialogRef.afterClosed().subscribe(result => {
@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
   openDialogList(type, arr) {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
-        data: { 'type': type, 'arr': arr, 'db': this.db },
+        data: { 'type': type, 'arr': arr, 'pending': this.db.me.pendingFollowers },
         width: '400px', height: '75vh'
       });
     dialogRef.afterClosed().subscribe(result => {
