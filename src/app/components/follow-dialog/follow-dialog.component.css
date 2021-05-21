@@ -40,7 +40,7 @@ img {
     border-radius: 50%;
 }
 span{
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: black;
 }
 .name{
@@ -58,10 +58,21 @@ mat-dialog-content{
     /* background-color: gray; */
     height: 100%;
 }
-.bio{
-    font-size: 1rem;
-    margin-top: 3px;
+mat-tab-group{
+    width: 100%;
+    
+}
 
+mat-tab{
+    font-family: 'Montserrat', sans-serif ;
+}
+.mat-badge-content {
+    background: #EFA297;
+    color: white;
+}
+.bio{
+    font-size: 0.9rem;
+    margin-top: 3px;
 }
 img{
     object-fit: cover;

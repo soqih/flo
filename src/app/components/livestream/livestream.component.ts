@@ -199,7 +199,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
 
   joinSession() {
-
+    
     this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews + 1 })
     if (this.db.me) {
       this.db.updateLivestream(this.lid, { totalViews: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid) })
@@ -336,6 +336,8 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
             setTimeout(() => this.screenshot(), 5000)
           } else {
             console.warn('You don\'t have permissions to publish');
+            this.joinNotification();
+
           }
         })
         .catch(error => {
@@ -475,6 +477,24 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
     this.session.signal(so)
     console.log(this.connected);
     this.chatContainer.nativeElement.scrollBy(0, 100000);
+  }
+  joinNotification(){
+    this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    var message;
+    var so:SignalOptions;
+    if(this.db.me){
+      message = `${this.db.me.username} + ' has joined' `;
+      so = { type: 'chat', data: JSON.stringify({ message: message, username: this.db.me.username, photoURL: this.db.me.photoURL }) }
+
+    }
+    else{
+      message = "anonymous has joined"
+      so = { type: 'chat', data: JSON.stringify({ message: message, username: "Anonymous", photoURL: "./assets/images/logo.svg" }) }
+
+    }
+    this.session.signal(so)
+    this.chatContainer.nativeElement.scrollBy(0, 100000);
+
   }
 
   /**

@@ -156,12 +156,15 @@ export class AnotherProfileComponent implements OnInit {
       // remove blocked user from your followings
       followingUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid),
       followersUsers: firebase.firestore.FieldValue.arrayRemove(this.anotherUser.uid)
+      
     })
     this.db.updateUser(this.anotherUser.uid, {
       blockedFromUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
       followingUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid),
       followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-    }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+    }).then(() => { this.anotherUser = this.db.getUser(this.params); 
+      this.followState = "Follow"
+    })
     // remove you from user followers
   }
 

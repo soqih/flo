@@ -25,7 +25,7 @@
             <div class="following" (click)="openDialogList('following', db.me?.followingUsers)">
                 {{db.me?.followingUsers?.length || 0}} Following</div>
             <div class="followers" (click)="openDialogList('followers', db.me?.followersUsers)" [matBadge]="db.me.pendingFollowers?.length"  
-            [matBadgeHidden]="db.me.pendingFollowers?.length==0">
+            [matBadgeHidden]="db.me.pendingFollowers?.length==0" matBadgeOverlap="false">
                 {{db.me?.followersUsers?.length || 0}} Followers</div>
         </div>
     </div>

@@ -24,7 +24,7 @@
                     {{anotherUser?.followersUsers?.length || 0}} Followers</div>
             </div>
             <div *ngIf="this.db.me" class="follow">
-                <button class="btn" id="btn1" (click)="followUnfollow()" [disabled]="isBlocked()">
+                <button class="btn" id="btn1" (click)="followUnfollow()" [hidden]="isBlocked()" [disabled]="isBlocked()">
                    {{this.followState}}  </button>
                 <button class="btn" id="btn2" (click)="blockUnblock()">{{db.me.blockingUsers?.includes(anotherUser.uid)
                     ?
