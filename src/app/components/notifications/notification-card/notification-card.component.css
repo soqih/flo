@@ -85,7 +85,10 @@ button{
     background-color: gray;
     color: white;
 }
+.avatar{
+    object-fit: cover;
 
+}
 mat-icon{
     color: #D58895;
 }

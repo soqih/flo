@@ -5,7 +5,7 @@
     <!-- notificationType.LIKE -->
     <div class="user">
         <a [routerLink]="'/u/'+user?.uid">
-            <img [src]="user?.photoURL?user.photoURL:'./assets/images/logo.svg'" 
+            <img class="avatar" [src]="user?.photoURL?user.photoURL:'./assets/images/logo.svg'" 
                  alt="Profile Photo">
             <div class="name">
                 <span>{{user.displayName}}</span>

@@ -79,7 +79,10 @@ export class AnotherProfileComponent implements OnInit {
 
       this.db.updateUser(this.anotherUser.uid, {
         followersUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
-      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+      }).then(() => {
+         this.anotherUser = this.db.getUser(this.params);
+         this.livestreamsList = this.getMyLivestreams();
+        })
 
 
     } else {
@@ -89,7 +92,10 @@ export class AnotherProfileComponent implements OnInit {
       })
       this.db.updateUser(this.anotherUser.uid, {
         followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)
-      }).then(() => { this.anotherUser = this.db.getUser(this.params); })
+      }).then(() => {
+         this.anotherUser = this.db.getUser(this.params);
+         this.livestreamsList = this.getMyLivestreams();
+        })
     }
     // this.reloadComponent();
 

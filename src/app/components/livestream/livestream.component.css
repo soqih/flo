@@ -130,7 +130,6 @@
     width: 60%;
     height: 30rem;
     word-wrap: break-word;
-    opacity: 0.5;
     /* margin: auto; */
     /* width: inherit; */
     overflow-y: auto;
@@ -148,6 +147,8 @@
     
 }
 .messageContainer{
+    opacity: 0.5;
+
     background-color: #AC717B;
     width: fit-content;
     /* flex: 0 0 auto; */
@@ -161,6 +162,9 @@
     
     border-radius: 0.6rem;
     color: white;
+}
+.messageContainer:hover{
+    opacity: 1;
 }
 .messageContentRightSide{
     display: flex;

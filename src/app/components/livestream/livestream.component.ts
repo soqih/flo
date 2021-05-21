@@ -349,7 +349,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
 
     } else {
-      this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews - 1 })
+      this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid)?.currentViews - 1 })
 
       this.session?.disconnect();
       this.session = null;
