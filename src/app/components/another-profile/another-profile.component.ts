@@ -58,10 +58,22 @@ export class AnotherProfileComponent implements OnInit {
   }
 
   followUnfollow() {
+    // cancel follow request
+    if(this.followState === "Pending"){
+      this.db.updateUser(this.anotherUser.uid, {
+        pendingFollowers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid),
+      }).then(() => {
+        this.followState = "Follow";
+      })
+      return;
+    }
+    // if not following, follow 
     if (!this.db.me.followingUsers?.includes(this.anotherUser.uid)) {
       this.follow();
 
-    } else {
+    } 
+    // if following, unfollow
+    else {
       this.unfollow();
     }
 
@@ -159,6 +171,7 @@ export class AnotherProfileComponent implements OnInit {
       
     })
     this.db.updateUser(this.anotherUser.uid, {
+      pendingFollowers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid),
       blockedFromUsers: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid),
       followingUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid),
       followersUsers: firebase.firestore.FieldValue.arrayRemove(this.db.me.uid)

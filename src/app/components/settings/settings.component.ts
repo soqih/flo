@@ -18,20 +18,12 @@ export class SettingsComponent implements OnInit {
      ) {
     this.titleService.setTitle("Settings | Flo");
    }
-   @HostListener('beforeinstallprompt', ['$event'])
-   beforeInsall(event){
-     event.preventDefault();
-    this.promptEvent = event;
-   }
-
+  
   ngOnInit(): void {
 
   }
 
-  installPwa(): void {
-    this.promptEvent.prompt();
-    // this.Pwa.promptEvent.prompt();
-  }
+
   openDialog() {
     let dialogRef = this.dialog.open(BlockedDialogComponent,
       {
