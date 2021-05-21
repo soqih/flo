@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { DB } from 'src/app/services/database/DB';
+// import { PwaService } from 'src/app/services/pwa.service';
 import { BlockedDialogComponent } from '../blocked-dialog/blocked-dialog.component';
 
 @Component({
@@ -11,14 +12,26 @@ import { BlockedDialogComponent } from '../blocked-dialog/blocked-dialog.compone
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-
-  constructor(public authService: AuthService, public db: DB, public dialog: MatDialog, private titleService:Title) {
+  promptEvent;
+  constructor(public authService: AuthService, public db: DB, public dialog: MatDialog, private titleService:Title,
+    //  public Pwa:PwaService
+     ) {
     this.titleService.setTitle("Settings | Flo");
+   }
+   @HostListener('beforeinstallprompt', ['$event'])
+   beforeInsall(event){
+     event.preventDefault();
+    this.promptEvent = event;
    }
 
   ngOnInit(): void {
+
   }
 
+  installPwa(): void {
+    this.promptEvent.prompt();
+    // this.Pwa.promptEvent.prompt();
+  }
   openDialog() {
     let dialogRef = this.dialog.open(BlockedDialogComponent,
       {

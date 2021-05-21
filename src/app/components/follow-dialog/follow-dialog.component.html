@@ -4,7 +4,29 @@
     <!-- <div class="usersList"> -->
     <h3 mat-dialog-title>Followers</h3>
 
-    <mat-tab-group>
+    <mat-dialog-content *ngIf= "!this.db.me.isPrivate">
+        <mat-label *ngFor="let follower of arr" [value]="follower">
+            <div class="user">
+                <a (click)="closeDialog();" [routerLink]="'/u/'+db.getUser(follower)?.uid"
+                    *ngIf="db.getUser(follower) != undefined">
+                    <img src="{{db.getUser(follower)?.photoURL}}"
+                        onError="this.onerror=null;this.src='./assets/images/logo.svg';" alt="Photo"
+                        *ngIf="db.getUser(follower) != undefined">
+
+                    <div class="name">
+                        <span>{{db.getUser(follower)?.displayName}}</span>
+                        <span class="username">@{{db.getUser(follower)?.username}}</span>
+                        <span class="bio">{{db.getUser(follower)?.bio}}</span>
+                    </div>
+                </a>
+            </div>
+
+          
+        </mat-label>
+
+    </mat-dialog-content>
+
+    <mat-tab-group *ngIf= "this.db.me.isPrivate" >
         <mat-tab label="Followers" >
             <mat-dialog-content>
                 <mat-label *ngFor="let follower of arr" [value]="follower">

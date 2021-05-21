@@ -1,4 +1,8 @@
 <div class="settings">
+    <div class="blockedUsers" *ngIf="promptEvent" (click)="installPwa()">
+        Download App
+    </div>
+
     <div class="blockedUsers" *ngIf="this.authService.isLoggedIn" routerLink="/profile/edit">
         Edit Profile
     </div>

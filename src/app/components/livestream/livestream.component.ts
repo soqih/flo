@@ -91,10 +91,15 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       this.sessionName = this.livestream?.lid || 'livestream Not Found';
       this.host = this.db.getUser(this.livestream?.host)
       this.isHost = this.db.me?.uid == this.host?.uid;
-      this.canViewStream();
+      if(this.canViewStream()){
+
+        this.joinSession();
+      }else{
+        this.router.navigate(['home']);
+      }
 
       
-      this.joinSession();
+      
     }
     // Check if stream is private
     // if (this.livestream.isPrivate && !this.isHost) {
@@ -114,17 +119,19 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
   canViewStream(){
     if(this.host.blockingUsers.includes(this.db.me?.uid)){
       // not allowed
-      this.router.navigate(['home']);
+      return false;
     }
     if (this.livestream.isPrivate && !this.isHost) {
       // If user is not logged in, redirect
       if (!this.db.me) {
-        this.router.navigate(['home']);
+        return false;
         // If user is not a follower, redirect
       } else if (!this.db.me?.followingUsers?.includes(this.livestream.host)) {
-        this.router.navigate(['home']);
+        return false;
       }
+
     }
+    return true
   }
 
   screenshot() {
@@ -200,10 +207,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
 
   joinSession() {
     
-    this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews + 1 })
-    if (this.db.me) {
-      this.db.updateLivestream(this.lid, { totalViews: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid) })
-    }
+  
 
     this.getToken((token: string) => {
       this.token = token;
@@ -295,6 +299,10 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
       //        the client (in this case a JSON with the nickname chosen by the user) ---
       this.session.connect(this.token, this.db.me?.uid)
         .then(() => {
+          this.db.updateLivestream(this.lid, { currentViews: this.db.getLivestream(this.lid).currentViews + 1 })
+          if (this.db.me) {
+            this.db.updateLivestream(this.lid, { totalViews: firebase.firestore.FieldValue.arrayUnion(this.db.me.uid) })
+          }
           this.connected = true;
           // --- 5) Set page layout for active call ---
 
@@ -337,6 +345,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
           } else {
             console.warn('You don\'t have permissions to publish');
             this.joinNotification();
+           
 
           }
         })
@@ -483,7 +492,7 @@ export class LivestreamComponent implements OnInit, AfterViewInit {
     var message;
     var so:SignalOptions;
     if(this.db.me){
-      message = `${this.db.me.username} + ' has joined' `;
+      message = `${this.db.me.username} has joined `;
       so = { type: 'chat', data: JSON.stringify({ message: message, username: this.db.me.username, photoURL: this.db.me.photoURL }) }
 
     }
