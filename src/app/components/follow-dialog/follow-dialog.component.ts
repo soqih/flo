@@ -16,11 +16,15 @@ export class FollowDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<FollowDialogComponent>,
     public db: DB
   ) { }
+  
+
   isFollowers: boolean = this.data['type'] == 'followers';
   arr: string[] = this.data['arr'];
   // db = this.data['db']
   penddingFollowers: string[] = this.data['pending'] || [];
   followersAndPending: string[];
+  where:string = this.data['where'];
+  user: User = this.data['user'];
   ngOnInit(): void {
 
   }

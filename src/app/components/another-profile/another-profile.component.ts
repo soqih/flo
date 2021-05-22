@@ -121,7 +121,7 @@ export class AnotherProfileComponent implements OnInit {
   openDialog(e, type, arr) {
     let dialogRef = this.dialog.open(FollowDialogComponent,
       {
-        data: { 'type': type, 'arr': arr },
+        data: { 'type': type, 'arr': arr, 'where': 'anotherProfile', 'user': this.anotherUser },
         width: '400px', height: '75vh'
       });
     dialogRef.afterClosed().subscribe(result => {
