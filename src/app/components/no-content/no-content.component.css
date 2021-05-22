@@ -2,6 +2,7 @@
     /* background-color: red; */
     /* width: 100%; */
     display: flex;
+    position: relative;
     flex-direction: column;
     /* height: fit-content; */
     justify-content: center;
@@ -17,6 +18,7 @@
     /* width: 10rem; */
     width: max(20vw, 5rem);
 }
+
 mat-icon{
     /* width: 10rem; */
     /* font-size: 10rem; */
@@ -33,5 +35,13 @@ mat-icon{
     text-align: center;
     line-height: 1.5rem;
     padding: 10px;
+
+}
+
+@media (max-width: 700px) {
+    .private{
+        position: relative;
+        top: -75px;
+    }
 
 }

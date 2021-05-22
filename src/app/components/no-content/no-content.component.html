@@ -3,7 +3,7 @@
         <mat-icon>videocam_off</mat-icon>
     </div>
 
-    <div class="videoIcon" *ngIf = "this.where === 'private'">
+    <div class="videoIcon private" *ngIf = "this.where === 'private'">
         <mat-icon>lock</mat-icon>
     </div>
     
@@ -23,7 +23,7 @@
         There is no livestreams to watch
     </div>
     
-    <div class="anotherProfile" *ngIf="this.where === 'private'">
+    <div class="anotherProfile private" *ngIf="this.where === 'private'">
         This account is private
     </div>
     
