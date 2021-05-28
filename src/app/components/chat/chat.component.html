@@ -1,0 +1,47 @@
+<div class="top">
+    <mat-icon class="arrow">arrow_back</mat-icon>
+    <div class="info">
+        <img class="avatar" src="./assets/images/logoWhite.svg" alt="">
+        <div class="names">
+            
+            <div class="name">
+                abdullah
+            </div>
+            <div class="username">
+                @abdullah
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="content">
+    
+    <div #Message *ngFor="let m of this.db.getChat(this.cid).messages" [ngClass]="(m?.isP1Sender === amIp1)?'myMessage':'otherMessage'">
+        {{m?.content}}
+    </div>
+    <!-- <div class="myMessage">
+        hello world im abdullah
+    </div>
+    <div class="myMessage">
+        hello world im abdullah
+    </div>
+    <div class="otherMessage">
+        hello abdullah im raed
+    </div>
+    <div class="myMessage">
+        hello world im abdullah
+    </div>
+    <div class="otherMessage">
+        hello abdullah im raed
+    </div> -->
+</div>
+<div class="chatInput">
+    <input #message type="text" #message placeholder="Say somthing..." 
+    maxlength="120" value="" (keyup.enter)="sendMessage(message.value);message.value=''">
+        
+    <button  class="sendButton"
+    (click)="sendMessage(message.value);message.value=''" >
+        <mat-icon class="send">send</mat-icon>
+    </button>
+</div>
+<!-- (focusout)="onResize()"  -->

@@ -46,7 +46,7 @@ a {
     width: fit-content;
 }
 .notificationContainer{
-    border-bottom: 1px solid #9A9A9A;
+    border-bottom: 1.5px solid #cfcfcf;
     padding: 0.5rem;
     /* background-color: blue; */
 }

@@ -1,0 +1,35 @@
+<div class="top">
+    <span class="Messages">Messages</span>
+    <img class="settings" src="./assets/images/settings.svg" alt="" routerLink='/settings'>
+</div>
+
+<hr />
+
+    <app-unsigned-user-view *ngIf="!this.db?.me"></app-unsigned-user-view>
+    <app-no-content *ngIf="this.db?.me && ( !this.db?.me.chats || this.db?.me.chats?.length == 0)" [where]="'messages'"></app-no-content>
+
+
+
+<div *ngIf="this.db?.me" class="messagesContainer">
+    
+    <!-- <app-notification-card *ngFor="let notification of notifications" [notification]="notification" ></app-notification-card> -->
+    <div class="user" routerLink='/messages/gfdg'>
+        
+        <!-- [routerLink]="'/u/'+user?.uid" -->
+        <div class="userInfo">
+            <img class="avatar" [src]="user?.photoURL?user.photoURL:'./assets/images/logo.svg'" 
+                 alt="Profile Photo" [routerLink]="'/u/'+user?.uid">
+                 
+            <div class="name">
+                <span [routerLink]="'/u/'+user?.uid">abdullah ibrahim</span>
+                <span class="username" [routerLink]="'/u/'+user?.uid">@abdullah</span>
+                <span class="message">hello world</span>
+            </div>
+            <div class="time">4h</div>
+            
+        </div>
+    </div>
+
+</div>
+
+<app-tool-bar (scrollEvent)="scroll()" [where]="'messages'"></app-tool-bar>

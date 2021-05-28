@@ -39,6 +39,10 @@
 span {
     color: #fff;
 }
+.dots{
+    font-size: 2rem;
+    cursor: pointer;
+}
 
 .topInfo {
     /* background-color: red; */
@@ -109,8 +113,12 @@ span {
 .follow {
     display: flex;
     margin-top: 0.5rem;
+    justify-content: center;
+    align-items: center;
 }
-
+.message{
+    font-size: 3rem;
+}
 .blockMessage{
     display: flex;
     margin-top: 1rem;
@@ -127,7 +135,9 @@ span {
     cursor: pointer;
     font-size: 1rem;
 }
-
+mat-icon{
+color:white;
+}
 @media (max-width: 768px) {
     .content {
         justify-content: center;

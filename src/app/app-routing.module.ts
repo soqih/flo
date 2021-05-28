@@ -13,12 +13,16 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { TrendComponent } from './components/trend/trend.component';
 import { LivestreamGuard } from './guards/livestream.guard';
+import { MessagesComponent } from './components/messages/messages.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [
   { path: '', component: RegistrationComponent },
   { path: 'trend', component: TrendComponent },
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'messages', component: MessagesComponent},
+  { path: 'messages/:cid', component: ChatComponent},
   { path: 'u/:username', component: AnotherProfileComponent },
   { path: 'session/:lid', component: LivestreamComponent },
   { path: 'db', component: DBTestComponent },
@@ -28,7 +32,7 @@ const routes: Routes = [
   { path: 'notifications', component: NotificationsComponent },
   { path: 'r/:type', component: RegistrationComponent },
   { path: 'profile/edit', component: ProfileComponent, canActivate: [AuthGuard] },
-  {path: 'forgotPassword', component: ForgotPasswordComponent},
+  { path: 'forgotPassword', component: ForgotPasswordComponent},
   { path: '**', redirectTo: '' }
 
 ];

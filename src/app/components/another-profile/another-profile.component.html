@@ -2,6 +2,9 @@
     <div class="topPart">
         <div class="topOptions">
             <img (click)="BackToLastPage()" class="arrow" src="./assets/images/arrow.svg" alt="">
+            <mat-icon [matMenuTriggerFor]="menu" class="dots">more_horiz</mat-icon>
+            <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button> -->
+            
         </div>
         <div class="topInfo">
             <div> <img class="avatar"
@@ -25,10 +28,16 @@
             </div>
             <div *ngIf="this.db.me" class="follow">
                 <button class="btn" id="btn1" (click)="followUnfollow()" [hidden]="isBlocked()" [disabled]="isBlocked()">
-                   {{this.followState}}  </button>
-                <button class="btn" id="btn2" (click)="blockUnblock()">{{db.me.blockingUsers?.includes(anotherUser.uid)
+                   {{this.followState}}  
+                </button>
+                <button class="btn" id="btn1" (click)="this.db.createChat(anotherUser.uid)" [disabled]="isBlocked()">
+                    Message
+                    <!-- <mat-icon class="message" (click)="this.db.createChat(anotherUser.uid)">email</mat-icon> -->
+                </button>
+                <!-- <button class="btn" id="btn2" (click)="blockUnblock()">{{db.me.blockingUsers?.includes(anotherUser.uid)
                     ?
-                    'Unblock' : 'Block'}}</button>
+                    'Unblock' : 'Block'}}</button> -->
+              
             </div>
         </div>
     </div>
@@ -75,4 +84,9 @@
         You can't view this users' content.
     </div>
     <app-tool-bar></app-tool-bar>
+    
 </ng-template>
+<mat-menu #menu="matMenu">
+    <button   mat-menu-item >Block</button>
+    <!-- <button mat-menu-item>Item 2</button> -->
+  </mat-menu>

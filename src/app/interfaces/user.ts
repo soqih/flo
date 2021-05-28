@@ -24,6 +24,7 @@ export interface User {
     pendingFollowers?:string[];
     bio?: string;
     livestreams: string[]; //livestream id
+    chats?:string[];
     notifications: notification[];
     isPrivate?:boolean;
 }

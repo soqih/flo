@@ -26,11 +26,17 @@
     <span class="navButtonText">Notification</span>
   </div>
 
-  <div class="flexItem" routerLink='/settings' (click)="itemClicked('settings')">
+  <!-- <div class="flexItem" routerLink='/settings' (click)="itemClicked('settings')">
     <div class="imgContainer">
       <img src="./assets/images/{{settings}}.svg" alt="">
     </div>
     <span class="navButtonText">Settings</span>
-  </div>
+  </div> -->
 
+  <div class="flexItem" routerLink='/messages' (click)="itemClicked('settings')">
+    <div class="imgContainer">
+      <img src="./assets/images/{{messages}}.svg" alt="">
+    </div>
+    <span class="navButtonText">Messages</span>
+  </div>
 </div> 

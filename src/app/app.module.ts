@@ -38,6 +38,8 @@ import { UnsignedUserViewComponent } from './components/unsigned-user-view/unsig
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 import { NoContentComponent } from './components/no-content/no-content.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MessagesComponent } from './components/messages/messages.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     TrendComponent,
     UnsignedUserViewComponent,
     NoContentComponent,
+    MessagesComponent,
+    ChatComponent,
   ],
   entryComponents: [RegistrationDialogComponent],
   imports: [

@@ -18,54 +18,34 @@
 .notificationsContainer{
     margin-bottom: 7rem;
 }
-/* span{
-    font-size: 1.2rem;
-    color: black;
-} */
-.name{
-    /* background-color: blueviolet; */
-    display: flex;
-    flex-direction: column;
-}
-.username{
-    color: gray;
-    font-size: 0.8rem;
 
-}
-.bio{
-    font-size: 1rem;
-    margin-top: 3px;
 
-}
-img {
-    height: 4em;
-    width: 4em;
-    margin-right: 15px;
-    /* border: 1px solid #F0A397;
-    border-radius: 50%; */
-}
-a {
-    text-decoration: none;
-    color:black;
-    font-size: 1em;
-    outline: none;
-    display: flex;
-    /* background-color: rebeccapurple; */
-    width: fit-content;
-}
 .notificationContainer{
     border-bottom: 1px solid #9A9A9A;
     padding: 0.5rem;
     /* background-color: blue; */
 }
-.user{
-    margin-top: 5px;
-    border: 2px solid whitesmoke;
-    border-radius: 0.7rem;
-    padding: 0.6rem;
+
+.settings{
+    /* margin-left: auto; */
+    position: absolute;
+    right: 0px;
+    margin-right: 1rem;
+    padding: 10px;
     cursor: pointer;
+    width: 55px;
 }
-a img {
-    border-radius: 50%;
-    border: 1px solid whitesmoke;
+.settings:hover{
+    width: 60px;
+    transition: 0.4s;
+}
+@media (max-width: 768px) {
+    .settings{
+        width: 45px;
+    }
+    .settings:hover{
+        width: 50px;
+        transition: 0.4s;
+        
+    }
 }

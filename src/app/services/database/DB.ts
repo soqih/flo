@@ -6,8 +6,7 @@ import { notification, notificationType, User } from 'src/app/interfaces/User';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { Livestream } from 'src/app/interfaces/livestream';
-
-
+import { Chat, Message } from 'src/app/interfaces/chat';
 
 @Injectable({ providedIn: 'root' })
 export class DB {
@@ -22,16 +21,24 @@ export class DB {
             .subscribe((d) => {
                 this.usersCollection = new Map(d.map(i => [i.uid, i]));
             })
+
         this.afs.collection<Livestream>('livestreams')
             .valueChanges()
             .subscribe((d) => {
                 this.livestreamsCollection = new Map(d.map(i => [i.lid, i]));
             })
 
+        this.afs.collection<Chat>('chats')
+            .valueChanges()
+            .subscribe((d) => {
+                this.chatsCollection = new Map(d.map(i => [i.id, i]));
+            })
+
     }
     me: User;
     usersCollection: Map<string, User>;
     livestreamsCollection: Map<string, Livestream>
+    chatsCollection: Map<string, Chat>
 
     getMyData(): User {
         return this.me;
@@ -41,6 +48,9 @@ export class DB {
     }
     getLivestream(lid: string): Livestream {
         return this.livestreamsCollection.get(lid);
+    }
+    getChat(cid: string): Chat {
+        return this.chatsCollection.get(cid);
     }
 
     updateMyData(updatedData: object) {
@@ -56,7 +66,6 @@ export class DB {
             if (user.username.includes(username)) {
                 users.push(user);
             }
-
         })
         return users;
     }
@@ -83,15 +92,15 @@ export class DB {
         })
     }
     updateLivestream(lid: string, updatedData: object) {
-        return this.afs.doc<User>(`livestreams/${lid}`).update(updatedData);
+        return this.afs.doc<Livestream>(`livestreams/${lid}`).update(updatedData);
     }
 
-    deleteLivestream(lid: string,notUploaded?:boolean) {
+    deleteLivestream(lid: string, notUploaded?: boolean) {
 
-        if(!notUploaded){
-            this.storage.storage.ref(`vid/vid${lid}`).delete();        
+        if (!notUploaded) {
+            this.storage.storage.ref(`vid/vid${lid}`).delete();
         }
-        
+
         this.afs.doc<User>(`livestreams/${lid}`).delete();
         this.updateMyData({
             livestreams: firebase.firestore.FieldValue.arrayRemove(lid)
@@ -119,4 +128,53 @@ export class DB {
         }
         this.updateUser(receiver, { notifications: firebase.firestore.FieldValue.arrayUnion(notification) })
     }
+    createChat(p2UID: string) {
+        var cid = this.getChatIDByUid(p2UID);
+        if(cid){
+            this.router.navigate(['/messages/'+cid]);
+            return;
+        }
+        var c: Chat = {
+            participant1UID: this.me.uid,
+            participant2UID: p2UID,
+            messages: [],
+            p1LastSeenMessage: 0,
+            p2LastSeenMessage:0,
+        }
+        this.afs.collection<Chat>('chats').add(c).then((l) => {
+            l.update({ 'id': l.id })
+            this.updateMyData({
+                chats: firebase.firestore.FieldValue.arrayUnion(l.id)
+            })
+            this.updateUser(p2UID, {
+                chats: firebase.firestore.FieldValue.arrayUnion(l.id)
+            })
+            this.router.navigate(['/messages/'+l.id]);
+        })
+    }
+    updateChat(cid: string, updatedData: object) {
+        return this.afs.doc<Chat>(`chats/${cid}`).update(updatedData);
+    }
+    sendMessage(cid: string, content: string) {
+        var m: Message = {
+            content: content,
+            date: new Date().getTime(),
+            isP1Sender: this.getChat(cid).participant1UID === this.me.uid,
+        }
+        this.updateChat(cid, {
+            messages: firebase.firestore.FieldValue.arrayUnion(m)
+        })
+    }
+    getChatIDByUid(p2UID:string):string{
+        var tempChat:Chat;
+        var chatid = null;
+        this.me?.chats?.forEach((cid)=>{
+            tempChat = this.getChat(cid)
+            if(tempChat.participant1UID === p2UID || tempChat.participant2UID === p2UID ){
+                chatid =  cid;
+            }
+        })
+        return chatid;
+    }
+    // this.me?.chats?.some((cid)=> this.getChat(cid).participant1UID === p2UID || this.getChat(cid).participant2UID === p2UID )
 }

@@ -18,7 +18,7 @@ export class ToolBarComponent implements OnInit {
   home = "home";
   trend = "trend";
   notification = "notification";
-  settings = "settings"
+  messages = "messages"
 
 
   @Input() where: string;
@@ -31,8 +31,8 @@ export class ToolBarComponent implements OnInit {
 
     else if (this.where === "notification")
       this.notification = "notificationClicked"
-    else if (this.where === "settings")
-      this.settings = "settingsClicked"
+    else if (this.where === "messages")
+      this.messages = "messagesClicked"
 
     console.log(this.where)
   }
