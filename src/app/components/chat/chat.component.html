@@ -16,7 +16,7 @@
 </div>
 <div class="content">
     
-    <div #Message *ngFor="let m of this.db.getChat(this.cid).messages" [ngClass]="(m?.isP1Sender === amIp1)?'myMessage':'otherMessage'">
+    <div  *ngFor="let m of this.db.getChat(this.cid).messages" [ngClass]="(m?.isP1Sender === amIp1)?'myMessage':'otherMessage'" id="(m?.isP1Sender === amIp1)?{{ m.p1LastSeenMessage}} : {{m.p2LastSeenMessage}} ">
         {{m?.content}}
     </div>
     <!-- <div class="myMessage">

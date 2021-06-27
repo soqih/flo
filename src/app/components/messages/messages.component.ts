@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DB } from 'src/app/services/database/DB';
-
+ 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -17,5 +17,5 @@ export class MessagesComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-
+  
 }

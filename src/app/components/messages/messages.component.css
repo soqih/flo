@@ -18,6 +18,9 @@
 }
 .messagesContainer{
     margin-bottom: 7rem;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
     /* background-color: #EFA297; */
 }
 
@@ -34,7 +37,12 @@
     border-radius: 0.7rem;
     padding: 0.6rem;
     cursor: pointer;
+    margin: 0.5rem;
+    /* margin-right: 0; */
     /* background-color: red; */
+    position: relative;
+    width: 90%;
+    /* height: 6rem; */
 }
 .userInfo {
     text-decoration: none;
@@ -96,6 +104,19 @@
 .settings:hover{
     width: 60px;
     transition: 0.4s;
+}
+.delete{
+    margin-top: 5px;
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    justify-content:center;
+    align-items: center; 
+}
+.delete mat-icon{
+    cursor: pointer;
+    color: #EFA297;
+    font-size: 2rem;
 }
 @media (max-width: 768px) {
     .settings{
